@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="Instagram_Assistant.View.AccountPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Instagram_Assistant.View"
+                    xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="ACCOUNT" Grid.Row="0" Grid.RowSpan="1"  Grid.Column="1" Grid.ColumnSpan="6" 
+                   VerticalAlignment="Center"
+                   FontSize="30"
+                   Foreground="White" 
+                   Style="{DynamicResource TextBlockMainStyle}"/>
+
+        <Grid   Grid.ColumnSpan="30" Grid.RowSpan="30">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="27" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Ellipse StrokeThickness="2" 
+                         Width="58" 
+                         Height="58" 
+                         Stroke="White">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding UserInfo.image}" Stretch="UniformToFill"  ></ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <TextBlock Margin="10,0,0,0"
+                           VerticalAlignment="Center" 
+                           FontSize="{DynamicResource H1}" 
+                           Foreground="{DynamicResource InstagtramNameColor}" 
+                           Text="{Binding UserInfo.userName}" >
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Color="Black" RenderingBias="Quality"></DropShadowEffect>
+                    </TextBlock.Effect>
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel  Grid.Row="4" Grid.Column="0" Grid.RowSpan="2"  Grid.ColumnSpan="27" HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" 
+                        Style="{DynamicResource TextBlockMainStyle}" 
+                        Text="{Binding UserInfo.postCount}"/>
+
+                <TextBlock VerticalAlignment="Center" 
+                       Style="{DynamicResource TextBlockMainStyle}"
+                       Text="{Binding UserInfo.followersCount}"
+                           Margin="10,0,10,0"/>
+                <TextBlock   VerticalAlignment="Center" 
+                        Style="{DynamicResource TextBlockMainStyle}"
+                        Text="{Binding UserInfo.followingCount}"/>
+            </StackPanel>
+            
+            
+            <Button  Grid.Column="19" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2" 
+                    Style="{DynamicResource MainButtonStyle}"
+                     Command="{Binding LogOutCommand}">
+                <Button.Content >
+                    <StackPanel  Orientation="Horizontal">
+                        <fa:FontAwesome Icon="SignOut"/>
+                        <TextBlock Text="SingOut"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

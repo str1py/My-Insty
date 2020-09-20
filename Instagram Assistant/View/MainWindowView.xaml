@@ -1,0 +1,227 @@
+﻿<Window x:Class="Instagram_Assistant.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Instagram_Assistant"
+        xmlns:viewmodels="clr-namespace:Instagram_Assistant.ViewModel"
+        xmlns:views="clr-namespace:Instagram_Assistant.View"
+        mc:Ignorable="d"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        Title="My Insty" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        ResizeMode="NoResize"  Background="{DynamicResource PageColor}" WindowState="{Binding CurWindowState}">
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <DataTemplate x:Name="mainView" DataType="{x:Type viewmodels:MainPageViewModel}">
+            <views:MainPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="loginView" DataType="{x:Type viewmodels:LoginPageViewModel}">
+            <views:LoginPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="dashboardView" DataType="{x:Type viewmodels:DashboardPageViewModel}">
+            <views:DashboardPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="settingsView" DataType="{x:Type viewmodels:SettingsPageViewModel}">
+            <views:SettingsPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="logsView" DataType="{x:Type viewmodels:LogsPageViewModel}">
+            <views:LogsPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="accView" DataType="{x:Type viewmodels:AccountPageViewModel}">
+            <views:AccountPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="aboutView" DataType="{x:Type viewmodels:AboutPageViewModel}">
+            <views:AboutPageView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid x:Name="mainGrid" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.ColumnSpan="4" Grid.RowSpan="20" Grid.Row="0"  Background="{DynamicResource TopBorderColor}">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="1" ShadowDepth="0.2" Color="{DynamicResource ShadowBrush}" RenderingBias="Quality"></DropShadowEffect>
+                </Border.Effect>
+            </Border>
+
+            <Border x:Name="DragMoveBorder" Grid.ColumnSpan="30" Grid.RowSpan="1"
+                    Background="Wheat"
+                    Opacity="0.00001" 
+                    MouseDown="TopBorder_MouseDown" />
+
+
+
+
+
+            <ListBox Grid.Row="3" Grid.RowSpan="10" Grid.ColumnSpan="4" 
+                     x:Name="Menu"      
+                     Background="Transparent" 
+                     Style="{DynamicResource MenuListBoxStyle}" 
+                     SelectedIndex="{Binding Path=MenuItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                     IsSynchronizedWithCurrentItem="True">
+                <ListBox.Items>
+                    <ListBoxItem Style="{DynamicResource MenuListBoxItemStyle}"  >
+                        <ListBoxItem.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="User" 
+                                                FontSize="25"
+                                                Width="25" 
+                                                Margin="0,0,8,0" />
+                                <TextBlock Text="Account" 
+                                           VerticalAlignment="Center" 
+                                           FontSize="12" />
+                            </StackPanel>
+                        </ListBoxItem.Content>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{DynamicResource MenuListBoxItemStyle}">
+                        <ListBoxItem.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Tachometer" 
+                                                FontSize="25"
+                                                Width="25" 
+                                                Margin="0,0,8,0"  />
+                                <TextBlock Text="Dashboard" 
+                                           VerticalAlignment="Center" 
+                                           FontSize="12" />
+                            </StackPanel>
+                        </ListBoxItem.Content>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{DynamicResource MenuListBoxItemStyle}">
+                        <ListBoxItem.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Cog" 
+                                                FontSize="25"
+                                                Width="25" 
+                                                Margin="0,0,8,0"  />
+                                <TextBlock Text="Settings" 
+                                           VerticalAlignment="Center" 
+                                           FontSize="12" />
+                            </StackPanel>
+                        </ListBoxItem.Content>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{DynamicResource MenuListBoxItemStyle}">
+                        <ListBoxItem.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="NewspaperOutline" 
+                                                FontSize="22" 
+                                                Width="25"  
+                                                Margin="0,0,8,0"  />
+                                <TextBlock Text="Logs" 
+                                           VerticalAlignment="Center" 
+                                           FontSize="12"  />
+                            </StackPanel>
+                        </ListBoxItem.Content>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{DynamicResource MenuListBoxItemStyle}">
+                        <ListBoxItem.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="QuestionCircle" 
+                                                FontSize="22" 
+                                                Width="25"  
+                                                Margin="0,0,8,0"  />
+                                <TextBlock Text="About" 
+                                           VerticalAlignment="Center" 
+                                           FontSize="12"  />
+                            </StackPanel>
+                        </ListBoxItem.Content>
+                    </ListBoxItem>
+                </ListBox.Items>
+
+                <ListBox.Triggers>
+                    <EventTrigger RoutedEvent="ListBox.SelectionChanged">
+                        <!-- <BeginStoryboard Storyboard="{StaticResource ViewChange}" /> -->
+                    </EventTrigger>
+                </ListBox.Triggers>
+            </ListBox>
+
+
+
+
+            <Button x:Name="CloseApp" 
+                    Grid.Column="27" FontSize="15"  fa:Awesome.Content="Close"
+                    Background="Transparent" BorderThickness="0"
+                    Foreground="White"
+                    Command="{Binding CloseAppCommand}">
+          
+            </Button>
+            <Button x:Name="CollapseWindow" FontSize="15"
+                    Background="Transparent" BorderThickness="0"
+                    Foreground="White"
+                    Grid.Column="26" fa:Awesome.Content="WindowMinimize"
+                    Command="{Binding CollapseCommand}"></Button>
+
+            <TextBlock Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" 
+                       Text="Instagram"
+                       HorizontalAlignment="Center" 
+                       Grid.ColumnSpan="4" FontSize="20" 
+                       Foreground="White" 
+                       Style="{DynamicResource TextBlockMainStyle}"/>
+
+            <ContentPresenter Grid.Column="0" Grid.Row="1"  Grid.RowSpan="17" Grid.ColumnSpan="28" 
+                              x:Name="ContControl" 
+                              Content="{Binding SelectedViewModel}"/>
+
+            <ContentPresenter Grid.Column="4" Grid.Row="1" Grid.RowSpan="17" Grid.ColumnSpan="24"
+                              x:Name="MainControl" 
+                              Content="{Binding MainSelectedViewModel}"/>
+
+        </Grid>
+    </Grid>
+</Window>

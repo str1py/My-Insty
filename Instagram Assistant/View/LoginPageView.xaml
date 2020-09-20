@@ -1,0 +1,251 @@
+﻿<UserControl x:Class="Instagram_Assistant.View.LoginPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Instagram_Assistant.View"
+                          xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1000" Background="{StaticResource PageColor}">
+    <Grid>
+
+        <Grid x:Name="loginGrid"  Visibility="{Binding LoginVisibility}" IsEnabled="{Binding LoginGridIsEnable}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+
+            <Image Grid.Row="2" Grid.RowSpan="4" Grid.Column="11" Grid.ColumnSpan="6"  Source="pack://application:,,,/Resources/Images/insta-splash.png"/>
+            
+            <fa:FontAwesome Grid.Row="7" Grid.RowSpan="1"  Grid.Column="9" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontSize="20" 
+                            Icon="UserOutline"
+                            Foreground="Gray"/>
+            <TextBox  Grid.Row="7" Grid.RowSpan="1" Grid.Column="10" Grid.ColumnSpan="9" 
+                      Text="{Binding Login}" 
+                      Style="{DynamicResource MyWaterMarkStyle}"
+                      Tag="Login"/>
+
+            <fa:FontAwesome Grid.Row="9" Grid.RowSpan="1" Grid.Column="9" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"
+                            FontSize="20" 
+                            Icon="Key" 
+                            Foreground="Gray"/>
+            <TextBox  Grid.Row="9" Grid.RowSpan="1" Grid.Column="10" Grid.ColumnSpan="9"
+                      Text="{Binding Password}"
+                      Style="{DynamicResource MyWaterMarkStyle}"
+                      Tag="Password"/>
+
+            <Button  Grid.Row="12" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2" 
+                     Command="{Binding BeginLogin}" 
+                     Style="{DynamicResource MainButtonStyle}">LogIn</Button>
+        </Grid>
+
+        <Grid  Visibility="{Binding ChallengesVisibility}"  IsEnabled="{Binding ChallengesGridIsEnabel}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+            <!--<TextBlock Text="INSTAGRAM" Grid.Row="3" Grid.RowSpan="2" Grid.Column="11" Grid.ColumnSpan="6" 
+                       HorizontalAlignment="Center" FontSize="30" Style="{DynamicResource TextBlockMainStyle}"></TextBlock>-->
+
+
+            <Image Grid.Row="2" Grid.RowSpan="4" Grid.Column="11" Grid.ColumnSpan="6"  Source="pack://application:,,,/Resources/Images/insta-splash.png"/>
+            
+            <TextBlock  Grid.Row="6" Grid.RowSpan="2" Grid.Column="10" Grid.ColumnSpan="8" 
+                        TextWrapping="Wrap" 
+                        FontSize="{DynamicResource Big}" 
+                        Style="{DynamicResource TextBlockMainStyle}">Choose where send code to verify! We can send code to</TextBlock>
+            
+            <StackPanel x:Name="stackPanel" Grid.Row="8" Grid.RowSpan="3" Grid.Column="10" Grid.ColumnSpan="10" >
+                <RadioButton GroupName="Challenges" 
+                             Style="{DynamicResource SettingRadioButtonStyle}" 
+                             Content="{Binding PhoneForCode}" 
+                             IsChecked="{Binding IsPhoneCode}"  
+                             FontSize="{DynamicResource Big}"/>
+                <RadioButton GroupName="Challenges" 
+                             Style="{DynamicResource SettingRadioButtonStyle}"
+                             Content="{Binding EmailForCode}" 
+                             IsChecked="{Binding IsEmailCode}" 
+                             FontSize="{DynamicResource Big}" />
+            </StackPanel>
+
+
+            <Button Grid.Row="12" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2" 
+                    Command="{Binding SendCodeCommand}"
+                    Style="{DynamicResource MainButtonStyle}">Send</Button>
+        </Grid>
+
+        <Grid  Visibility="{Binding CodeCheckVisibility}" IsEnabled="{Binding CodeCheckGridIsEnabel}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+            <!--<TextBlock Text="INSTAGRAM" Grid.Row="3" Grid.RowSpan="2" Grid.Column="11" Grid.ColumnSpan="6" 
+                       HorizontalAlignment="Center" FontSize="30" Style="{DynamicResource TextBlockMainStyle}"></TextBlock>-->
+
+            <Image Grid.Row="2" Grid.RowSpan="4" Grid.Column="11" Grid.ColumnSpan="6"  Source="pack://application:,,,/Resources/Images/insta-splash.png"/>
+            
+            <TextBlock  Grid.Row="7" Grid.RowSpan="2" Grid.Column="9" Grid.ColumnSpan="10"
+                        HorizontalAlignment="Center" 
+                        Style="{DynamicResource TextBlockMainStyle}"
+                        FontSize="{DynamicResource Big}">Please enter your code</TextBlock>
+            <TextBox  Grid.Row="9" Grid.RowSpan="2" Grid.Column="10" Grid.ColumnSpan="8"
+                      TextAlignment="Center" 
+                      Style="{DynamicResource MyWaterMarkStyle}"
+                      FontSize="30" 
+                      Text="{Binding Code}"></TextBox>
+
+            <Button  Grid.Row="12" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2"
+                     Command="{Binding CodeCheckCommand}" 
+                     Style="{DynamicResource MainButtonStyle}">Confirm</Button>
+        </Grid>
+    </Grid>
+</UserControl>

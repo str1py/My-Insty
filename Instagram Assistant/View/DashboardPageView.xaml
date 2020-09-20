@@ -1,0 +1,228 @@
+﻿<UserControl x:Class="Instagram_Assistant.View.DashboardPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Instagram_Assistant.View"
+             xmlns:viewmodels="clr-namespace:Instagram_Assistant.ViewModel"
+             xmlns:views="clr-namespace:Instagram_Assistant.View"
+             xmlns:helpers="clr-namespace:Instagram_Assistant.Helpers"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+
+
+    <UserControl.Resources>
+        <DataTemplate x:Name="likeView" DataType="{x:Type viewmodels:FeedLikePageViewModel}">
+            <views:FeedLikePageView/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="DASHBOARD" Grid.Row="0" Grid.RowSpan="1"  Grid.Column="1" Grid.ColumnSpan="6" 
+                   VerticalAlignment="Center"
+                   FontSize="30"
+                   Foreground="White" 
+                   Style="{DynamicResource TextBlockMainStyle}"/>
+
+    
+        <Grid Grid.ColumnSpan="35" Grid.RowSpan="35">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            <TabControl  Grid.Column="0" Grid.ColumnSpan="28" Grid.Row="1" Grid.RowSpan="18"  
+                         Background="Transparent"  BorderThickness="0">
+                <TabControl.Resources>
+                    <Style TargetType="{x:Type TabPanel}">
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                    </Style>
+                </TabControl.Resources>
+                <TabItem Header="Like" Style="{DynamicResource TabItemStyle}" HorizontalAlignment="Center" FontWeight="Bold">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <ListView  Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="35"  
+                                   IsSynchronizedWithCurrentItem="True"
+                                   SelectedIndex="{Binding Item,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   Foreground="White" 
+                                   Background="Transparent"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   BorderThickness="0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Feed</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" IsEnabled="False" >Geo</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}"  IsEnabled="False">Hashtag</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}"  IsEnabled="False">From user</ListViewItem>
+                        </ListView>
+
+                        <ContentPresenter x:Name="ContControl" 
+                                          Grid.Column="0" Grid.Row="2" Grid.RowSpan="25" Grid.ColumnSpan="28"
+                                          Width="800"
+                                          Content="{Binding SelectedLikeView}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Stories" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
+                <TabItem Header="Follow" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
+                <TabItem Header="Unfollow" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
+                <TabItem Header="Combo" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>

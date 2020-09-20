@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--#region COLORS-->
+    <SolidColorBrush x:Key="FrameBackground" Color="#000000"/>
+
+    <LinearGradientBrush x:Key="TopBorderColor" >
+        <GradientStop Color="#2c2244" Offset="0.0" />
+        <GradientStop Color="#1c1d39" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="TextBoxBG" >
+        <GradientStop Color="#313150" />
+        <GradientStop Color="#383859" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MainButtonGradient" >
+        <GradientStop Color="#6d438b" />
+        <GradientStop Color="#6d438d" />
+    </LinearGradientBrush>
+
+
+    <LinearGradientBrush x:Key="CategoriesButtonGradient" >
+        <GradientStop Color="#FE955C" />
+        <GradientStop Color="#FE3956" />
+    </LinearGradientBrush>
+
+
+    <LinearGradientBrush x:Key="RadioButtonGradient" >
+        <GradientStop Color="#4d5e9e" />
+        <GradientStop Color="#435085" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="TabItem.MouseOver.Gradient" >
+        <GradientStop Color="#f9c890" Offset="0" />
+        <GradientStop Color="#fa7f90" Offset="0.9" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="InstagtramNameColor" >
+        <GradientStop Color="#af59ff" Offset="0" />
+        <GradientStop Color="#706ff9" Offset="0.9" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="TabItem.IsSelected.Color" Color="#fa9290"/>
+    <Color x:Key="TabItem.IsSelected.Brush">#fa9290</Color>
+
+    <SolidColorBrush x:Key="MainButtonColor" Color="#6285de"/>
+    <Color x:Key="MainButtonBrush">#6285de</Color>
+
+    <SolidColorBrush x:Key="TextBoxColor" Color="#79768e"/>
+    <Color x:Key="TextBoxBrush">#79768e</Color>
+
+    <SolidColorBrush x:Key="TextColor" Color="#a6a3bc"/>
+    <Color x:Key="TextBrush">#a6a3bc</Color>
+
+    <SolidColorBrush x:Key="ShadowColor" Color="#1c1e30"/>
+    <Color x:Key="ShadowBrush">#1c1e30</Color>
+    
+    <!--Menu bg, firstPageColor,GridSelectedItem-->
+    <SolidColorBrush x:Key="FirstColorBrush" Color="#000000"/>
+    <Color x:Key="FirstColor">#000000</Color>
+
+    <!--Foreground, SecondPageColor-->
+    <SolidColorBrush x:Key="SecondColorBrush" Color="#772CE8"/>
+    <Color x:Key="SecondColor">#772CE8</Color>
+
+    <!--MouseOver-->
+    <SolidColorBrush x:Key="ThirdColorBrush" Color="#FF212127"/>
+    <Color x:Key="ThirdColor">#FF212127</Color>
+
+    <SolidColorBrush x:Key="WheatBrush" Color="#FFF3E7D8"/>
+    <Color x:Key="WheatColor">#FFF3E7D8</Color>
+
+    <LinearGradientBrush x:Key="PageColor" >
+        <GradientStop Color="#241d3c" Offset="0.0"/>
+        <GradientStop Color="#191a36" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="MenuItemsColor" Color="#FFDCDADA"/>
+    <SolidColorBrush x:Key="MenuSelectedItemsColor" Color="Wheat"/>
+    <SolidColorBrush x:Key="MenuMouseOverColor" Color="Wheat"/>
+    <SolidColorBrush x:Key="MenuEnableItemsColor" Color="White"/>
+    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+
+    <!--#endregion-->
+
+</ResourceDictionary>
