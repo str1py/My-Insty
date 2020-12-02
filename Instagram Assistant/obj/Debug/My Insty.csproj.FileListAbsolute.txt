@@ -1,0 +1,50 @@
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Instagram Assistant.exe.config
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Instagram Assistant.exe
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Instagram Assistant.pdb
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\FontAwesome.WPF.dll
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\InstagramApiSharp.dll
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Microsoft.Xaml.Behaviors.dll
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Newtonsoft.Json.dll
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\PresentationFramework.Aero2.dll
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\FontAwesome.WPF.xml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Microsoft.Xaml.Behaviors.pdb
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Microsoft.Xaml.Behaviors.xml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\bin\Debug\Newtonsoft.Json.xml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\My Insty.csprojAssemblyReference.cache
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Themes\Colors\BlackViolet.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Themes\Fonts.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Themes\Styles\BlackVioletColors.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Themes\Theme.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\SplashScreen\SplashScreenView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\AboutPageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\AccountPageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\DashboardPageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\FeedLikePageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\LoginPageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\LogsPageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\MainPageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\MainWindowView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\SettingsPageView.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\App.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Instagram Assistant_Content.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\GeneratedInternalTypeHelper.g.cs
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Instagram Assistant_MarkupCompile.cache
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Instagram Assistant_MarkupCompile.lref
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\App.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\SplashScreen\SplashScreenView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\AboutPageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\AccountPageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\DashboardPageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\FeedLikePageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\LoginPageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\LogsPageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\MainPageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\MainWindowView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\View\SettingsPageView.baml
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Instagram Assistant.g.resources
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Instagram_Assistant.Properties.Resources.resources
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\My Insty.csproj.GenerateResource.cache
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\My Insty.csproj.CoreCompileInputs.cache
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\My Insty.csproj.CopyComplete
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Instagram Assistant.exe
+E:\CREATIVE\PROGRAMMING\My Insty\My Insty\obj\Debug\Instagram Assistant.pdb

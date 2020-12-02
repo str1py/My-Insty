@@ -4,12 +4,103 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Instagram_Assistant.View"
-                    xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        
+        <DataTemplate x:Key="Account">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                <Ellipse StrokeThickness="2" 
+                         Width="58" 
+                         Height="58" 
+                         Stroke="White">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding image}" Stretch="UniformToFill"  ></ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,0,0" Width="300">
+                    <StackPanel>
+                        <TextBlock VerticalAlignment="Center" Margin="0"
+                           FontSize="{DynamicResource Big}" 
+                           Foreground="{DynamicResource InstagtramNameColor}" 
+                           Text="{Binding userName}" >
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Color="Black" RenderingBias="Quality"></DropShadowEffect>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" 
+                        Style="{DynamicResource TextBlockMainStyle}" 
+                        Text="{Binding postCount}"
+                        FontSize="{DynamicResource Regular}" />
+                        <TextBlock VerticalAlignment="Center" 
+                       Style="{DynamicResource TextBlockMainStyle}"
+                       Text="{Binding followersCount}"
+                           Margin="10,0,10,0"/>
+                        <TextBlock   VerticalAlignment="Center" 
+                        Style="{DynamicResource TextBlockMainStyle}"
+                        Text="{Binding followingCount}"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="10,0,20,0" Width="85" VerticalAlignment="Center">
+                    <ComboBox VerticalAlignment="Center" 
+                              Style="{DynamicResource ComboBoxStyle}"
+                              SelectedIndex="{Binding accountRole}"
+                              Margin="0,0,0,5">
+                        <ComboBoxItem>Main</ComboBoxItem>
+                        <ComboBoxItem>Technical</ComboBoxItem>
+                        <ComboBoxItem>Spy</ComboBoxItem>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ComboBoxSelectedCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <TextBlock VerticalAlignment="Center" 
+                                   Style="{DynamicResource TextBlockMainStyle}"
+                                   FontSize="12"
+                                   Text="{Binding accountStatus}"/>
+                </StackPanel>
+                <StackPanel  Orientation="Vertical" Margin="40,10,0,0"  VerticalAlignment="Center">
+                    <Button  Style="{DynamicResource MainButtonStyle}"
+                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.LogOutCommand}"                            
+                             Width="80" Height="30" FontSize="{DynamicResource Small}" Margin="0,0,0,2">
+                        <Button.Content >
+                            <StackPanel  Orientation="Horizontal" >
+                                <fa:FontAwesome Icon="SignOut" VerticalAlignment="Center" Margin="0,0,3,0"/>
+                                <TextBlock Text="SingOut"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <Button  Style="{DynamicResource MainButtonStyle}"
+                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.LoginCommand}"  
+                             Visibility="{Binding LoginReqVisibility}"                          
+                             Width="80" Height="30" FontSize="{DynamicResource Small}">
+                        <Button.Content >
+                            <StackPanel  Orientation="Horizontal" VerticalAlignment="Center">
+                                <fa:FontAwesome Icon="User" Margin="0,0,3,0"/>
+                                <TextBlock Text="SingIn"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <Button  Style="{DynamicResource MainButtonStyle}"
+                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AcceptChallangeCommand}" 
+                             Visibility="{Binding ChallengeReqVisibility}"                          
+                             Width="80" Height="30" FontSize="{DynamicResource Small}">
+                        <Button.Content >
+                            <StackPanel  Orientation="Horizontal" VerticalAlignment="Center">
+                                <fa:FontAwesome Icon="Chain" Margin="0,0,3,0"/>
+                                <TextBlock Text="Challange"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -63,7 +154,7 @@
             <ColumnDefinition/>
 
         </Grid.ColumnDefinitions>
-        <TextBlock Text="ACCOUNT" Grid.Row="0" Grid.RowSpan="1"  Grid.Column="1" Grid.ColumnSpan="6" 
+        <TextBlock Text="ACCOUNTS" Grid.Row="0" Grid.RowSpan="1"  Grid.Column="1" Grid.ColumnSpan="6" 
                    VerticalAlignment="Center"
                    FontSize="30"
                    Foreground="White" 
@@ -122,53 +213,18 @@
 
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="27" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Ellipse StrokeThickness="2" 
-                         Width="58" 
-                         Height="58" 
-                         Stroke="White">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding UserInfo.image}" Stretch="UniformToFill"  ></ImageBrush>
-                    </Ellipse.Fill>
-                </Ellipse>
+            <ListView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="22" Grid.RowSpan="13"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      SelectedIndex="0"
+                      SelectedItem="{Binding AccountListSelectedItem}"
+                      ItemsSource="{Binding UserInfo}"
+                      ItemTemplate="{DynamicResource Account}">
 
-                <TextBlock Margin="10,0,0,0"
-                           VerticalAlignment="Center" 
-                           FontSize="{DynamicResource H1}" 
-                           Foreground="{DynamicResource InstagtramNameColor}" 
-                           Text="{Binding UserInfo.userName}" >
-                    <TextBlock.Effect>
-                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Color="Black" RenderingBias="Quality"></DropShadowEffect>
-                    </TextBlock.Effect>
-                </TextBlock>
-            </StackPanel>
-
-            <StackPanel  Grid.Row="4" Grid.Column="0" Grid.RowSpan="2"  Grid.ColumnSpan="27" HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" 
-                        Style="{DynamicResource TextBlockMainStyle}" 
-                        Text="{Binding UserInfo.postCount}"/>
-
-                <TextBlock VerticalAlignment="Center" 
-                       Style="{DynamicResource TextBlockMainStyle}"
-                       Text="{Binding UserInfo.followersCount}"
-                           Margin="10,0,10,0"/>
-                <TextBlock   VerticalAlignment="Center" 
-                        Style="{DynamicResource TextBlockMainStyle}"
-                        Text="{Binding UserInfo.followingCount}"/>
-            </StackPanel>
-            
-            
-            <Button  Grid.Column="19" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2" 
+            </ListView>
+            <Button Grid.Column="23" Grid.Row="2" Grid.ColumnSpan="4"
                     Style="{DynamicResource MainButtonStyle}"
-                     Command="{Binding LogOutCommand}">
-                <Button.Content >
-                    <StackPanel  Orientation="Horizontal">
-                        <fa:FontAwesome Icon="SignOut"/>
-                        <TextBlock Text="SingOut"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-
+                    Command="{Binding AccountAddCommand}">Add Account</Button>
         </Grid>
 
     </Grid>

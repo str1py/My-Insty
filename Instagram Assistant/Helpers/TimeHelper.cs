@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Instagram_Assistant.Helpers
 {
     class TimeHelper
     {
+        //STATUS: OK
         public string GetNormalTime(int time)
+        {
+            TimeSpan result = TimeSpan.FromSeconds(time);
+            return result.ToString("hh':'mm':'ss");
+        }
+        public string GetNormalTime(double time)
         {
             TimeSpan result = TimeSpan.FromSeconds(time);
             return result.ToString("hh':'mm':'ss");
@@ -23,7 +26,6 @@ namespace Instagram_Assistant.Helpers
             string t = time.Hour + ":" + time.Minute + ":" + time.Second;
             return t;
         }
-
         public string GetTimeNow()
         {
             try
@@ -50,6 +52,12 @@ namespace Instagram_Assistant.Helpers
                 Console.WriteLine(ex.Message + "in " + MethodBase.GetCurrentMethod().DeclaringType);
                 return null;
             }
+        }
+        public long GetInixTime()
+        {
+            DateTime foo = DateTime.Now;
+            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            return unixTime;
         }
     }
 }

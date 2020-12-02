@@ -3,30 +3,35 @@ using InstagramApiSharp.API;
 using InstagramApiSharp.API.Builder;
 using InstagramApiSharp.Classes;
 using InstagramApiSharp.Classes.Android.DeviceInfo;
+using InstagramApiSharp.Classes.SessionHandlers;
 using InstagramApiSharp.Logger;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Instagram_Assistant.Helpers
 {
     class LogInHelper
     {
-        public static IInstaApi _instaApi;
+        //STATUS: NOT OK - SEPARATE LOGIN AND LOGOUT 
+        public static List<IInstaApi> LoggedInUsers = new List<IInstaApi>();
+        private static List<string> sessions = new List<string>();
+
+        public IInstaApi _instaApi { get; private set; }
+        public static bool isSessionsLoaded { get; private set; } = false;
+
         public static string phone;
         public static string email;
 
         private IRequestDelay delay;
         private AndroidDevice device;
         private UserSessionData usersession;
-
+        private string Timezone = "Europe/Moscow";
 
         public string path = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-        private string stateFile = "state.bin";
-        private string stateFilelocal = "state.bin";
         private LogsPageViewModel logs = LogsPageViewModel.Instanse;
         private AccountInfoHelper accountInfo = new AccountInfoHelper();
 
@@ -69,7 +74,8 @@ namespace Instagram_Assistant.Helpers
                 // don't change this
                 FirmwareTags = "release-keys",
                 // don't change this
-                FirmwareType = "user"
+                FirmwareType = "user",
+                
             };
             usersession = new UserSessionData
             {
@@ -78,77 +84,166 @@ namespace Instagram_Assistant.Helpers
             };
         }
 
-        public bool LogedInCheck()
+        public async Task<bool> LogedInCheck()
         {
-            bool session = PrevSessionExist();
+            SplashScreen.SplashScreenViewModel splash = SplashScreen.SplashScreenViewModel.Instanse;
 
-            //SetUp Login
-            _instaApi = InstaApiBuilder.CreateBuilder()
-                .SetUser(usersession)
-                .UseLogger(new DebugLogger(LogLevel.Exceptions))
-                .SetRequestDelay(delay)
-                .Build();
-            _instaApi.SetDevice(device);
+            splash.SplashScreenText = $"Checking account to login...";
+
+            sessions.Clear();
+            LoggedInUsers.Clear();
+            bool session = PrevSessionExist();
 
             if (session == true)
             {
-                Console.WriteLine("Loading state from file");
-                using (var fs = File.OpenRead(stateFilelocal))
+                foreach (var file in sessions)
                 {
-                    _instaApi.LoadStateDataFromStream(fs);
+                    var api = BuildApi();
+                 
+                    var sessionHandler = new FileSessionHandler { FilePath = file, InstaApi = api };
+                    api.SessionHandler = sessionHandler;
+                    _instaApi = api;
+                    api.SessionHandler.Load();
+
+                    if (api.IsUserAuthenticated)
+                        LoggedInUsers.Add(api);
+
+                    isSessionsLoaded = true;
+                }
+                SaveSessions();
+                return true;
+            }
+            else return false;
+
+        }
+
+        public IInstaApi PrevNamedSessionExist(string username)
+        {
+            var files = Directory.GetFiles(path, "*.bin");
+
+            if (files.Count() > 0)
+            {
+                foreach (var file in files)
+                {
+                    if (file.Contains(username))
+                    {
+                        var api = BuildApi();
+                        var sessionHandler = new FileSessionHandler { FilePath = file, InstaApi = api };
+                        api.SessionHandler = sessionHandler;
+                        api.SessionHandler.Load();
+                        return api;
+                    }
+                    else return null;
+                }
+            }
+            else return null;
+
+            return null;
+        }
+
+        public bool PrevSessionExist()
+        {
+            var files = Directory.GetFiles(path, "*.bin");
+            if (files.Count() > 0)
+            {
+                foreach (var file in files)
+                {
+                    if (file.Contains("session"))
+                        sessions.Add(file);
                 }
                 return true;
             }
-            else
-                return false;
+            else return false;
+        }
+
+
+        public void SaveSessions()
+        {
+            var files = Directory.GetFiles(path, "*.bin");
+            foreach (var instaApi in LoggedInUsers)
+            {
+                var state = instaApi.GetStateDataAsStream();
+                var pathToSave = path +"\\" + instaApi.GetLoggedUser().UserName + "-session.bin";
+                using (var fileStream = File.Create(pathToSave))
+                {
+                    state.Seek(0, SeekOrigin.Begin);
+                    state.CopyTo(fileStream);
+                }
+            }
+
+        }
+        private void SaveSession()
+        {
+            var state = _instaApi.GetStateDataAsStream();
+            using (var fileStream = File.Create(_instaApi.GetLoggedUser().UserName.ToLower() + "-session.bin"))
+            {
+                state.Seek(0, SeekOrigin.Begin);
+                state.CopyTo(fileStream);
+            }
+
+            if(!LoggedInUsers.Contains(_instaApi))
+            {
+                LoggedInUsers.Add(_instaApi);
+                sessions.Add(_instaApi.GetLoggedUser().UserName);
+            }
+        }
+
+        private IInstaApi BuildApi(string username = null, string password = null)
+        {
+            var fakeUserData = UserSessionData.ForUsername(username ?? "FAKEUSER").WithPassword(password ?? "FAKEPASS");
+            var instapi =  InstaApiBuilder.CreateBuilder()
+                             .SetUser(fakeUserData)
+                             .UseLogger(new DebugLogger(LogLevel.All))
+                             .SetRequestDelay(delay)
+                             .Build();
+            instapi.SetDevice(device);
+            instapi.SetTimezone(Timezone);
+            return instapi;
         }
 
         public async Task<string> Login(string username, string password)
         {
-
+            _instaApi = null;
             usersession = new UserSessionData
             {
                 UserName = username,
                 Password = password
             };
 
-            //SetUp Login
-            _instaApi = InstaApiBuilder.CreateBuilder()
-                .SetUser(usersession)
-                .UseLogger(new DebugLogger(LogLevel.Exceptions))
-                .SetRequestDelay(delay)
-                .Build();
-            _instaApi.SetDevice(device);
+            _instaApi = PrevNamedSessionExist(username);
+
+            if (_instaApi == null)
+            {
+                _instaApi = InstaApiBuilder.CreateBuilder()
+                    .SetUser(usersession)
+                    .UseLogger(new DebugLogger(LogLevel.All))
+                    .SetRequestDelay(delay)
+                    .Build();
+                _instaApi.SetDevice(device);
+                _instaApi.SetTimezone(Timezone);
+            }
 
             if (!_instaApi.IsUserAuthenticated)
             {
-                //   var asd = await _instaApi.SendRequestsBeforeLoginAsync();
-                await Task.Delay(5000);
                 var logInResult = await _instaApi.LoginAsync();
 
-                logs.Add($"{ logInResult.Value}", MessageType.Type.DEBUGINFO);
+                logs.Add($"{ logInResult.Value}", MessageType.Type.DEBUGINFO, this.GetType().Name);
 
                 if (logInResult.Succeeded)
                 {
-                    var state = _instaApi.GetStateDataAsStream();
-                    using (var fileStream = File.Create(stateFile))
-                    {
-                        state.Seek(0, SeekOrigin.Begin);
-                        state.CopyTo(fileStream);
-                    }
-
-                    logs.Add($"You`ve been logIn, {username}", MessageType.Type.DEBUGINFO);
-                    await accountInfo.GetInfo();
+                    SaveSession();
+                    logs.Add($"You`ve been logIn, {username}", MessageType.Type.DEBUGINFO, this.GetType().Name);
+                    await accountInfo.UpdateInfo(_instaApi);
                     return logInResult.Value.ToString();
                 }
                 else
                 {
                     if (logInResult.Value == InstaLoginResult.ChallengeRequired)
                     {
-                        var challenge = await _instaApi.GetChallengeRequireVerifyMethodAsync();
+                        var twoFactorLogin = await _instaApi.GetChallengeRequireVerifyMethodAsync();
 
-                        phone = challenge.Value.StepData.PhoneNumber ?? "no phone";
-                        email = challenge.Value.StepData.Email ?? "no email";
+                        phone = twoFactorLogin.Value.StepData.PhoneNumber ?? "no phone";
+                        email = twoFactorLogin.Value.StepData.Email ?? "no email";
                         return logInResult.Value.ToString();
                     }
                     return logInResult.Value.ToString();
@@ -160,44 +255,40 @@ namespace Instagram_Assistant.Helpers
                 return "Error!";
         }
 
-        public bool PrevSessionExist()
+        public void Login(string username)
         {
-            string a = path + "\\state.bin";
-            stateFilelocal = a.Replace("\\", "/");
-            try
-            {
-                // load session file if exists
-                if (File.Exists(stateFilelocal))
-                    return true;
-                else
-                    return false;
-                
-            }
-            catch (Exception e) { Console.WriteLine(e); }
-            return false;
+            LoginPageViewModel loginPage = LoginPageViewModel.Instanse;
+            MainWindowViewModel.instance.SelectedViewModel = loginPage;
+            MainWindowViewModel.instance.MainSelectedViewModel = null;
+            loginPage.LoginVisibility = Visibility.Visible;
+            loginPage.ChallengesVisibility = Visibility.Hidden;
+            loginPage.CodeCheckVisibility = Visibility.Hidden;
+            loginPage.LoginGridIsEnable = true;
+            loginPage.ChallengesGridIsEnabel = true;
+            loginPage.CodeCheckGridIsEnabel = true;
+            LoginPageViewModel.Instanse.Login = username;
+            loginPage.CancleLoginVisibility = Visibility.Visible;
+
         }
 
-        public bool LogOut()
+        public bool LogOut(string username)
         {
-
-
-            string a = path + "\\state.bin";
-            stateFilelocal = a.Replace("\\", "/");
-            try
+            var files = Directory.GetFiles(path, "*.bin");
+            foreach(var file in files)
             {
-                // load session file if exists
-                if (File.Exists(stateFilelocal))
+                if (file.Contains(username))
                 {
-                    File.Delete(stateFilelocal);
+                    int index = sessions.FindIndex(x => x.Contains(username));
+                    LoggedInUsers.RemoveAt(index);
+                    sessions.RemoveAt(index);
+                    accountInfo.DeleteAccount(username);
+                    File.Delete(file);
                     return true;
                 }
-                else
-                    return false;
+                else return false;
             }
-            catch (Exception e) { Console.WriteLine(e); }
             return false;
         }
-
 
         public async Task<bool> CodeCheck(string code)
         {
@@ -205,14 +296,8 @@ namespace Instagram_Assistant.Helpers
 
             if (verifyLogin.Succeeded)
             {
-                var state = _instaApi.GetStateDataAsStream();
-                using (var fileStream = File.Create(stateFile))
-                {
-                    state.Seek(0, SeekOrigin.Begin);
-                    state.CopyTo(fileStream);
-                }
+                SaveSession();
                 await accountInfo.GetInfo();
-
                 return true;
             }
             else 

@@ -15,6 +15,7 @@
 
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
+        
     </Window.DataContext>
     
     <Window.Resources>
@@ -39,6 +40,17 @@
         <DataTemplate x:Name="aboutView" DataType="{x:Type viewmodels:AboutPageViewModel}">
             <views:AboutPageView/>
         </DataTemplate>
+        <DataTemplate x:Name="feedStories" DataType="{x:Type viewmodels:FeedStoriesPageViewModel}">
+            <views:FeedStoriesWatchPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="unfollowView" DataType="{x:Type viewmodels:UnfollowPageViewModel}">
+            <views:UnfollowPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="audienceView" DataType="{x:Type viewmodels:AudiencePageViewModel}">
+            <views:UnfollowPageView/>
+        </DataTemplate>
+
+
     </Window.Resources>
 
     <Grid>
@@ -105,10 +117,6 @@
                     Background="Wheat"
                     Opacity="0.00001" 
                     MouseDown="TopBorder_MouseDown" />
-
-
-
-
 
             <ListBox Grid.Row="3" Grid.RowSpan="10" Grid.ColumnSpan="4" 
                      x:Name="Menu"      
@@ -221,7 +229,6 @@
             <ContentPresenter Grid.Column="4" Grid.Row="1" Grid.RowSpan="17" Grid.ColumnSpan="24"
                               x:Name="MainControl" 
                               Content="{Binding MainSelectedViewModel}"/>
-
         </Grid>
     </Grid>
 </Window>

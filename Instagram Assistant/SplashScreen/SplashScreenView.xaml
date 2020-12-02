@@ -35,20 +35,34 @@
         </Storyboard>
     </Window.Resources>
     <Grid>
-        
+       
         <StackPanel Margin="0,0,0,-110" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="My Insty" HorizontalAlignment="Center" Margin="0,30,0,30"  Visibility="Hidden" Style="{DynamicResource TextBlockMainStyle}" FontSize="50"></TextBlock>
+            <TextBlock Text="My Insty" 
+                       HorizontalAlignment="Center"
+                       Margin="0,30,0,30"  
+                       Visibility="Hidden"
+                       Style="{DynamicResource TextBlockMainStyle}" 
+                       FontSize="50"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <fa:ImageAwesome Icon="Spinner" Foreground="Gray" Spin="True" Width="30"/>
-                <Label Content="{Binding SplashScreenText}" FontSize="15" Foreground="White" />
+                <fa:ImageAwesome Icon="Spinner" 
+                                 Foreground="Gray" 
+                                 Spin="True" 
+                                 Width="30"/>
+                <Label Content="{Binding SplashScreenText,UpdateSourceTrigger=PropertyChanged}"
+                       FontSize="15" 
+                       Foreground="White" />
             </StackPanel>
         </StackPanel>
+        
         <Ellipse x:Name="AppIcon" Height="300" Width="300" Margin="200,24,200,76" >
             <Ellipse.Fill>
-                <ImageBrush Stretch="UniformToFill"  ImageSource="pack://application:,,,/Resources/Images/insta-splash.png" />
+                <ImageBrush Stretch="UniformToFill"  
+                            ImageSource="pack://application:,,,/Resources/Images/insta-splash.png" />
             </Ellipse.Fill>
             <Ellipse.Effect>
-                <BlurEffect Radius="50" KernelType="Gaussian" x:Name="blurEffect"/>
+                <BlurEffect Radius="50" 
+                            KernelType="Gaussian"
+                            x:Name="blurEffect"/>
             </Ellipse.Effect>
             <Ellipse.Triggers>
                 <EventTrigger RoutedEvent="Ellipse.Loaded">

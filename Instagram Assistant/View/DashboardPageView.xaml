@@ -18,6 +18,18 @@
         <DataTemplate x:Name="likeView" DataType="{x:Type viewmodels:FeedLikePageViewModel}">
             <views:FeedLikePageView/>
         </DataTemplate>
+        <DataTemplate x:Name="storiesFeedView" DataType="{x:Type viewmodels:FeedStoriesPageViewModel}">
+            <views:FeedStoriesWatchPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="unfollowView" DataType="{x:Type viewmodels:UnfollowPageViewModel}">
+            <views:UnfollowPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="audienceView" DataType="{x:Type viewmodels:AudiencePageViewModel}">
+            <views:AudiencePageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="audienceFilterView" DataType="{x:Type viewmodels:FilterAudiencePageViewModel}">
+            <views:FilterAudiencePageView/>
+        </DataTemplate>
     </UserControl.Resources>
 
 
@@ -80,7 +92,7 @@
                    Foreground="White" 
                    Style="{DynamicResource TextBlockMainStyle}"/>
 
-    
+       <!--MAIN TABCONTROL-->
         <Grid Grid.ColumnSpan="35" Grid.RowSpan="35">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -134,13 +146,18 @@
 
             </Grid.ColumnDefinitions>
             <TabControl  Grid.Column="0" Grid.ColumnSpan="28" Grid.Row="1" Grid.RowSpan="18"  
-                         Background="Transparent"  BorderThickness="0">
+                         Background="Transparent" 
+                         BorderThickness="0" SelectedIndex="{Binding TabSelectedIndex}">
                 <TabControl.Resources>
                     <Style TargetType="{x:Type TabPanel}">
-                        <Setter Property="HorizontalAlignment" Value="Left" />
+                        <Setter Property="HorizontalAlignment"
+                                Value="Left" />
                     </Style>
                 </TabControl.Resources>
-                <TabItem Header="Like" Style="{DynamicResource TabItemStyle}" HorizontalAlignment="Center" FontWeight="Bold">
+                <TabItem Header="Like" 
+                         Style="{DynamicResource TabItemStyle}"
+                         HorizontalAlignment="Center" 
+                         FontWeight="Bold">
                     <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -192,7 +209,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <ListView  Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="35"  
                                    IsSynchronizedWithCurrentItem="True"
                                    SelectedIndex="{Binding Item,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -218,10 +235,234 @@
                                           Content="{Binding SelectedLikeView}"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Stories" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
+                <TabItem Header="Stories" 
+                         Style="{DynamicResource TabItemStyle}"
+                         FontWeight="Bold" >
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <ListView  Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="35"  
+                                   IsSynchronizedWithCurrentItem="True"
+                                   SelectedIndex="{Binding StoriesItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   Foreground="White" 
+                                   Background="Transparent"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   BorderThickness="0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Feed</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Geo</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}"  IsEnabled="False">Hashtag</ListViewItem>
+                        </ListView>
+
+                        <ContentPresenter x:Name="StoriesControl" 
+                                          Grid.Column="0" Grid.Row="2" Grid.RowSpan="25" Grid.ColumnSpan="28"
+                                          Width="800"
+                                          Content="{Binding SelectedStoriesView}"/>
+                    </Grid>
+
+
+                </TabItem>
+                <TabItem Header="Unfollow"
+                         Style="{DynamicResource TabItemStyle}"
+                         FontWeight="Bold">
+                    <Grid Width="950">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <ContentPresenter x:Name="UnfollowControl" 
+                                          Grid.Column="0" Grid.Row="2" Grid.RowSpan="25" Grid.ColumnSpan="28"
+                                          Width="800"
+                                          Content="{Binding UnfollowView}"/>
+
+                    </Grid>
+
+                </TabItem>
                 <TabItem Header="Follow" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
-                <TabItem Header="Unfollow" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
                 <TabItem Header="Combo" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
+                <TabItem Header="Audience" 
+                         Style="{DynamicResource TabItemStyle}" 
+                         FontWeight="Bold" >
+                    <Grid Width="950">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+                        <ListView  Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="26"  
+                                   IsSynchronizedWithCurrentItem="True"
+                                   SelectedIndex="{Binding AudienceItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   Foreground="White" 
+                                   Background="Transparent"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   BorderThickness="0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >New</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Filter</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" IsEnabled="False" >Spy</ListViewItem>
+                        </ListView>
+                        <ContentPresenter x:Name="AudienceControl" 
+                                          Grid.Column="0" Grid.Row="2" Grid.RowSpan="25" Grid.ColumnSpan="28"
+                                          Width="800"
+                                          Content="{Binding AudienceView}"/>
+
+                    </Grid>
+                </TabItem>
             </TabControl>
         </Grid>
     </Grid>

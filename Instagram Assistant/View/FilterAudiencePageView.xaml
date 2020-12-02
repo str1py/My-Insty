@@ -1,0 +1,283 @@
+﻿<UserControl x:Class="Instagram_Assistant.View.FilterAudiencePageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Instagram_Assistant.View"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="AudienceAction" >
+            <Border Background="{StaticResource BorderColor}" Width="550" CornerRadius="5">
+                <StackPanel Orientation="Horizontal" >
+                    <StackPanel Orientation="Vertical" Width="150" VerticalAlignment="Center">
+                        <Ellipse  Width="40" Height="40" StrokeThickness="2" Stroke="Wheat">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding AccountImage}" 
+                                        Stretch="Uniform" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding AccountName}" 
+                               Foreground="LightGray" 
+                               FontSize="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        <fa:FontAwesome Grid.RowSpan="2" 
+                                    FontSize="16" Margin="0,5,0,0"
+                                    Foreground="{Binding ActionColor}" Icon="{Binding Action}"></fa:FontAwesome>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,5,0,5" Width="220">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Type: " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                               Width="55"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding AccountType}" 
+                               Foreground="{Binding AccountTypeColor}" 
+                               FontSize="12" 
+
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Categoty: " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                               Width="55"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding AccountCategory}" 
+                               Foreground="{Binding AccountCategoryColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="City:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                Width="55"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding City}" 
+                               Foreground="{Binding CityColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Image:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                Width="55"       
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding HasImage}" 
+                               Foreground="{Binding HasImageColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Bio:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                        Width="55"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding HasBio}" 
+                               Foreground="{Binding HasBioColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,5,0,5" Width="150">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Followers Count:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                        Width="90"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding FollowersCount}" 
+                               Foreground="{Binding FollowersCountColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Media Count:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                        Width="90"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding MediaCount}" 
+                               Foreground="{Binding MediaCountColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Highlight:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                        Width="90"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding HasHighlight}" 
+                               Foreground="{Binding HasHighlightColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Stop word:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                        Width="90"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding HasStopWord}" 
+                               Foreground="{Binding HasStopWordColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Go word:  " 
+                               Foreground="LightGray" 
+                               FontSize="12" 
+                                        Width="90"
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding HasGoWord}" 
+                               Foreground="{Binding HasGoWordColor}" 
+                               FontSize="12" 
+                               VerticalAlignment="Center" 
+                               FontWeight="ExtraLight"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                        From="-100,0,0,0" To="0"
+                                                        AccelerationRatio="0.9" Duration="0:0:0.5">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="7" />
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </StackPanel.Triggers>
+
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <CollectionViewSource x:Key="audienceCollection" Source="{Binding Path=AudienceActions}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Time" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="20" Grid.RowSpan="2"
+                   Text="{Binding LastActionTextHelper}" Opacity="0.6" 
+                   Style="{DynamicResource TextBlockMainStyle}" 
+                   FontSize="{DynamicResource H1}" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+        <StackPanel Grid.Row="0" Grid.Column="22" Grid.ColumnSpan="4" Grid.RowSpan="5"  VerticalAlignment="Center" Orientation="Vertical" >
+            <Button Style="{DynamicResource MainButtonStyle}" 
+                    Height="40"   
+                    Command="{Binding StartFilterAudienceCommand}" 
+                    Content="{Binding ButtonContent}"/>
+            <TextBlock Style="{DynamicResource TextBlockMainStyle}"  
+                       HorizontalAlignment="Center" 
+                       FontWeight="ExtraLight">Status</TextBlock>
+            <TextBlock HorizontalAlignment="Center" 
+                       Foreground="White" 
+                       FontSize="20" 
+                       Margin="0,0,0,20" 
+                       FontWeight="ExtraLight" Text="ON"/>
+        </StackPanel>
+
+        <!--Last Actions-->
+        <ListView Grid.Row="1" Grid.RowSpan="15" Grid.Column="0" Grid.ColumnSpan="20" 
+                  Background="Transparent" 
+                  BorderThickness="0"
+                  ItemsSource="{Binding Source={StaticResource audienceCollection}}"  
+                  ItemTemplate="{DynamicResource AudienceAction}" 
+                  ScrollViewer.CanContentScroll="False" 
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                  ScrollViewer.IsDeferredScrollingEnabled="False">
+        </ListView>
+    </Grid>
+</UserControl>

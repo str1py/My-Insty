@@ -1,74 +1,129 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Instagram_Assistant.ViewModel;
+using System;
+
 
 namespace Instagram_Assistant.Helpers
 {
-    class CommonHelper
+    class CommonHelper : ViewModelBase
     {
-        public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; } // 1 hour
-        public DateTime nextStartTime { get; set; } // Next activity start time
 
-
-        private int likesPerSession{ get; } = 60;
-        public int passedActivities { get; set; } = 0;
-
-
-        //Activities time
-        private int timePerOneActivity { get; } = 30; //x1
-        private int timePerTwoActivity { get; } = 20; //x2
-        private int timePerTreeActivity { get; } = 10; //x3
-
-
-
-        private int delayForStories { get; } = 15000;
-        private int rndDelayForStories { get; } = 5000;
-
-        public int rest { get; } = 3600000; //after 4-5 activities
-
-        private string hashtagToLike { get; set; } = "салонкрасотыреутов";
-        private string hashTagToWatch { get; set; } = "салонкрасотыреутов";
-        private bool followByHashTah { get; set; } = false;
-
-
-        public static bool isFeedLikeInProgress { get; set; } = false;
-        public static bool isHashTagLikeInProgress { get; set; } = false;
-        public static bool isStoriesWatching { get; set; } = false;
-        public static bool isStoriesWatchingByHt { get; set; } = false;
-
-
-        public long GetInixTime()
-        {
-            DateTime foo = DateTime.Now;
-            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-            return unixTime;
-        }
-
+        //Calculate Deley
         public int GetLikeDelay()
         {
-            int delay = Properties.Settings.Default.DelayValue;
+            int delay = Properties.Settings.Default.DelayValue; // standart delay
             Random rnd = new Random();
+            //if 0 - standart delay + random else - 
             if (rnd.Next(0, 1) == 0)
                 delay += rnd.Next(0, Properties.Settings.Default.RandomDelayValue);
             else
                 delay -= rnd.Next(0, Properties.Settings.Default.RandomDelayValue);
 
-            return delay * 1000;
+            return delay * 1000; // * for miliseconds for Task.Delay()
+        }
+        public int GetStoryDelay()
+        {
+            int delay = Properties.Settings.Default.StoriesDelay; // standart delay
+            Random rnd = new Random();
+            //if 0 - standart delay + random else - 
+            if (rnd.Next(0, 1) == 0)
+                delay += rnd.Next(0, Properties.Settings.Default.RandomStoriesDelay);
+            else
+                delay -= rnd.Next(0, Properties.Settings.Default.RandomStoriesDelay);
+
+            return delay * 1000; // * for miliseconds for Task.Delay()
         }
 
-        public DateTime GetNextTime(DateTime start, int activities)
+        public int GetUnfollowDelay()
         {
-            if (activities == 1)
-                return start.AddMinutes(timePerOneActivity);
-            else if (activities == 2)
-                return start.AddMinutes(timePerTwoActivity);
-            else if (activities == 3)
-                return start.AddMinutes(timePerTreeActivity);
+            int delay = 120; // standart delay
+            Random rnd = new Random();
+            //if 0 - standart delay + random else - 
+            if (rnd.Next(0, 1) == 0)
+                delay += rnd.Next(0, 20);
             else
-                return start.AddMinutes(15);
+                delay -= rnd.Next(0, 20);
+
+            return delay * 1000; // * for miliseconds for Task.Delay()
         }
+
+        //Get next activity time
+        public DateTime GetNextTime(DateTime start)
+        {
+            return start.AddMinutes(60);
+        }
+
+        public DateTime GetEndTime()
+        {
+            DateTime date = new DateTime();
+            TimeSpan ts = new TimeSpan(22, 00, 0);
+            date = date.Date + ts;
+            return date;
+        }
+
+        public string BigNumbersCutting(int? _number)
+        {
+            if (_number != null)
+            {
+                try
+                {
+                    double number = Convert.ToDouble(_number);
+                    double result = 0;
+                    if (number > 1000)
+                    {
+                        int length = number.ToString().Length;
+                        if (length == 4)
+                            result = number / 1000;
+                        else if (length == 5)
+                            result = number / 10000;
+                        else if (length == 6)
+                            result = number / 100000;
+
+                        return result.ToString("0.0").Replace(',', '.') + "k";
+                    }
+                    else
+                    {
+                        return number.ToString();
+                    }
+                }
+                catch { return _number.ToString(); }
+            }
+            else return null;
+        }
+
+        public string BigNumbersCutting(string _number)
+        {
+            if (_number != null)
+            {
+                if (_number.Contains("k"))
+                    return _number;
+                else
+                {
+                    try
+                    {
+                        double number = Convert.ToDouble(_number);
+                        double result = 0;
+                        if (number > 1000)
+                        {
+                            int length = number.ToString().Length;
+                            if (length == 4)
+                                result = number / 1000;
+                            else if (length == 5)
+                                result = number / 10000;
+                            else if (length == 6)
+                                result = number / 100000;
+
+                            return result.ToString("0.0").Replace(',', '.') + "k";
+                        }
+                        else
+                        {
+                            return number.ToString();
+                        }
+                    }
+                    catch { return _number; }
+                }
+            }
+            else return null;
+        }
+
     }
 }

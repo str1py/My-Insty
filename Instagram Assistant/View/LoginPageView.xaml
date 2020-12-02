@@ -90,6 +90,9 @@
             <Button  Grid.Row="12" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2" 
                      Command="{Binding BeginLogin}" 
                      Style="{DynamicResource MainButtonStyle}">LogIn</Button>
+            <Button  Grid.Row="13" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2" 
+                     Command="{Binding CancleLoginCommand}"  Visibility="{Binding CancleLoginVisibility}"
+                     Style="{DynamicResource MainButtonStyle}">Cancle</Button>
         </Grid>
 
         <Grid  Visibility="{Binding ChallengesVisibility}"  IsEnabled="{Binding ChallengesGridIsEnabel}">

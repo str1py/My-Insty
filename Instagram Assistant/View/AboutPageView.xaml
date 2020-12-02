@@ -58,7 +58,8 @@
             <ColumnDefinition/>
 
         </Grid.ColumnDefinitions>
-
+        
+        <!--DISCRIPTION-->
         <TextBlock Text="HELP AND SUPPORT" Grid.Row="0" Grid.RowSpan="1"  Grid.Column="1" Grid.ColumnSpan="10" 
                    VerticalAlignment="Center"
                    FontSize="30"
@@ -66,14 +67,20 @@
                    Style="{DynamicResource TextBlockMainStyle}"/>
         
         <StackPanel Grid.Row="2" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="26" Orientation="Horizontal">
-            <Image Height="100" Source="pack://application:,,,/Resources/Images/insta-splash.png" Margin="0,0,20,0"/>
-            <TextBlock Width="710" TextWrapping="Wrap" Foreground="White" FontWeight="Regular" >
+            <Image Height="100" 
+                   Source="pack://application:,,,/Resources/Images/insta-splash.png"
+                   Margin="0,0,20,0"/>
+            <TextBlock Width="710" 
+                       TextWrapping="Wrap"
+                       Foreground="White" 
+                       FontWeight="Regular" >
                 This app is designed to promote and automate your work in Instagram. More description will be soon.
             </TextBlock>
         </StackPanel>
 
         <Border Grid.Row="4" Grid.RowSpan="3" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="26" BorderThickness="0,0,0,1" BorderBrush="Gray"  />
 
+        <!-- Information about program and license-->
         <TextBlock Grid.Row="6" Grid.RowSpan="3"  Grid.Column="1" Grid.ColumnSpan="26"
                    Style="{DynamicResource TextBlockMainStyle}"
                    Foreground="White" 
@@ -83,19 +90,31 @@
 
         <StackPanel Orientation="Vertical" Grid.Row="7" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="10">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">License: </TextBlock>
-                <TextBlock Margin="5,0,0,0" Foreground="Gray" Style="{DynamicResource TextBlockMainStyle}"  FontWeight="Bold"> Alpha</TextBlock>
+                <TextBlock Style="{DynamicResource TextBlockMainStyle}">Programm state: </TextBlock>
+                <TextBlock Margin="5,0,0,0" 
+                           Foreground="Gray"
+                           Style="{DynamicResource TextBlockMainStyle}" 
+                           FontWeight="Bold"
+                           Text="{Binding ProgramState}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{DynamicResource TextBlockMainStyle}">Product version:</TextBlock>
+                <TextBlock Margin="5,0,0,0" 
+                           Foreground="Gray" 
+                           Style="{DynamicResource TextBlockMainStyle}" 
+                           Text="{Binding Version}"
+                           FontWeight="Bold"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{DynamicResource TextBlockMainStyle}">The validity of the license:</TextBlock>
-                <TextBlock Margin="5,0,0,0" Foreground="Gray" Style="{DynamicResource TextBlockMainStyle}"  FontWeight="Bold">Unlimited</TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">Product version:</TextBlock>
-                <TextBlock Margin="5,0,0,0" Foreground="Gray" Style="{DynamicResource TextBlockMainStyle}"  FontWeight="Bold">1.0.0.0 Alpha</TextBlock>
+                <TextBlock Margin="5,0,0,0" 
+                           Foreground="Gray" 
+                           Style="{DynamicResource TextBlockMainStyle}"  
+                           FontWeight="Bold"
+                           Text="{Binding License}"/>
             </StackPanel>
         </StackPanel>
-
 
         <StackPanel Orientation="Vertical"  Grid.Row="7" Grid.RowSpan="3" Grid.Column="20" Grid.ColumnSpan="3">
             <Button Style="{DynamicResource MainButtonStyle}" Height="25" Margin="0,0,0,10" IsEnabled="False">Update license</Button>
@@ -104,13 +123,14 @@
         
         <Border Grid.Row="8" Grid.RowSpan="3" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="26" BorderThickness="0,0,0,1" BorderBrush="Gray"  />
 
-
+        <!--Technical support-->
         <TextBlock Grid.Row="10" Grid.RowSpan="3"  Grid.Column="1" Grid.ColumnSpan="26"
                    Style="{DynamicResource TextBlockMainStyle}"
                    Foreground="White" 
                    FontSize="{DynamicResource Big}">          
                    Technical support
         </TextBlock>
+        
         <StackPanel Orientation="Vertical" Grid.Row="11" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="10">
             <TextBlock Style="{DynamicResource TextBlockMainStyle}" FontSize="20">Contacts</TextBlock>
             <StackPanel Orientation="Horizontal">

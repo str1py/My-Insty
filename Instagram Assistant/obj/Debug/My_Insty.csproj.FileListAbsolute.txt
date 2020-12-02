@@ -1,0 +1,19 @@
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Themes\Colors\BlackViolet.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Themes\Fonts.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Themes\Styles\BlackVioletColors.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Themes\Theme.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\SplashScreen\SplashScreenView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\AboutPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\AccountPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\DashboardPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\FeedLikePageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\LoginPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\LogsPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\MainPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\MainWindowView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\SettingsPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\App.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\My Insty_Content.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\GeneratedInternalTypeHelper.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\My Insty_MarkupCompile.cache
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\My Insty_MarkupCompile.lref

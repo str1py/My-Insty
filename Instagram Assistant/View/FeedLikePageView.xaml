@@ -11,7 +11,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="FeedAction" >
-            <Border Background="#25253d" CornerRadius="5">
+            <Border Background="{StaticResource BorderColor}" CornerRadius="5">
                 <StackPanel Orientation="Vertical" Width="150" Height="230" >
                     <StackPanel Margin="3,5,0,5" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Ellipse  Width="25" Height="25" StrokeThickness="2" Stroke="Wheat">
@@ -42,21 +42,20 @@
                         </EventTrigger>
                     </StackPanel.Triggers>
                 </StackPanel>
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20" 
+                                  ShadowDepth="0.9" 
+                                  Color="{StaticResource FirstColor}"/>
+                </Border.Effect>
             </Border>
+            
         </DataTemplate>
 
         <CollectionViewSource x:Key="feedCollection" Source="{Binding Path=FeedLikeActions}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="likeTime" Direction="Descending"/>
+                <scm:SortDescription PropertyName="Time" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-
-        <Storyboard x:Key="Heart">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                From="0.9" To="0" 
-                                Storyboard.TargetName="likeHeart" 
-                                Duration="0:0:1" AccelerationRatio="0.1" />
-        </Storyboard>
     </UserControl.Resources>
     
     <Grid >
@@ -114,10 +113,10 @@
 
         </Grid.ColumnDefinitions>
         
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="32" Grid.RowSpan="2" Grid.Row="9" 
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="32" Grid.RowSpan="4" Grid.Row="8" 
                    Style="{DynamicResource TextBlockMainStyle}" 
-                   HorizontalAlignment="Center" 
-                   FontSize="{DynamicResource H1}">Overview</TextBlock>
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="{DynamicResource H1}" >Overview</TextBlock>
         
         <TextBlock Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Grid.Row="0" 
                    Style="{DynamicResource TextBlockMainStyle}"  
@@ -125,26 +124,25 @@
         
      
         <!--OVERVIEW 1 BORDER-->
-        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="#25253d">
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource BorderColor}">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="1" 
-                                  ShadowDepth="0.1"  
-                                  Color="Black"/>
+                <DropShadowEffect BlurRadius="20" 
+                                  ShadowDepth="0.9" 
+                                  Color="{StaticResource FirstColor}"/>
             </Border.Effect>
         </Border>
 
         <!--OVERVIEW 2 BORDER-->
-        <Border Grid.Column="17" Grid.ColumnSpan="15" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="#25253d">
+        <Border Grid.Column="21" Grid.ColumnSpan="15" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource BorderColor}">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="1" 
-                                  ShadowDepth="0.1" 
-                                  Color="Black"/>
+                <DropShadowEffect BlurRadius="20" 
+                                  ShadowDepth="0.9" 
+                                  Color="{StaticResource FirstColor}"/>
             </Border.Effect>
         </Border>
 
         
-        
-        <StackPanel Grid.Row="11" Grid.Column="12" Grid.ColumnSpan="4" Grid.RowSpan="3"  VerticalAlignment="Center" Orientation="Vertical" >
+        <StackPanel Grid.Row="11" Grid.Column="14" Grid.ColumnSpan="4" Grid.RowSpan="3"  VerticalAlignment="Center" Orientation="Vertical" >
             <Button Style="{DynamicResource MainButtonStyle}" 
                     Height="40"   
                     Command="{Binding StartFeedLikeCommand}" 
@@ -161,10 +159,11 @@
         </StackPanel>
 
         <!--OVERVIEW-->
-        <StackPanel Grid.Row="11" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="9" VerticalAlignment="Center" Orientation="Horizontal">
+        <StackPanel Grid.Row="11" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="10" VerticalAlignment="Center" Orientation="Horizontal">
             <StackPanel VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Vertical" Margin="0,0,30,0">
+                    <!-- TOTAL SESSION COUNT -->
+                    <StackPanel Orientation="Vertical" Margin="0,0,40,0">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="0,0,5,0" 
                                             Icon="Heart" 
@@ -174,16 +173,16 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="25" 
+                                       FontSize="20" 
                                        FontWeight="ExtraLight" 
-                                       Text="{Binding FeedStats.SessionLikes}"/>
+                                       Text="{Binding FeedStats.SessionCount}"/>
                         </StackPanel>
                         <TextBlock  HorizontalAlignment="Center" 
                                     FontWeight="ExtraLight" 
                                     Style="{DynamicResource TextBlockMainStyle}">session</TextBlock>
                     </StackPanel>
-
-                    <StackPanel  Orientation="Vertical" Margin="0,0,30,0">
+                    <!-- TOTAL ALL COUNT -->
+                    <StackPanel  Orientation="Vertical" Margin="0,0,40,0">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="0,0,5,0" 
                                             Icon="Heart" 
@@ -193,43 +192,32 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="25" 
+                                       FontSize="20" 
                                        FontWeight="ExtraLight" 
                                        Style="{DynamicResource TextBlockMainStyle}"
-                                       Text="{Binding FeedStats.Likes}"/>
+                                       Text="{Binding FeedStats.Count}"/>
                         </StackPanel>
                         <TextBlock HorizontalAlignment="Center"
                                    FontWeight="ExtraLight"
                                    Style="{DynamicResource TextBlockMainStyle}">total</TextBlock>
                     </StackPanel>
-
-                    <StackPanel  Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="0,0,5,0" 
-                                            Icon="Heart"
-                                            FontSize="15" 
-                                            Foreground="Red"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"/>
-                            <TextBlock 
-                                HorizontalAlignment="Center"
-                                Foreground="White"
-                                FontSize="25" 
-                                FontWeight="ExtraLight" 
-                                Style="{DynamicResource TextBlockMainStyle}"
-                                Text="{Binding FeedStats.LikeGoal}"/>
-                        </StackPanel>
-                        <TextBlock HorizontalAlignment="Center" 
-                                   FontWeight="ExtraLight" 
-                                   Style="{DynamicResource TextBlockMainStyle}" >to goal</TextBlock>
+                    <!-- NEXT LIKE TIMER-->
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center"
+                           Foreground="White"
+                           FontSize="20"
+                           FontWeight="ExtraLight"
+                           Text="{Binding FeedStats.NextIn}"/>
+                        <TextBlock HorizontalAlignment="Center"
+                           FontWeight="ExtraLight" 
+                           Style="{DynamicResource TextBlockMainStyle}">Next in</TextBlock>
                     </StackPanel>
                 </StackPanel>
-
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="11" Grid.RowSpan="3" Grid.Column="18" Grid.ColumnSpan="13" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-            <StackPanel HorizontalAlignment="Center" Margin="0,0,30,0" >
+        <StackPanel Grid.Row="11" Grid.RowSpan="3" Grid.Column="22" Grid.ColumnSpan="9" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Margin="0,0,40,0" >
                 <TextBlock HorizontalAlignment="Center"
                            Foreground="White" 
                            FontSize="20" Margin="0,0,0,5
@@ -240,7 +228,7 @@
                            Style="{DynamicResource TextBlockMainStyle}">Time in work</TextBlock>
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Center" Margin="0,0,30,0">
+            <StackPanel HorizontalAlignment="Center" >
                 <TextBlock HorizontalAlignment="Center"
                            Foreground="White"
                            FontSize="20" 
@@ -251,21 +239,9 @@
                            FontWeight="ExtraLight"
                            Style="{DynamicResource TextBlockMainStyle}">Next session in</TextBlock>
             </StackPanel>
-
-            <StackPanel HorizontalAlignment="Center">
-                <TextBlock HorizontalAlignment="Center"
-                           Foreground="White"
-                           FontSize="20"
-                           Margin="0,0,0,5"
-                           FontWeight="ExtraLight"
-                           Text="{Binding FeedStats.NextLikeIn}"/>
-                <TextBlock HorizontalAlignment="Center"
-                           FontWeight="ExtraLight" 
-                           Style="{DynamicResource TextBlockMainStyle}">Next like in</TextBlock>
-            </StackPanel>
-
         </StackPanel>
 
+        
         <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="32" Grid.RowSpan="2"
                    Text="{Binding LastActionTextHelper}" Opacity="0.6" 
                    Style="{DynamicResource TextBlockMainStyle}" 

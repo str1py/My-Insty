@@ -1,0 +1,607 @@
+﻿<UserControl x:Class="Instagram_Assistant.View.SettingsPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Instagram_Assistant.View"
+             xmlns:viewmodels="clr-namespace:Instagram_Assistant.ViewModel"
+             xmlns:views="clr-namespace:Instagram_Assistant.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="1050" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Visible"
+                  CanContentScroll="False">
+        <StackPanel Margin="20,0,20,0">
+            <TextBlock VerticalAlignment="Center" 
+                       Text="SETTINGS"
+                       FontSize="30" 
+                       Foreground="White"
+                       Style="{DynamicResource TextBlockMainStyle}"/>
+
+            <Border VerticalAlignment="Center"  
+                    BorderThickness="0,0,0,1" 
+                    Margin="0,10,0,10" 
+                    BorderBrush="Gray"  />
+            
+            
+            <!-- GENERAL SETTINGS -->
+
+            <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                       VerticalAlignment="Bottom" 
+                       FontSize="{DynamicResource H1}" Text="General"/>
+
+            <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               VerticalAlignment="Bottom" 
+                               FontSize="{DynamicResource Big}" 
+                               Text="Working time managment"
+                               Margin="0,0,230,0"/>
+                    <!--<CheckBox Style="{DynamicResource OrangeSwitchStyle}" IsChecked="{Binding UnfollowIsChecked}"></CheckBox>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               FontSize="{DynamicResource Regular}" 
+                               Text="Dont do anything from "
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+                    <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="30"
+                             Text="{Binding NotWorkFromHour,UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               FontSize="{DynamicResource Regular}" 
+                               Text="until"
+                               VerticalAlignment="Center"
+                               Margin="10,0,10,0"/>
+                    <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="30"
+                             Text="{Binding NotWorkToHour,UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource Regular}" 
+                               Text="Rest time after 1 hour working "
+                               Margin="0,0,10,0"/>
+                    <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="40"
+                             TextAlignment="Center"
+                             Text="{Binding RestTimeMinutes,UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               VerticalAlignment="Center" 
+                               FontSize="{DynamicResource Regular}" 
+                               Text="minutes"
+                               Margin="10,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <Border  VerticalAlignment="Center" BorderThickness="0,0,0,1" Margin="0,20,0,20"  BorderBrush="Gray" />
+
+            <!--LIKE SETTINGS-->
+            
+            <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                       VerticalAlignment="Bottom" 
+                       FontSize="{DynamicResource H1}" Text="Like"/>
+            
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" 
+                            Margin="20,0,0,0">
+                    <StackPanel Orientation="Horizontal" 
+                                VerticalAlignment="Center" 
+                                Margin="0,5,0,0">
+                    <TextBlock Text="Delay"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                    <Slider x:Name="delayslider"   
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding DelaySliderValue}"
+                            Minimum="1" 
+                            Maximum="60"/>
+                    <TextBox Margin="10,0,0,5"
+                             FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" 
+                             BorderThickness="0" 
+                             Width="30"
+                            Text="{Binding Value, ElementName=delayslider,Mode=TwoWay,StringFormat=F0}"/>
+                    <TextBlock Text="sec"
+                               FontSize="{DynamicResource Big}"
+                               VerticalAlignment="Center" 
+                                Style="{DynamicResource TextBlockMainStyle}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center" 
+                            Margin="0,5,0,0">
+                    <TextBlock Text="Random Delay"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                    <Slider x:Name="randomdelayslider" 
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding RandomDelaySliderValue}" 
+                            Minimum="0" 
+                            Maximum="30"/>
+                    <TextBox Margin="10,0,0,5"
+                             FontSize="20" Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" BorderThickness="0" Width="30"
+                             Text="{Binding Value, ElementName=randomdelayslider,Mode=TwoWay,StringFormat=F0}"/>
+                    <TextBlock Text="sec"
+                               FontSize="{DynamicResource Big}" VerticalAlignment="Center"
+                               Style="{DynamicResource TextBlockMainStyle}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center" 
+                            Margin="0,5,0,0">
+                    <TextBlock Text="Skip"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                    <Slider x:Name="skipslider"   
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding SkipSliderValue}" 
+                            Minimum="1" 
+                            Maximum="70"/>
+                    <TextBox Margin="10,0,0,5"
+                             FontSize="20" Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" BorderThickness="0" Width="30"
+                             Text="{Binding Value, ElementName=skipslider,Mode=TwoWay,StringFormat=F0}"/>
+                    <TextBlock Text="%"
+                               FontSize="{DynamicResource Big}" VerticalAlignment="Center" 
+                               Style="{DynamicResource TextBlockMainStyle}"/>
+                </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               FontSize="{DynamicResource Big}" 
+                               Text="Maximum likes per hour"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+                        <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="40"
+                             Text="{Binding MaxLikesPerHour,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="80,0,0,0">
+                    <TextBlock FontSize="15"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                               Text="Average likes per hour"/>
+                    <TextBlock FontSize="60"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                               Text="{Binding AverageLikesCount}"/>
+                    <TextBlock FontSize="12"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                                Text="60 likes per hour recommended"/>
+                </StackPanel>
+
+            </StackPanel>
+
+            <Border  VerticalAlignment="Center" BorderThickness="0,0,0,1" Margin="0,20,0,20"  BorderBrush="Gray" />
+
+            <!--STORIES SETTINGS-->
+            <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                       VerticalAlignment="Bottom" 
+                       FontSize="{DynamicResource H1}" Text="Stories"/>
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" 
+                            Margin="20,0,0,0">
+                    <StackPanel Orientation="Horizontal" 
+                                VerticalAlignment="Center" 
+                                Margin="0,5,0,0">
+                        <TextBlock Text="Delay"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                        <Slider x:Name="delaystoriesslider"   
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding DelayStoriesSliderValue}"
+                            Minimum="5" 
+                            Maximum="15"/>
+                        <TextBox Margin="10,0,0,5"
+                             FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" 
+                             BorderThickness="0" 
+                             Width="30"
+                            Text="{Binding Value, ElementName=delaystoriesslider,Mode=TwoWay,StringFormat=F0}"/>
+                        <TextBlock Text="sec"
+                               FontSize="{DynamicResource Big}"
+                               VerticalAlignment="Center" 
+                                Style="{DynamicResource TextBlockMainStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center" 
+                            Margin="0,5,0,0">
+                        <TextBlock Text="Random Delay"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                        <Slider x:Name="randomdelaystoriesslider" 
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding RandomDelayStoriesSliderValue}" 
+                            Minimum="1" 
+                            Maximum="8"/>
+                        <TextBox Margin="10,0,0,5"
+                             FontSize="20" Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" BorderThickness="0" Width="30"
+                             Text="{Binding Value, ElementName=randomdelaystoriesslider,Mode=TwoWay,StringFormat=F0}"/>
+                        <TextBlock Text="sec"
+                               FontSize="{DynamicResource Big}" VerticalAlignment="Center"
+                               Style="{DynamicResource TextBlockMainStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center" 
+                            Margin="0,5,0,0">
+                        <TextBlock Text="Skip"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                        <Slider x:Name="skipstoriesslider"   
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding SkipStorySliderValue}" 
+                            Minimum="1" 
+                            Maximum="70"/>
+                        <TextBox Margin="10,0,0,5"
+                             FontSize="20" Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" BorderThickness="0" Width="30"
+                             Text="{Binding Value, ElementName=skipstoriesslider,Mode=TwoWay,StringFormat=F0}"/>
+                        <TextBlock Text="%"
+                               FontSize="{DynamicResource Big}" VerticalAlignment="Center" 
+                               Style="{DynamicResource TextBlockMainStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               FontSize="{DynamicResource Big}" 
+                               Text="Maximum stories per hour"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+                        <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="40"
+                             Text="{Binding MaxStoriesPerHour,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="80,0,0,0">
+                    <TextBlock FontSize="15"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                               Text="Average stories per hour"/>
+                    <TextBlock FontSize="60"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                               Text="{Binding AverageStoriesCount}"/>
+                    <TextBlock FontSize="12"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                                Text="no limits find for stories"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Border  VerticalAlignment="Center" BorderThickness="0,0,0,1" Margin="0,20,0,20"  BorderBrush="Gray" />
+            
+            <!-- UNFOLLOW SETTINGS -->
+            <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                       VerticalAlignment="Bottom" 
+                       FontSize="{DynamicResource H1}" Text="Unfollow"/>
+
+            <StackPanel Orientation="Horizontal" 
+                        Margin="20,5,0,10">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                        <TextBlock Text="Unfollow users than following you"
+                         Margin="0,0,200,0"
+                         FontSize="15"
+                         Style="{DynamicResource TextBlockMainStyle}"/>
+                        <CheckBox Style="{DynamicResource OrangeSwitchStyle}" IsChecked="{Binding UnfollowIsChecked}"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Delay"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                        <Slider x:Name="delayunfollowslider"   
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding DelayUnfollowSliderValue}"
+                            Minimum="30" 
+                            Maximum="180"/>
+                        <TextBox Margin="10,0,0,10"
+                             FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" 
+                             BorderThickness="0" 
+                             Width="35"
+                            Text="{Binding Value, ElementName=delayunfollowslider,Mode=TwoWay,StringFormat=F0}"/>
+                        <TextBlock Text="sec" Margin="3,0,0,4"
+                               FontSize="{DynamicResource Big}"
+                               VerticalAlignment="Center" 
+                                Style="{DynamicResource TextBlockMainStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Random Delay"
+                               FontSize="{DynamicResource Big}" 
+                               Style="{DynamicResource TextBlockMainStyle}"
+                               Width="120"/>
+                        <Slider x:Name="randomdelayunfollowslider"   
+                            Width="300" 
+                            Style="{DynamicResource SliderStyle}"
+                            VerticalAlignment="Center" 
+                            Value="{Binding RandomDelayUnfollowSliderValue}"
+                            Minimum="5" 
+                            Maximum="20"/>
+                        <TextBox Margin="10,0,0,5"
+                             FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             VerticalAlignment="Center" 
+                             BorderThickness="0" 
+                             Width="30"
+                            Text="{Binding Value, ElementName=randomdelayunfollowslider,Mode=TwoWay,StringFormat=F0}"/>
+                        <TextBlock Text="sec"
+                               FontSize="{DynamicResource Big}"
+                               VerticalAlignment="Center" 
+                                Style="{DynamicResource TextBlockMainStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               FontSize="{DynamicResource Big}" 
+                               Text="Maximum unfollows per hour"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+                        <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="40"
+                             Text="{Binding MaxUnfollowPerHour,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="80,0,0,0">
+                    <TextBlock FontSize="15"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                               Text="Average unfollow per hour"/>
+                    <TextBlock FontSize="60"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                               Text="{Binding AverageUnfollowCount}"/>
+                    <TextBlock FontSize="12"
+                               Foreground="LightGray"
+                               HorizontalAlignment="Center"
+                                Text="30 unfollow per hour recomended"/>
+                </StackPanel>
+
+            </StackPanel>
+
+            <Border  VerticalAlignment="Center" BorderThickness="0,0,0,1" Margin="0,20,0,20"  BorderBrush="Gray" />
+
+
+            <!-- FILTER SETTINGS -->
+            <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                       VerticalAlignment="Bottom" 
+                       FontSize="{DynamicResource H1}" Text="Filter"/>
+
+            <StackPanel Orientation="Vertical" Margin="20,5,0,0">
+                <!--STOP WORDS-->
+                <StackPanel  Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock  Style="{DynamicResource TextBlockMainStyle}"
+                            Text="Stop Words" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="450" Text="{Binding StopWordsPath}"></TextBox>
+                        <Button Margin="10,0,0,0" 
+                                Width="50" 
+                                Style="{DynamicResource MainButtonStyle}"
+                                Command="{Binding SetStopWordsCommand}">...</Button>
+                    </StackPanel>
+                    <TextBlock Foreground="Gray" FontSize="13" FontStyle="Italic" Style="{DynamicResource TextBlockMainStyle}"
+                            Text="*If this word exist in Bio or Full Name this user would not be add" />
+                </StackPanel>
+
+                <!--ALLOW WORDS-->
+                <StackPanel Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock  Style="{DynamicResource TextBlockMainStyle}"
+                            Text="May be in bio or in Full Name words" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="450" Text="{Binding AllowWordsPath}"></TextBox>
+                        <Button Margin="10,0,0,0"
+                                Width="50" 
+                                Style="{DynamicResource MainButtonStyle}"
+                                Command="{Binding SetGoWordsPathCommand}">...</Button>
+                    </StackPanel>
+                    <TextBlock Foreground="Gray" FontSize="13" FontStyle="Italic" Style="{DynamicResource TextBlockMainStyle}"
+                            Text="*If this word exist in Bio or Full Name this user would be add" />
+                </StackPanel>
+
+                <!--InAccountName WORDS-->
+                <StackPanel  Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock  Style="{DynamicResource TextBlockMainStyle}"
+                            Text="May be in account name word" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="450" Text="{Binding WordsInAccNamePath}"></TextBox>
+                        <Button Margin="10,0,0,0"
+                                Width="50"
+                                Style="{DynamicResource MainButtonStyle}"
+                                Command="{Binding SetInNameWordsCommand}">...</Button>
+                    </StackPanel>
+                    <TextBlock Foreground="Gray" FontSize="13" FontStyle="Italic" Style="{DynamicResource TextBlockMainStyle}"
+                            Text="*If this word exist User Name this user would be add" />
+                </StackPanel>
+
+                <!--SAVE TO -->
+                <StackPanel  Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock  Style="{DynamicResource TextBlockMainStyle}"
+                            Text="Save audience to" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="450" Text="{Binding SaveAudiencePath}" ></TextBox>
+                        <Button Margin="10,0,0,0"
+                                Width="50" 
+                                Style="{DynamicResource MainButtonStyle}"
+                                Command="{Binding SetAudienceCommand}">...</Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <!--SAVE TO FILTERED-->
+                <StackPanel  Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock  Style="{DynamicResource TextBlockMainStyle}"
+                            Text="Save filtered audience to" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="450" Text="{Binding SaveFilterAudiencePath}" ></TextBox>
+                        <Button Margin="10,0,0,0"
+                                Width="50" 
+                                Style="{DynamicResource MainButtonStyle}"
+                                Command="{Binding SetFilterAudienceCommand}">...</Button>
+                    </StackPanel>
+                </StackPanel>
+
+
+                <!--WHAT TO SAVE-->
+                <StackPanel>
+                    <StackPanel>
+                        <TextBlock  Style="{DynamicResource TextBlockMainStyle}"
+                            Text="Save parametrs" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Name" 
+                                  Style="{DynamicResource CheckBoxStyle}" 
+                                  Margin="0,0,20,0"
+                                  Foreground="White"
+                                  FontSize="16"  IsChecked="{Binding IsNameSave}" />
+                        <CheckBox Content="Id" 
+                                  Style="{DynamicResource CheckBoxStyle}" 
+                                  Margin="0,0,20,0" 
+                                  Foreground="White"
+                                  FontSize="16" IsChecked="{Binding IsIdSave}" />
+                        <CheckBox Content="Phone" 
+                                  Style="{DynamicResource CheckBoxStyle}"
+                                  Margin="0,0,20,0" 
+                                  Foreground="White"   
+                                  FontSize="16" IsChecked="{Binding IsPhoneSave}" />
+                        <CheckBox Content="Email" 
+                                  Style="{DynamicResource CheckBoxStyle}"       
+                                  Foreground="White"
+                                  FontSize="16" IsChecked="{Binding IsEmailSave}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Foreground="Gray" FontSize="13" FontStyle="Italic" Style="{DynamicResource TextBlockMainStyle}"
+                            Text="*User wouldnt be save if one of chosen paraments doesnt exist" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- FILTER SETTINGS -->
+            <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                       VerticalAlignment="Bottom" 
+                       FontSize="{DynamicResource H1}" Text="Filter Parametrs"/>
+            <StackPanel Margin="20,5,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               Text="Minimum followers"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+                    <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="40"
+                             Text="{Binding MinFollowersCount}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               Text="Minimum media count" 
+                               VerticalAlignment="Center" 
+                               Margin="0,0,10,0"/>
+                    <TextBox FontSize="20" 
+                             Style="{DynamicResource MyWaterMarkStyle}" 
+                             BorderThickness="0" 
+                             Width="40"
+                             Text="{Binding MinMediaCount}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                               Text="Account category"
+                               Margin="0,0,10,0" 
+                               VerticalAlignment="Center"/>
+                    <ComboBox Style="{DynamicResource ComboBoxStyle}" 
+                              Width="80"
+                              SelectedIndex="{Binding AccountType}">
+                        <ComboBoxItem>Personal</ComboBoxItem>
+                        <ComboBoxItem>Business</ComboBoxItem>
+                        <ComboBoxItem>Author</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <CheckBox Content="Has Bio" 
+                                  Style="{DynamicResource CheckBoxStyle}"       
+                                  Foreground="White"
+                                  FontSize="16"  
+                              IsChecked="{Binding HasBioCheck}"
+                              Margin="0,0,10,0"/>
+
+                    <CheckBox Content="Has Hightlights" 
+                                  Style="{DynamicResource CheckBoxStyle}"       
+                                  Foreground="White"
+                                  FontSize="16"
+                                IsChecked="{Binding HasHLCheck}"
+                              Margin="0,0,10,0"/>
+
+                    <CheckBox Content="Has Profile Image" 
+                                  Style="{DynamicResource CheckBoxStyle}"       
+                                  Foreground="White"
+                                IsChecked="{Binding HasImageCheck}"
+                                  FontSize="16"  />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Style="{DynamicResource TextBlockMainStyle}"
+                    Text="Categories"/>
+                    <TextBox Width="300" Text="{Binding CategoriesToCheck}"></TextBox>
+                </StackPanel>
+
+            </StackPanel>
+        </StackPanel>
+
+    </ScrollViewer>
+</UserControl>

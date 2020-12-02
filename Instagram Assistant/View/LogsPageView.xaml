@@ -12,14 +12,14 @@
     <UserControl.Resources>
 
         <DataTemplate x:Key="UserMessage">
-            <Border Background="#25253d" Height="60" Width="760" CornerRadius="3">
+            <Border Background="{StaticResource BorderColor}" Height="60" Width="765" CornerRadius="3">
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
 
                     <StackPanel Orientation="Horizontal" Margin="15,0,15,0">
-                        <fa:FontAwesome Icon="Heart"
+                        <fa:FontAwesome Icon="{Binding icon}"
                                         FontSize="20"
                                         VerticalAlignment="Center"
-                                        Foreground="Red"/>
+                                        Foreground="{StaticResource SecondColorBrush}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="100">
@@ -28,8 +28,8 @@
                                    FontSize="15" 
                                    Foreground="GhostWhite"
                                    Padding="0"></TextBlock>
-                        <TextBlock Text="Hashtag Like" 
-                                   Foreground="White" 
+                        <TextBlock Text="{Binding detailedtype}" 
+                                   Foreground="White" fa:Awesome.Content="UserTimes"
                                    HorizontalAlignment="Center"
                                    FontSize="10" />
                     </StackPanel>

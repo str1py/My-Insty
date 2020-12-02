@@ -1,9 +1,5 @@
 ﻿using Instagram_Assistant.Helpers;
 using Instagram_Assistant.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Instagram_Assistant.SplashScreen
@@ -23,7 +19,7 @@ namespace Instagram_Assistant.SplashScreen
             }
         }
         private LogInHelper loginhelp = new LogInHelper();
-        private LoginPageViewModel loginVM = new LoginPageViewModel();
+        private LoginPageViewModel loginVM = LoginPageViewModel.Instanse;
 
 
         public SplashScreenViewModel()
@@ -40,7 +36,7 @@ namespace Instagram_Assistant.SplashScreen
 
         public async Task<bool> IsLoggedIn()
         {
-            if (loginhelp.LogedInCheck() == true)
+            if (await loginhelp.LogedInCheck() == true)
             {
                 await loginVM.SuccessLogIn();
                 return true;
@@ -49,11 +45,12 @@ namespace Instagram_Assistant.SplashScreen
                 return false;
         }
 
-        private string splashScreenText = "Initializing...";
+        private string splashScreenText;
         public string SplashScreenText
         {
             get { return splashScreenText; }
             set { splashScreenText = value; OnPropertyChanged(); }
         }
+
     }
 }

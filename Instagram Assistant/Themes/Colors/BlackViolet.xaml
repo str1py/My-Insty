@@ -5,8 +5,18 @@
     <SolidColorBrush x:Key="FrameBackground" Color="#000000"/>
 
     <LinearGradientBrush x:Key="TopBorderColor" >
-        <GradientStop Color="#2c2244" Offset="0.0" />
-        <GradientStop Color="#1c1d39" Offset="1" />
+        <GradientStop Color="#0b0b0b" Offset="0.0" />
+        <GradientStop Color="#0b0b0b" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BorderColor" >
+        <GradientStop Color="#0b0b0b" Offset="0.0" />
+        <GradientStop Color="#0b0b0b" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PageColor" >
+        <GradientStop Color="#0e0e0e" Offset="0.0"/>
+        <GradientStop Color="#0e0e0e" Offset="1"/>
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="TextBoxBG" >
@@ -15,8 +25,13 @@
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="MainButtonGradient" >
-        <GradientStop Color="#6d438b" />
-        <GradientStop Color="#6d438d" />
+        <GradientStop Color="Gray" />
+        <GradientStop Color="Gray" />
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="SecondButtonGradient" >
+        <GradientStop Color="Gray" />
+        <GradientStop Color="Gray" />
     </LinearGradientBrush>
 
 
@@ -71,10 +86,6 @@
     <SolidColorBrush x:Key="WheatBrush" Color="#FFF3E7D8"/>
     <Color x:Key="WheatColor">#FFF3E7D8</Color>
 
-    <LinearGradientBrush x:Key="PageColor" >
-        <GradientStop Color="#241d3c" Offset="0.0"/>
-        <GradientStop Color="#191a36" Offset="1"/>
-    </LinearGradientBrush>
 
     <SolidColorBrush x:Key="MenuItemsColor" Color="#FFDCDADA"/>
     <SolidColorBrush x:Key="MenuSelectedItemsColor" Color="Wheat"/>
