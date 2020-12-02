@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instagram_Assistant", "Instagram Assistant\Instagram_Assistant.csproj", "{BE13A0DA-9001-4069-BF60-B9A62C74B4EA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Instagram_Assistant_Tests", "Instagram_Assistant_Tests\Instagram_Assistant_Tests.csproj", "{19BAB45D-D056-4A95-BB30-D6DEBAE38CCC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BE13A0DA-9001-4069-BF60-B9A62C74B4EA} = {BE13A0DA-9001-4069-BF60-B9A62C74B4EA}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{BE13A0DA-9001-4069-BF60-B9A62C74B4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE13A0DA-9001-4069-BF60-B9A62C74B4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE13A0DA-9001-4069-BF60-B9A62C74B4EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19BAB45D-D056-4A95-BB30-D6DEBAE38CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19BAB45D-D056-4A95-BB30-D6DEBAE38CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19BAB45D-D056-4A95-BB30-D6DEBAE38CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19BAB45D-D056-4A95-BB30-D6DEBAE38CCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
