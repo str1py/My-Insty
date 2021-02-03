@@ -34,7 +34,18 @@
     <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
 
     <!--#endregion-->
-
+    
+    <!--#region Anim Gradien Colors-->
+    <LinearGradientBrush x:Key="FirstAnimGradient">
+        <GradientStop Color="White" Offset="0" />
+        <GradientStop Color="#772CE8" Offset="0.1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SecondtAnimGradient">
+        <GradientStop Color="White" Offset="0.3" />
+        <GradientStop Color="#772CE8" Offset="0.7" />
+    </LinearGradientBrush>
+    <!--#endregion-->
+    
     <!--#region MainWindow-->
     <Style x:Key="MenuBorderStyle"  TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{StaticResource FirstColorBrush}"/>

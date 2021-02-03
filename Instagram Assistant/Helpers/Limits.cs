@@ -20,38 +20,48 @@ namespace Instagram_Assistant.Helpers
 
         public Limits()
         {
-            Properties.Settings.Default.RestDateFrom = DateTime.Now.Date.Add(new TimeSpan(Properties.Settings.Default.RestHoursFrom, 00, 0));
-            Properties.Settings.Default.RestDateTo = DateTime.Now.Date.Add(new TimeSpan(Properties.Settings.Default.RestHoursTo, 00, 0));
+            Properties.Settings.Default.IsWorkTimeLimit = true;
+            Properties.Settings.Default.Save();
         }
 
         public TimeSpan WorkTimeLimitCheck()
         {
-            if (Properties.Settings.Default.IsWorkTimeLimit == true)
-            {
-                if (DateTime.Now.Date != Properties.Settings.Default.RestDateFrom.Date)
-                    Properties.Settings.Default.RestDateFrom = DateTime.Now.Date.Add(new TimeSpan(Properties.Settings.Default.RestHoursFrom, 00, 0));
-                if (Properties.Settings.Default.RestDateTo.Day != DateTime.Now.Day + 1)
-                {
-                    DateTime date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1);
-                    date = date.Add(new TimeSpan(Properties.Settings.Default.RestHoursTo, 00, 0));
-                    Properties.Settings.Default.RestDateTo = date;
-                }
+            var prop = Properties.Settings.Default;
+            prop.RestDateFrom = DateTime.Now.Date.Add(new TimeSpan(prop.RestHoursFrom, 00, 0));
+            prop.RestDateTo = DateTime.Now.Date.Add(new TimeSpan(prop.RestHoursTo, 00, 0));
+            prop.Save();
 
-                if (Properties.Settings.Default.RestDateFrom.Hour == 0 && Properties.Settings.Default.RestDateTo.Hour == 0)
-                    return TimeSpan.Zero;
-                else if (DateTime.Now.Hour >= Properties.Settings.Default.RestDateFrom.Hour || DateTime.Now.Hour < Properties.Settings.Default.RestDateTo.Hour)
+
+            if (Properties.Settings.Default.RestDateFrom.Hour == 0 && Properties.Settings.Default.RestDateTo.Hour == 0)
+                return TimeSpan.Zero;
+            else
+            {
+                if (Properties.Settings.Default.IsWorkTimeLimit == true)
                 {
-                    if (DateTime.Now.Day == Properties.Settings.Default.RestDateFrom.Day && DateTime.Now.Day + 1 == Properties.Settings.Default.RestDateTo.Day)
+                    DateTime restdateto;
+                    if (prop.RestDateFrom.Hour > prop.RestDateTo.Hour)
                     {
-                        return Properties.Settings.Default.RestDateTo - DateTime.Now;
+                        restdateto = new DateTime(prop.RestDateTo.Year, prop.RestDateTo.Month, prop.RestDateTo.Day + 1);
+                        restdateto = restdateto.Date.Add(new TimeSpan(prop.RestHoursTo, 00, 0));
+                        prop.RestDateTo = restdateto;
+                        prop.Save();
+                    }
+
+                    if (DateTime.Now.Hour >= Properties.Settings.Default.RestDateFrom.Hour || DateTime.Now.Hour < Properties.Settings.Default.RestDateTo.Hour)
+                    {
+                        if (DateTime.Now.Day == Properties.Settings.Default.RestDateFrom.Day && DateTime.Now.Day + 1 == Properties.Settings.Default.RestDateTo.Day)
+                        {
+                            return Properties.Settings.Default.RestDateTo - DateTime.Now;
+                        }
+                        else
+                            return TimeSpan.Zero;
                     }
                     else
                         return TimeSpan.Zero;
                 }
                 else
                     return TimeSpan.Zero;
-            }else
-                return TimeSpan.Zero;
+            }
 
         }
 

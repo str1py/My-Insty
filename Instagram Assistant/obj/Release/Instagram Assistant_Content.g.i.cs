@@ -8,8 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/capriola-regular.ttf")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/balootamma2-regular.ttf")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/varelaround-regular.ttf")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("e_sqlite3.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("e_sqlite3.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("e_sqlite3.dll")]
 
 

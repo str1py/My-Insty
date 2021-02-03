@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Instagram_Assistant.Model
+﻿namespace Instagram_Assistant.Model
 {
     public class LogMessageModel
     {

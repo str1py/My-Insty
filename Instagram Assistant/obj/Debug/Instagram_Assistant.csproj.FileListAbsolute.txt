@@ -1,3 +1,24 @@
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Instagram Assistant.exe.config
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Instagram Assistant.exe
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Instagram Assistant.pdb
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\FontAwesome.WPF.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\InstagramApiSharp.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.Xaml.Behaviors.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Newtonsoft.Json.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\PresentationFramework.Aero2.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\FontAwesome.WPF.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.pdb
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.Shell.pdb
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.pdb
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.Xaml.Behaviors.pdb
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.Xaml.Behaviors.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Newtonsoft.Json.xml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Themes\Colors\BlackViolet.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Themes\Fonts.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Themes\Styles\BlackVioletColors.baml
@@ -10,6 +31,9 @@ E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\D
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\FeedLikePageView.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\FeedStoriesWatchPageView.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\FilterAudiencePageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\GeoLikePageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\GeoStoriesWatchPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\HashtagLikePageView.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\LoginPageView.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\LogsPageView.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\MainPageView.g.cs
@@ -17,22 +41,9 @@ E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\M
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\SettingsPageView.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\UnfollowPageView.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\App.g.cs
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram Assistant_Content.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\GeneratedInternalTypeHelper.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram Assistant_MarkupCompile.cache
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram Assistant_MarkupCompile.lref
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Instagram Assistant.exe.config
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Instagram Assistant.exe
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Instagram Assistant.pdb
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\FontAwesome.WPF.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\InstagramApiSharp.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.Xaml.Behaviors.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Newtonsoft.Json.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\PresentationFramework.Aero2.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\FontAwesome.WPF.xml
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.Xaml.Behaviors.pdb
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.Xaml.Behaviors.xml
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Newtonsoft.Json.xml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\App.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\SplashScreen\SplashScreenView.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\AboutPageView.baml
@@ -42,6 +53,9 @@ E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\D
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\FeedLikePageView.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\FeedStoriesWatchPageView.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\FilterAudiencePageView.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\GeoLikePageView.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\GeoStoriesWatchPageView.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\HashtagLikePageView.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\LoginPageView.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\LogsPageView.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\MainPageView.baml
@@ -55,13 +69,28 @@ E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instag
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram_Assistant.csproj.CopyComplete
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram Assistant.exe
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram Assistant.pdb
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\SpyPageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\SpyPageView.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\runtimes\win-x86\native\e_sqlite3.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\runtimes\win-x64\native\e_sqlite3.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\runtimes\win-arm\native\e_sqlite3.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.AppCenter.Analytics.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.AppCenter.Crashes.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.AppCenter.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\SQLitePCLRaw.batteries_v2.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\SQLitePCLRaw.core.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\SQLitePCLRaw.nativelibrary.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\SQLitePCLRaw.provider.dynamic_cdecl.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Buffers.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Memory.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Numerics.Vectors.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.AppCenter.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.AppCenter.Analytics.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.AppCenter.Crashes.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Buffers.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Memory.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Numerics.Vectors.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram Assistant_Content.g.cs
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram_Assistant.csprojAssemblyReference.cache
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.dll
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.pdb
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.xml
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.Shell.pdb
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.pdb
-E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.xml

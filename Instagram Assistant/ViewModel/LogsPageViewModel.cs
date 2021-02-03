@@ -1,20 +1,13 @@
 ﻿using Instagram_Assistant.Helpers;
 using Instagram_Assistant.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Instagram_Assistant.ViewModel
 {
-    class LogsPageViewModel:ViewModelBase, INotifyCollectionChanged
+    public class LogsPageViewModel
     {
         private static LogsPageViewModel loginstance;
-        public static LogsPageViewModel Instanse
+        public static LogsPageViewModel Instance
         {
             get
             {
@@ -24,43 +17,27 @@ namespace Instagram_Assistant.ViewModel
             }
         }
 
-        public static ObservableCollection<LogMessageModel> ActionList { get; set; }
+        public ObservableCollection<LogMessageModel> ActionList { get; set; }
         public LogsPageViewModel()
         {
             ActionList = new ObservableCollection<LogMessageModel>();
         }
 
-        private TimeHelper th = new TimeHelper();
-
         public void Add(string message, MessageType.Type type, string _class)
         {
-
-            string icon = GetIconByType(type);
-            string detailedtype = GetDetailedByClass(_class);
             ActionList.Add(new LogMessageModel
             {
-                date = th.GetTimeNow(),
+                date = new TimeHelper().GetTimeNow(),
                 type = type.ToString(),
                 message = message,
-                detailedtype = detailedtype,
-                icon = icon
+                detailedtype = GetDetailedByClass(_class),
+                icon = GetIconByType(type)
             });
-            OnCollectionChanged(NotifyCollectionChangedAction.Reset);
-        }
-        public void Add(Exception e, MessageType.Type type, Type from)
-        {
-            ActionList.Add(new LogMessageModel
-            {
-                date = th.GetTimeNow(),
-                type = type.ToString(),
-                message = e.Message + " Error in" + from.Name
-            });
-            OnCollectionChanged(NotifyCollectionChangedAction.Reset);
+
+            if(type != MessageType.Type.DEBUGINFO || type != MessageType.Type.HIDDEN)
+                MainWindowViewModel.instance.Alert(GetIconByType(type), GetDetailedByClass(_class), message);
         }
 
-
-        //TIMEHELPER
-  
         private string GetIconByType(MessageType.Type type)
         {
             if (type == MessageType.Type.ERROR)
@@ -86,21 +63,23 @@ namespace Instagram_Assistant.ViewModel
                 return "Unfollow";
             else if (classname == "FeedLikeHelper" || classname == "FeedLikePageViewModel")
                 return "Feed Like";
+            else if (classname == "GeoLikeHelper" || classname == "GeoLikePageViewModel")
+                return "Geo Like";
+            else if (classname == "HashtagLikeHelper" || classname == "HashtagLikePageViewModel")
+                return "Hashtag Like";
             else if (classname == "ImageHelper")
                 return "Image Helper";
             else if (classname == "LoginPageViewModel" || classname == "LoginHelper")
                 return "Login";
-            else if (classname == "StoriesFeedHelper" || classname == "FeedStoriesPageViewModel") 
+            else if (classname == "StoriesFeedHelper" || classname == "FeedStoriesPageViewModel")
                 return "Stories Watch";
-            else if(classname == "AudienceHelper" || classname == "AudiencePageViewModel")
+            else if (classname == "GeoStoriesHelper" || classname == "GeoStoriesWatchViewModel")
+                return "Stories Watch";
+            else if (classname == "AudienceHelper" || classname == "AudiencePageViewModel")
                 return "Getting Audience";
-            else return "????";
-        }
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
-        public void OnCollectionChanged(NotifyCollectionChangedAction action)
-        {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action));
+            else if (classname == "Update")
+                return "Technical info";
+            else return "Info";
         }
     }
 }

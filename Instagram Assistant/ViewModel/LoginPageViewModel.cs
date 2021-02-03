@@ -22,14 +22,14 @@ namespace Instagram_Assistant.ViewModel
         }
         private LogInHelper loginhelp = new LogInHelper();
         private TrimHelper trimhelp = new TrimHelper();
-        private LogsPageViewModel logs = LogsPageViewModel.Instanse;
+        private LogsPageViewModel logs = LogsPageViewModel.Instance;
 
         public LoginPageViewModel()
         {
             LoginVisibility = Visibility.Hidden;
             ChallengesVisibility = Visibility.Hidden;
             CodeCheckVisibility = Visibility.Hidden;
-            if (LogInHelper.isSessionsLoaded != true)
+            if (loginhelp.isSessionsLoaded != true)
             {
                 LoginVisibility = Visibility.Visible;
                 ChallengesVisibility = Visibility.Hidden;
@@ -111,18 +111,18 @@ namespace Instagram_Assistant.ViewModel
         private ICommand _beginLogin;
         public ICommand BeginLogin
         {
-            get { return _beginLogin ?? (_beginLogin = new RelayCommand(p => InstagramLogIn())); }
+            get { return _beginLogin ?? (_beginLogin = new RelayCommand(async p => await InstagramLogIn())); }
         }
 
         private ICommand _sendCodeCommand;
         public ICommand SendCodeCommand
         {
-            get { return _sendCodeCommand ?? (_sendCodeCommand = new RelayCommand(p => Verify())); }
+            get { return _sendCodeCommand ?? (_sendCodeCommand = new RelayCommand(async p => await Verify())); } 
         }
         private ICommand _codeCheckCommand;
         public ICommand CodeCheckCommand
         {
-            get { return _codeCheckCommand ?? (_codeCheckCommand = new RelayCommand(p => CheckCode())); }
+            get { return _codeCheckCommand ?? (_codeCheckCommand = new RelayCommand(async p => await CheckCode())); }
         }
 
         private bool _loginGridIsEnable;
@@ -149,8 +149,8 @@ namespace Instagram_Assistant.ViewModel
 
         public void ChangePageToCode()
         {
-            PhoneForCode = trimhelp.PersonalPhoneToStars(LogInHelper.phone);
-            EmailForCode = trimhelp.PersonalEmailToStars(LogInHelper.email);
+            PhoneForCode = trimhelp.PersonalPhoneToStars(loginhelp.phone);
+            EmailForCode = trimhelp.PersonalEmailToStars(loginhelp.email);
             LoginVisibility = Visibility.Hidden;
             ChallengesVisibility = Visibility.Visible;
         }
@@ -158,7 +158,7 @@ namespace Instagram_Assistant.ViewModel
         public async Task InstagramLogIn()
         {
             LoginGridIsEnable = false;
-            string result = await loginhelp.Login(login, password);
+            string result = await loginhelp.Login(Login, Password);
             logs.Add($"Login Result {result}",MessageType.Type.DEBUGINFO, this.GetType().Name);
 
             if (result == "ChallengeRequired")
@@ -167,8 +167,8 @@ namespace Instagram_Assistant.ViewModel
             {
                 LoginGridIsEnable = true;
                 MessageBox.Show("Error!" + result);
-                login = "";
-                password = "";
+                Login = "";
+                Password = "";
             }
             else if (result == "Success")
             {
@@ -201,11 +201,9 @@ namespace Instagram_Assistant.ViewModel
         {
             CodeCheckGridIsEnabel = false;
             var result = await loginhelp.CodeCheck(Code);
-            if (result == true)
-            {
+            if (result == true)            
                 await SuccessLogIn();
-            }
-
+            
         }
 
         public async Task SuccessLogIn()
@@ -215,15 +213,15 @@ namespace Instagram_Assistant.ViewModel
             if (loginhelp._instaApi == null)
             {
                 await accountInfo.GetInfo();
-                AccountPageViewModel.Instanse.GetInfo();
+                AccountPageViewModel.Instance.GetInfo();
             }
             else
             {
                 await accountInfo.UpdateInfo(loginhelp._instaApi);
-                AccountPageViewModel.Instanse.GetInfo();
+                AccountPageViewModel.Instance.GetInfo();
             }
             MainWindowViewModel.instance.SelectedViewModel = null;
-            MainWindowViewModel.instance.MainSelectedViewModel = DashboardPageViewModel.Instanse;
+            MainWindowViewModel.instance.MainSelectedViewModel = DashboardPageViewModel.Instance;
             MainWindowViewModel.instance.MenuItem = 0;
         }
 
@@ -243,7 +241,7 @@ namespace Instagram_Assistant.ViewModel
         private void CancleLogin()
         {
             MainWindowViewModel.instance.SelectedViewModel = null;
-            MainWindowViewModel.instance.MainSelectedViewModel = DashboardPageViewModel.Instanse;
+            MainWindowViewModel.instance.MainSelectedViewModel = DashboardPageViewModel.Instance;
             MainWindowViewModel.instance.MenuItem = 1;
             CancleLoginVisibility = Visibility.Hidden;
         }

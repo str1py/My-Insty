@@ -22,26 +22,27 @@
                 </Ellipse>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,0,0" Width="300">
                     <StackPanel>
-                        <TextBlock VerticalAlignment="Center" Margin="0"
-                           FontSize="{DynamicResource Big}" 
-                           Foreground="{DynamicResource InstagtramNameColor}" 
-                           Text="{Binding userName}" >
+                        <TextBlock VerticalAlignment="Center" 
+                                   Style="{DynamicResource TextBlockH3Style}"
+                                   FontSize="{DynamicResource Big}" 
+                                   Foreground="{DynamicResource InstagtramNameColor}" 
+                                   Text="{Binding userName}">
                             <TextBlock.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Color="Black" RenderingBias="Quality"></DropShadowEffect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="3" Color="Black" RenderingBias="Quality"></DropShadowEffect>
                             </TextBlock.Effect>
                         </TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" 
-                        Style="{DynamicResource TextBlockMainStyle}" 
+                        Style="{DynamicResource TextBlockThinStyle}" 
                         Text="{Binding postCount}"
                         FontSize="{DynamicResource Regular}" />
                         <TextBlock VerticalAlignment="Center" 
-                       Style="{DynamicResource TextBlockMainStyle}"
+                       Style="{DynamicResource TextBlockThinStyle}"
                        Text="{Binding followersCount}"
                            Margin="10,0,10,0"/>
                         <TextBlock   VerticalAlignment="Center" 
-                        Style="{DynamicResource TextBlockMainStyle}"
+                        Style="{DynamicResource TextBlockThinStyle}"
                         Text="{Binding followingCount}"/>
                     </StackPanel>
                 </StackPanel>
@@ -55,18 +56,20 @@
                         <ComboBoxItem>Spy</ComboBoxItem>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ComboBoxSelectedCommand}" />
+                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ComboBoxSelectedCommand}"
+                                                       CommandParameter="{Binding userName}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ComboBox>
                     <TextBlock VerticalAlignment="Center" 
-                                   Style="{DynamicResource TextBlockMainStyle}"
+                                   Style="{DynamicResource TextBlockThinStyle}"
                                    FontSize="12"
                                    Text="{Binding accountStatus}"/>
                 </StackPanel>
                 <StackPanel  Orientation="Vertical" Margin="40,10,0,0"  VerticalAlignment="Center">
                     <Button  Style="{DynamicResource MainButtonStyle}"
-                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.LogOutCommand}"                            
+                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.LogOutCommand}" 
+                             CommandParameter="{Binding userName}"
                              Width="80" Height="30" FontSize="{DynamicResource Small}" Margin="0,0,0,2">
                         <Button.Content >
                             <StackPanel  Orientation="Horizontal" >
@@ -77,7 +80,8 @@
                     </Button>
                     <Button  Style="{DynamicResource MainButtonStyle}"
                              Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.LoginCommand}"  
-                             Visibility="{Binding LoginReqVisibility}"                          
+                             Visibility="{Binding LoginReqVisibility}" 
+                             CommandParameter="{Binding userName}"
                              Width="80" Height="30" FontSize="{DynamicResource Small}">
                         <Button.Content >
                             <StackPanel  Orientation="Horizontal" VerticalAlignment="Center">
@@ -89,7 +93,10 @@
                     <Button  Style="{DynamicResource MainButtonStyle}"
                              Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AcceptChallangeCommand}" 
                              Visibility="{Binding ChallengeReqVisibility}"                          
-                             Width="80" Height="30" FontSize="{DynamicResource Small}">
+                             Width="80" Height="30"
+                             FontSize="{DynamicResource Small}"
+                               CommandParameter="{Binding userName}"
+                             IsEnabled="False">
                         <Button.Content >
                             <StackPanel  Orientation="Horizontal" VerticalAlignment="Center">
                                 <fa:FontAwesome Icon="Chain" Margin="0,0,3,0"/>
@@ -158,7 +165,7 @@
                    VerticalAlignment="Center"
                    FontSize="30"
                    Foreground="White" 
-                   Style="{DynamicResource TextBlockMainStyle}"/>
+                   Style="{DynamicResource TextBlockH1Style}"/>
 
         <Grid   Grid.ColumnSpan="30" Grid.RowSpan="30">
             <Grid.RowDefinitions>
@@ -216,10 +223,11 @@
             <ListView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="22" Grid.RowSpan="13"
                       Background="Transparent"
                       BorderThickness="0"
-                      SelectedIndex="0"
-                      SelectedItem="{Binding AccountListSelectedItem}"
+                      x:Name="AccountList"
+                      SelectedIndex="0"     
                       ItemsSource="{Binding UserInfo}"
-                      ItemTemplate="{DynamicResource Account}">
+                      ItemTemplate="{DynamicResource Account}"
+                      IsSynchronizedWithCurrentItem="True">
 
             </ListView>
             <Button Grid.Column="23" Grid.Row="2" Grid.ColumnSpan="4"

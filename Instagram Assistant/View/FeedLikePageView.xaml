@@ -3,59 +3,110 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Instagram_Assistant.View"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="295" d:DesignWidth="924">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="FeedAction" >
-            <Border Background="{StaticResource BorderColor}" CornerRadius="5">
-                <StackPanel Orientation="Vertical" Width="150" Height="230" >
-                    <StackPanel Margin="3,5,0,5" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Ellipse  Width="25" Height="25" StrokeThickness="2" Stroke="Wheat">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding AccountImage}" Stretch="Uniform" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Margin="5,0,0,0" Text="{Binding AccountName}" Foreground="White" FontSize="12" VerticalAlignment="Center"></TextBlock>
-                    </StackPanel>
-                    <Image Height="160" Width="150" Source="{Binding PostImage}" Stretch="UniformToFill"></Image>
-                    <fa:FontAwesome FontSize="20" Margin="0,10" Foreground="Red" Icon="{Binding Action}"></fa:FontAwesome>
+        <DataTemplate x:Key="LikeActionTemplate" >
+            <Grid>
+                <Border Background="White" Opacity="0.05" CornerRadius="5">
+                    <Border.Effect>
+                        <BlurEffect Radius="10" KernelType="Gaussian"/>
+                    </Border.Effect>
+                </Border>
+                <Border Background="Transparent" CornerRadius="5">
+                    <StackPanel Orientation="Vertical" Width="150" Height="230" >
+                        <StackPanel Margin="3,5,0,5" Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Ellipse  Width="25" Height="25" StrokeThickness="2" Stroke="{DynamicResource SecondColorBrush}">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding AccountImage}" Stretch="Uniform" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Margin="5,0,0,0" 
+                                       Text="{Binding AccountName}" 
+                                       Style="{DynamicResource TextBlockThinStyle}"
+                                       FontSize="{DynamicResource Smaller}"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"/>
+                        </StackPanel>
+                        <Image Height="160" Width="150" Source="{Binding PostImage}" Stretch="UniformToFill"></Image>
+                        <fa:FontAwesome x:Name="Action"   Foreground="Red" Icon="{Binding Action}">
+                            <fa:FontAwesome.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="FontSize"
+                                                                 Duration="0:0:3" 
+                                                                 From="40" To="20">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <ElasticEase EasingMode="EaseIn" Oscillations="2" Springiness="1" />
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                    Duration="0:0:3.5" 
+                                                                    From="0,-100,0,0" To="0,10,0,0">
+                                                    <ThicknessAnimation.EasingFunction>
+                                                        <PowerEase EasingMode="EaseIn" Power="15" ></PowerEase>
+                                                    </ThicknessAnimation.EasingFunction>
+                                                </ThicknessAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </fa:FontAwesome.Triggers>
+                        </fa:FontAwesome>
 
-                    <StackPanel.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                        <StackPanel.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimation Storyboard.TargetProperty="Margin"
                                                         From="-100,0,0,0" To="0"
                                                         AccelerationRatio="0.9" Duration="0:0:0.5">
-                                            <ThicknessAnimation.EasingFunction>
-                                                <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="7" />
-                                            </ThicknessAnimation.EasingFunction>
-                                        </ThicknessAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </StackPanel.Triggers>
-                </StackPanel>
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="20" 
-                                  ShadowDepth="0.9" 
-                                  Color="{StaticResource FirstColor}"/>
-                </Border.Effect>
-            </Border>
-            
+                                                <ThicknessAnimation.EasingFunction>
+                                                    <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="7" />
+                                                </ThicknessAnimation.EasingFunction>
+                                            </ThicknessAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </StackPanel.Triggers>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </DataTemplate>
 
-        <CollectionViewSource x:Key="feedCollection" Source="{Binding Path=FeedLikeActions}">
+        <CollectionViewSource x:Key="likeCollection" Source="{Binding Path=Actions}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Time" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+
+        <Storyboard x:Key="FlashAnim">
+            <DoubleAnimation Storyboard.TargetName="Status"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0.3"
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             RepeatBehavior="Forever">
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ColorAnim">
+            <ColorAnimation  Storyboard.TargetName="Status"  
+                             Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" 
+                             RepeatBehavior="Forever" 
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             To="{DynamicResource SecondColor}">
+            </ColorAnimation>
+        </Storyboard>
     </UserControl.Resources>
     
     <Grid >
@@ -124,20 +175,21 @@
         
      
         <!--OVERVIEW 1 BORDER-->
-        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource BorderColor}">
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" 
+                CornerRadius="3" 
+                Background="White" 
+                Opacity="0.05">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" 
-                                  ShadowDepth="0.9" 
-                                  Color="{StaticResource FirstColor}"/>
+                <BlurEffect Radius="10" KernelType="Gaussian"/>
             </Border.Effect>
         </Border>
 
         <!--OVERVIEW 2 BORDER-->
-        <Border Grid.Column="21" Grid.ColumnSpan="15" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource BorderColor}">
+        <Border Grid.Column="21" Grid.ColumnSpan="15" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3"   
+                Background="White" 
+                Opacity="0.05">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" 
-                                  ShadowDepth="0.9" 
-                                  Color="{StaticResource FirstColor}"/>
+                <BlurEffect Radius="10" KernelType="Gaussian"/>
             </Border.Effect>
         </Border>
 
@@ -145,17 +197,26 @@
         <StackPanel Grid.Row="11" Grid.Column="14" Grid.ColumnSpan="4" Grid.RowSpan="3"  VerticalAlignment="Center" Orientation="Vertical" >
             <Button Style="{DynamicResource MainButtonStyle}" 
                     Height="40"   
-                    Command="{Binding StartFeedLikeCommand}" 
+                    Command="{Binding StartCommand}" 
                     Content="{Binding ButtonContent}"/>
-            <TextBlock Style="{DynamicResource TextBlockMainStyle}"  
-                       HorizontalAlignment="Center" 
-                       FontWeight="ExtraLight">Status</TextBlock>
+
             <TextBlock HorizontalAlignment="Center" 
+                       x:Name="Status"
                        Foreground="White" 
-                       FontSize="20" 
-                       Margin="0,0,0,5" 
-                       FontWeight="ExtraLight"  
-                       Text="{Binding FeedStats.Status}"/>
+                       Margin="0,20,0,5" 
+                       FontSize="{DynamicResource Bigger}"
+                       Style="{DynamicResource TextBlockThinStyle}"
+                       Text="{Binding Stats.Status}">
+      
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Value="WORKING" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Play"/>
+                    </i:DataTrigger>
+                    <i:DataTrigger Value="OFF" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Stop"/>
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+             </TextBlock>
         </StackPanel>
 
         <!--OVERVIEW-->
@@ -163,8 +224,8 @@
             <StackPanel VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <!-- TOTAL SESSION COUNT -->
-                    <StackPanel Orientation="Vertical" Margin="0,0,40,0">
-                        <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical" Margin="0,0,40,0" >
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <fa:FontAwesome Margin="0,0,5,0" 
                                             Icon="Heart" 
                                             FontSize="15"
@@ -173,17 +234,17 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="20" 
-                                       FontWeight="ExtraLight" 
-                                       Text="{Binding FeedStats.SessionCount}"/>
+                                       FontSize="{DynamicResource Bigger}"
+                                       Style="{DynamicResource TextBlockExtraThinStyle}"
+                                       Text="{Binding Stats.SessionCount}"/>
                         </StackPanel>
                         <TextBlock  HorizontalAlignment="Center" 
-                                    FontWeight="ExtraLight" 
-                                    Style="{DynamicResource TextBlockMainStyle}">session</TextBlock>
+                                    Style="{DynamicResource TextBlockThinStyle}"
+                                    Text="Session"/>
                     </StackPanel>
                     <!-- TOTAL ALL COUNT -->
                     <StackPanel  Orientation="Vertical" Margin="0,0,40,0">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <fa:FontAwesome Margin="0,0,5,0" 
                                             Icon="Heart" 
                                             FontSize="15"
@@ -192,25 +253,24 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="20" 
-                                       FontWeight="ExtraLight" 
-                                       Style="{DynamicResource TextBlockMainStyle}"
-                                       Text="{Binding FeedStats.Count}"/>
+                                       FontSize="{DynamicResource Bigger}"
+                                       Style="{DynamicResource TextBlockExtraThinStyle}"
+                                       Text="{Binding Stats.Count}"/>
                         </StackPanel>
                         <TextBlock HorizontalAlignment="Center"
-                                   FontWeight="ExtraLight"
-                                   Style="{DynamicResource TextBlockMainStyle}">total</TextBlock>
+                                   Style="{DynamicResource TextBlockThinStyle}"
+                                   Text="Total"/>
                     </StackPanel>
                     <!-- NEXT LIKE TIMER-->
-                    <StackPanel HorizontalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" >
                         <TextBlock HorizontalAlignment="Center"
-                           Foreground="White"
-                           FontSize="20"
-                           FontWeight="ExtraLight"
-                           Text="{Binding FeedStats.NextIn}"/>
+                                   Margin="0,0,0,5"
+                                   Foreground="White"
+                                   FontSize="{DynamicResource Bigger}"
+                                   Style="{DynamicResource TextBlockExtraThinStyle}"
+                                   Text="{Binding Stats.NextIn}"/>
                         <TextBlock HorizontalAlignment="Center"
-                           FontWeight="ExtraLight" 
-                           Style="{DynamicResource TextBlockMainStyle}">Next in</TextBlock>
+                                   Style="{DynamicResource TextBlockThinStyle}" Text="Next in"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -219,38 +279,39 @@
         <StackPanel Grid.Row="11" Grid.RowSpan="3" Grid.Column="22" Grid.ColumnSpan="9" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
             <StackPanel HorizontalAlignment="Center" Margin="0,0,40,0" >
                 <TextBlock HorizontalAlignment="Center"
-                           Foreground="White" 
-                           FontSize="20" Margin="0,0,0,5
-                           " FontWeight="ExtraLight"
-                           Text="{Binding FeedStats.TimeInWork}"/>
+                           Margin="0,0,0,5"
+                           Foreground="White"
+                           FontSize="{DynamicResource Bigger}"
+                           Style="{DynamicResource TextBlockExtraThinStyle}"
+                           Text="{Binding Stats.TimeInWork}"/>
                 <TextBlock HorizontalAlignment="Center" 
-                           FontWeight="ExtraLight"
-                           Style="{DynamicResource TextBlockMainStyle}">Time in work</TextBlock>
+                           Style="{DynamicResource TextBlockThinStyle}"
+                           Text="Time in work"/>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Center" >
                 <TextBlock HorizontalAlignment="Center"
-                           Foreground="White"
-                           FontSize="20" 
                            Margin="0,0,0,5"
-                           FontWeight="ExtraLight" 
-                           Text="{Binding FeedStats.NextSessionIn}"/>
+                           Foreground="White"
+                           FontSize="{DynamicResource Bigger}"
+                           Style="{DynamicResource TextBlockExtraThinStyle}"
+                           Text="{Binding Stats.NextSessionIn,StringFormat=hh\\:mm}"/>
                 <TextBlock HorizontalAlignment="Center"
-                           FontWeight="ExtraLight"
-                           Style="{DynamicResource TextBlockMainStyle}">Next session in</TextBlock>
+                           Style="{DynamicResource TextBlockThinStyle}"
+                           Text="Next session in"/>
             </StackPanel>
         </StackPanel>
 
-        
+
         <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="32" Grid.RowSpan="2"
                    Text="{Binding LastActionTextHelper}" Opacity="0.6" 
-                   Style="{DynamicResource TextBlockMainStyle}" 
+                   Style="{DynamicResource TextBlockH2Style}" 
                    FontSize="{DynamicResource H1}" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-        
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
         <!--Last Actions-->
         <ListView Grid.Row="1" Grid.RowSpan="8" Grid.Column="0" Grid.ColumnSpan="32" Background="Transparent"  BorderThickness="0"
-                  ItemsSource="{Binding Source={StaticResource feedCollection}}"  ItemTemplate="{DynamicResource FeedAction}" 
+                  ItemsSource="{Binding Source={StaticResource likeCollection}}"  ItemTemplate="{DynamicResource LikeActionTemplate}" 
                   ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsDeferredScrollingEnabled="False">
             <ListView.ItemsPanel>
@@ -258,6 +319,7 @@
                     <VirtualizingStackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
+
         </ListView>
 
     </Grid>

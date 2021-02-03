@@ -1,0 +1,474 @@
+﻿<UserControl x:Class="Instagram_Assistant.View.GeoStoriesWatchPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Instagram_Assistant.View"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <DataTemplate x:Key="FeedAction" >
+            <Border Background="{StaticResource BorderColor}" CornerRadius="5">
+                <Grid  Width="150" Height="230">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="20" Grid.ColumnSpan="20"  Source="{Binding PostImage}" Stretch="Fill"></Image>
+                    <Ellipse  Width="25" Height="25" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2" Grid.ColumnSpan="2" StrokeThickness="2" Stroke="Wheat">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding AccountImage}" Stretch="UniformToFill" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock Grid.Column="2" Grid.RowSpan="2"  Grid.ColumnSpan="10" Margin="5,0,0,0" Text="{Binding AccountName}" 
+                               Foreground="LightGray" FontSize="12" VerticalAlignment="Center" FontWeight="ExtraLight"></TextBlock>
+
+                    <fa:FontAwesome Grid.Column="0" Grid.Row="12"  Grid.RowSpan="3" Grid.ColumnSpan="10"
+                                    VerticalAlignment="Center"  FontSize="25"
+                                    Margin="0,10" Foreground="White" Icon="{Binding Action}"></fa:FontAwesome>
+
+                    <Grid.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                        From="-100,0,0,0" To="0"
+                                                        AccelerationRatio="0.9" Duration="0:0:0.5">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="7" />
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Grid.Triggers>
+
+                </Grid>
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20" 
+                                  ShadowDepth="0.9" 
+                                  Color="{StaticResource FirstColor}"/>
+                </Border.Effect>
+            </Border>
+        </DataTemplate>
+
+        <CollectionViewSource x:Key="feedCollection" Source="{Binding Path=Actions}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Time" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+
+
+        <Storyboard x:Key="PanelShow">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                From="0,420,0,-420" To="0" 
+                                Storyboard.TargetName="SidePanel" 
+                                AccelerationRatio=".9" Duration="0:0:0.5" />
+        </Storyboard>
+        <Storyboard x:Key="PanelHide">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                From="0" To="0,420,0,-420" 
+                                Storyboard.TargetName="SidePanel"
+                                AccelerationRatio=".9" Duration="0:0:0.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="FlashAnim">
+            <DoubleAnimation Storyboard.TargetName="Status"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0.3"
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             RepeatBehavior="Forever">
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ColorAnim">
+            <ColorAnimation  Storyboard.TargetName="Status"  
+                             Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" 
+                             RepeatBehavior="Forever" 
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             To="{DynamicResource SecondColor}">
+            </ColorAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="32" Grid.RowSpan="4" Grid.Row="8" 
+                   Style="{DynamicResource TextBlockMainStyle}" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="{DynamicResource H1}" >Overview</TextBlock>
+
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Grid.Row="0" 
+                   Style="{DynamicResource TextBlockMainStyle}"  
+                   FontSize="{DynamicResource Regular}">Last actions</TextBlock>
+
+
+            <!--OVERVIEW 1 BORDER-->
+            <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" 
+                CornerRadius="3" 
+                Background="White" 
+                Opacity="0.05">
+                <Border.Effect>
+                    <BlurEffect Radius="10" KernelType="Gaussian"/>
+                </Border.Effect>
+            </Border>
+
+            <!--OVERVIEW 2 BORDER-->
+            <Border Grid.Column="21" Grid.ColumnSpan="15" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3"   
+                Background="White" 
+                Opacity="0.05">
+                <Border.Effect>
+                    <BlurEffect Radius="10" KernelType="Gaussian"/>
+                </Border.Effect>
+            </Border>
+
+
+
+            <StackPanel Grid.Row="11" Grid.Column="14" Grid.ColumnSpan="4" Grid.RowSpan="3"  VerticalAlignment="Center" Orientation="Vertical" >
+                <Button Style="{DynamicResource MainButtonStyle}" 
+                    Height="40"   
+                    Command="{Binding StartCommand}" 
+                    Content="{Binding ButtonContent}"/>
+
+                <TextBlock HorizontalAlignment="Center" 
+                       x:Name="Status"
+                       Foreground="White" 
+                       Margin="0,20,0,5" 
+                       FontSize="{DynamicResource Bigger}"
+                       Style="{DynamicResource TextBlockThinStyle}"
+                       Text="{Binding Stats.Status}">
+      
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Value="WORKING" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Play"/>
+                    </i:DataTrigger>
+                    <i:DataTrigger Value="OFF" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Stop"/>
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+                </TextBlock>
+            </StackPanel>
+
+            <!--OVERVIEW-->
+            <StackPanel Grid.Row="11" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="9" VerticalAlignment="Center" Orientation="Horizontal">
+                <StackPanel VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" Margin="0,0,30,0">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Margin="0,0,5,0" 
+                                            Icon="Eye" 
+                                            FontSize="15"
+                                            Foreground="White" 
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"/>
+                                <TextBlock HorizontalAlignment="Center" 
+                                       Foreground="White" 
+                                       FontSize="20" 
+                                       FontWeight="ExtraLight" 
+                                       Text="{Binding Stats.SessionCount}"/>
+                            </StackPanel>
+                            <TextBlock  HorizontalAlignment="Center" 
+                                    FontWeight="ExtraLight" 
+                                    Style="{DynamicResource TextBlockMainStyle}">session</TextBlock>
+                        </StackPanel>
+
+                        <StackPanel  Orientation="Vertical" Margin="0,0,40,0">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Margin="0,0,5,0" 
+                                            Icon="Eye" 
+                                            FontSize="15"
+                                            Foreground="White" 
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"/>
+                                <TextBlock HorizontalAlignment="Center" 
+                                       Foreground="White" 
+                                       FontSize="20" 
+                                       FontWeight="ExtraLight" 
+                                       Style="{DynamicResource TextBlockMainStyle}"
+                                       Text="{Binding Stats.Count}"/>
+                            </StackPanel>
+                            <TextBlock HorizontalAlignment="Center"
+                                   FontWeight="ExtraLight"
+                                   Style="{DynamicResource TextBlockMainStyle}">total</TextBlock>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock HorizontalAlignment="Center"
+                           Foreground="White"
+                           FontSize="20"
+                           FontWeight="ExtraLight"
+                           Text="{Binding Stats.NextIn}"/>
+                            <TextBlock HorizontalAlignment="Center"
+                           FontWeight="ExtraLight" 
+                           Style="{DynamicResource TextBlockMainStyle}">Next in</TextBlock>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="11" Grid.RowSpan="3" Grid.Column="22" Grid.ColumnSpan="9" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Center" Margin="0,0,40,0" >
+                    <TextBlock HorizontalAlignment="Center"
+                           Foreground="White" 
+                           FontSize="20" Margin="0,0,0,5
+                           " FontWeight="ExtraLight"
+                           Text="{Binding Stats.TimeInWork}"/>
+                    <TextBlock HorizontalAlignment="Center" 
+                           FontWeight="ExtraLight"
+                           Style="{DynamicResource TextBlockMainStyle}">Time in work</TextBlock>
+                </StackPanel>
+
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center"
+                           Foreground="White"
+                           FontSize="20" 
+                           Margin="0,0,0,5"
+                           FontWeight="ExtraLight" 
+                           Text="{Binding Stats.NextSessionIn}"/>
+                    <TextBlock HorizontalAlignment="Center"
+                           FontWeight="ExtraLight"
+                           Style="{DynamicResource TextBlockMainStyle}">Next session in</TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="32" Grid.RowSpan="2"
+                   Text="{Binding LastActionTextHelper}" Opacity="0.6" 
+                   Style="{DynamicResource TextBlockMainStyle}" 
+                   FontSize="{DynamicResource H1}" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+            <!--Last Actions-->
+            <ListView Grid.Row="1" Grid.RowSpan="8" Grid.Column="0" Grid.ColumnSpan="32" Background="Transparent"  BorderThickness="0"
+                  ItemsSource="{Binding Source={StaticResource feedCollection}}"  ItemTemplate="{DynamicResource FeedAction}" 
+                  ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsDeferredScrollingEnabled="False">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Grid>
+        <Grid x:Name="SidePanel" Margin="0,420,0,-420" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.ColumnSpan="32" Grid.Row="1" Grid.RowSpan="15"
+                    Background="Black" Opacity="0.8" >
+                <Border.Effect>
+                    <BlurEffect Radius="10" KernelType="Gaussian" >
+
+                    </BlurEffect>
+                </Border.Effect>
+
+            </Border>
+
+            <Button Grid.ColumnSpan="4" 
+                    Background="Transparent"
+                    BorderThickness="0"
+                    fa:Awesome.Content="LocationArrow"  
+                    Grid.Column="14"
+                          Visibility="{Binding StPanelShowVisibility}"
+                    Command="{Binding StPanelShowCommand}"
+                    Style="{DynamicResource MainButtonStyle}" FontSize="25">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard Storyboard="{DynamicResource PanelShow}"/>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Grid.ColumnSpan="4" 
+                    Background="Transparent"
+                    BorderThickness="0"
+                    fa:Awesome.Content="LocationArrow"  
+                    Grid.Column="14"
+                    Visibility="{Binding StPanelHideVisibility}"
+                    Command="{Binding StPanelHideCommand}"
+                    Style="{DynamicResource MainButtonStyle}" FontSize="25">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard Storyboard="{DynamicResource PanelHide}"/>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <StackPanel Grid.Row="2" Grid.Column="6" Grid.RowSpan="13" Grid.ColumnSpan="20">
+                <TextBlock Text="Search location"/>
+                <TextBox  Grid.Row="9" Grid.RowSpan="2" Grid.Column="10" Grid.ColumnSpan="8"
+                      TextAlignment="Center" 
+                      Style="{DynamicResource MyWaterMarkStyle}"
+                      FontSize="30"  Tag="Enter loaction..."
+                      Text="{Binding GeoString,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+                <ListView  Background="Transparent"
+                           BorderBrush="Transparent"
+                           Height="300"
+                           FontWeight="Regular"
+                           ItemsSource="{Binding SearchResults}"
+                           Foreground="White"
+                           SelectedItem="{Binding SelectedGeoItem}"
+                           Style="{DynamicResource LogListStyle}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel  Margin="5" Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="LocationArrow" Margin="0,0,5,0" Width="15" Foreground="White" HorizontalAlignment="Left" />
+                                <TextBlock FontSize="16" Text="{Binding Name}" Width="350" HorizontalAlignment="Left" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding SelectGeoCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
+            </StackPanel>
+
+            <fa:ImageAwesome Grid.Row="8" Grid.Column="15" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                             Visibility="{Binding LoadingVisibility}"
+                             Icon="Spinner" 
+                             Foreground="{StaticResource SecondColorBrush}" 
+                             Spin="True" 
+                             Width="50" Height="50"/>
+        </Grid>
+    </Grid>
+</UserControl>

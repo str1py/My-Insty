@@ -1,21 +1,15 @@
 ﻿using Instagram_Assistant.Helpers;
 using Instagram_Assistant.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Instagram_Assistant.ViewModel
 {
-    class AccountPageViewModel: ViewModelBase, INotifyCollectionChanged
+    class AccountPageViewModel : ViewModelBase
     {
         private static AccountPageViewModel accinstance;
-        public static AccountPageViewModel Instanse
+        public static AccountPageViewModel Instance
         {
             get
             {
@@ -43,6 +37,7 @@ namespace Instagram_Assistant.ViewModel
             UserInfo = AccountInfoHelper.info;
         }
 
+
         private AccountInfo _accountListSelectedItem;
         public AccountInfo AccountListSelectedItem
         {
@@ -54,24 +49,29 @@ namespace Instagram_Assistant.ViewModel
             }
         }
 
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; OnPropertyChanged(); }
+        }
+
         private ICommand _logOutCommand;
         public ICommand LogOutCommand
         {
-            get { return _logOutCommand ?? (_logOutCommand = new RelayCommand(p => LogOut(AccountListSelectedItem.userName))); }
+            get { return _logOutCommand ?? (_logOutCommand = new RelayCommand(p => LogOut(p.ToString()))); }
         }
-
-
 
         private ICommand _logInCommand;
         public ICommand LoginCommand
         {
-            get { return _logInCommand ?? (_logInCommand = new RelayCommand(p => LogIn(AccountListSelectedItem.userName))); }
+            get { return _logInCommand ?? (_logInCommand = new RelayCommand(p => LogIn(p.ToString()))); }
         }
 
         private ICommand _acceptChallangeCommand;
         public ICommand AcceptChallangeCommand
         {
-            get { return _acceptChallangeCommand ?? (_acceptChallangeCommand = new RelayCommand(p => AcceptChallange())); }
+            get { return _acceptChallangeCommand ?? (_acceptChallangeCommand = new RelayCommand(p => AcceptChallange(p.ToString()))); }
         }
 
         private ICommand _accountAddCommand;
@@ -83,13 +83,13 @@ namespace Instagram_Assistant.ViewModel
         private ICommand _comboBoxSelectedCommand;
         public ICommand ComboBoxSelectedCommand
         {
-            get { return _comboBoxSelectedCommand ?? (_comboBoxSelectedCommand = new RelayCommand(p => ChangeRole())); }
+            get { return _comboBoxSelectedCommand ?? (_comboBoxSelectedCommand = new RelayCommand(p => ChangeRole(p.ToString()))); }
         }
         
-        private void ChangeRole()
+        private void ChangeRole(string username)
         {
             AccountInfoHelper acc = new AccountInfoHelper();
-            acc.UpdateInfo(AccountListSelectedItem);
+            acc.UpdateInfo(username);
         }
         private void AccountAdd()
         {
@@ -111,7 +111,7 @@ namespace Instagram_Assistant.ViewModel
             LogInHelper logInHelper = new LogInHelper();
             int logedinuserscount = LogInHelper.LoggedInUsers.Count;
             bool logOutStatus = logInHelper.LogOut(username);
-            if(logOutStatus == true && logedinuserscount == 1)
+            if (logOutStatus == true && logedinuserscount == 1)
             {
                 LoginPageViewModel loginPage = LoginPageViewModel.Instanse;
                 MainWindowViewModel.instance.SelectedViewModel = loginPage;
@@ -124,26 +124,27 @@ namespace Instagram_Assistant.ViewModel
                 loginPage.CodeCheckGridIsEnabel = true;
             }
             GetInfo();
+            // MessageBox.Show(username);
         }
 
         private void LogIn(string username)
         {
             LogInHelper logInHelper = new LogInHelper();
             logInHelper.Login(username);
-            GetInfo();
-            MainWindowViewModel.instance.SelectedViewModel = null;
-            MainWindowViewModel.instance.MainSelectedViewModel = DashboardPageViewModel.Instanse;
-            MainWindowViewModel.instance.MenuItem = 1;
+            LoginPageViewModel loginPage = LoginPageViewModel.Instanse;
+            loginPage.ChallengesVisibility = Visibility.Hidden;
+            loginPage.CodeCheckVisibility = Visibility.Hidden;
+            loginPage.LoginGridIsEnable = true;
+            loginPage.ChallengesGridIsEnabel = true;
+            loginPage.CodeCheckGridIsEnabel = true;
         }
 
-        private async Task AcceptChallange()
-        {
 
-        }
-        public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
-        public void OnCollectionChanged(NotifyCollectionChangedAction action)
+
+        private void  AcceptChallange(string username)
         {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action));
+           // LogInHelper logInHelper = new LogInHelper(); 
         }
+
     }
 }

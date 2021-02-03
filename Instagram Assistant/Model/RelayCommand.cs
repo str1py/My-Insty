@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Instagram_Assistant.Model
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Action<object> execute;
 

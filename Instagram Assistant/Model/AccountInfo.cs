@@ -1,9 +1,4 @@
 ﻿using Instagram_Assistant.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -21,5 +16,9 @@ namespace Instagram_Assistant.Model
         public Visibility LoginReqVisibility { get; set; }
         public Visibility ChallengeReqVisibility { get; set; }
 
+        public override string ToString()
+        {
+            return userName;
+        }
     }
 }

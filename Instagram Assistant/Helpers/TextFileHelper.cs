@@ -12,7 +12,7 @@ namespace Instagram_Assistant.Helpers
     class TextFileHelper
     {   
         //STATUS: NOT OK
-        private LogsPageViewModel logs = LogsPageViewModel.Instanse;
+        private LogsPageViewModel logs = LogsPageViewModel.Instance;
         private MainVars mainVars = new MainVars();
         private ConvertHelper convert = new ConvertHelper();
         private ImageHelpers imageHelper = new ImageHelpers();
@@ -124,7 +124,7 @@ namespace Instagram_Assistant.Helpers
                                          try
                                          {
                                              string[] separate = user.Split(';');
-                                             FilterAudiencePageViewModel.Instanse.LastActionTextHelper = $"Get {separate[0]} info...";
+                                             FilterAudiencePageViewModel.Instance.LastActionTextHelper = $"Get {separate[0]} info...";
                                              AudienceActionModel audience = new AudienceActionModel(separate[0], separate[1], long.Parse(separate[2]), separate[3], separate[4],
                                                        convert.AccTypeToInt(separate[5]), separate[6], separate[7], Convert.ToBoolean(separate[8]), Convert.ToInt32(separate[9]),
                                                        Convert.ToInt32(separate[10]), separate[11], convert.YesNoToBoolean(separate[12]),
@@ -142,7 +142,7 @@ namespace Instagram_Assistant.Helpers
                                          }
                                      })
                                     );
-                FilterAudiencePageViewModel.Instanse.LastActionTextHelper = $"Getiing audience info finished.";
+                FilterAudiencePageViewModel.Instance.LastActionTextHelper = $"Getiing audience info finished.";
                 await Task.Delay(3000);
                 return sepList;
             }
@@ -168,7 +168,7 @@ namespace Instagram_Assistant.Helpers
                                              AudienceModel audience = new AudienceModel { userName = separate[0], userId = long.Parse(separate[2]) };
                                              sepList.Add(audience);
                                          }
-                                         catch (Exception e)
+                                         catch
                                          {
                                              string[] separate = user.Split(';');
                                          }
@@ -193,7 +193,7 @@ namespace Instagram_Assistant.Helpers
                 await Task.Factory.StartNew(() =>
                 {
                     count++;
-                    UnfollowPageViewModel.Instanse.LastActionTextHelper = $"Getting followers from file... ({count})";
+                    UnfollowPageViewModel.Instance.LastActionTextHelper = $"Getting followers from file... ({count})";
                 });
                  
                 foreach (var line in lines)
@@ -209,7 +209,7 @@ namespace Instagram_Assistant.Helpers
                 }
                 await Task.Factory.StartNew(() =>
                 {
-                    UnfollowPageViewModel.Instanse.LastActionTextHelper = $"";
+                    UnfollowPageViewModel.Instance.LastActionTextHelper = $"";
                 });
                 return userunfollow;
             }

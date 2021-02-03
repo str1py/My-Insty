@@ -1,22 +1,11 @@
-﻿using Instagram_Assistant.Helpers;
-using Instagram_Assistant.Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Dynamic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Specialized;
 
 namespace Instagram_Assistant.ViewModel
 {
     public class DashboardPageViewModel : ViewModelBase, INotifyCollectionChanged
     {
         private static DashboardPageViewModel dashinstance;
-        public static DashboardPageViewModel Instanse
+        public static DashboardPageViewModel Instance
         {
             get
             {
@@ -31,43 +20,98 @@ namespace Instagram_Assistant.ViewModel
   
         public DashboardPageViewModel()
         {
-            SelectedLikeView = FeedLikePageViewModel.Instanse;
-            SelectedStoriesView = FeedStoriesPageViewModel.Instanse;
-            UnfollowView = UnfollowPageViewModel.Instanse;
-            AudienceView = AudiencePageViewModel.Instanse;
+            SelectedView = FeedLikePageViewModel.Instance;
+            SelectedLikeView = FeedLikePageViewModel.Instance;
+            SelectedStoriesView = FeedStoriesPageViewModel.Instance;
+            UnfollowView = UnfollowPageViewModel.Instance;
+            AudienceView = AudiencePageViewModel.Instance;
+        }
+
+       
+        //MAIN
+        public static object GetView(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return FeedLikePageViewModel.Instance;
+                case 1:
+                    return FeedStoriesPageViewModel.Instance;
+            }
+            return null;
+        }
+
+        private int _tabSelectedIndex = 0;
+        public int TabSelectedIndex
+        {
+            get { return _tabSelectedIndex; }
+            set
+            {
+                _tabSelectedIndex = value;
+                OnPropertyChanged();
+                switch (TabSelectedIndex)
+                {
+                    case 0:
+                        GetView(0);
+                        return;
+                    case 2:
+                        GetStoriesView(0);
+                        return;
+                    case 3:
+                        UnfollowView = UnfollowPageViewModel.Instance;
+                        return;
+                    case 5:
+                        AudienceView = AudiencePageViewModel.Instance;
+                        return;
+
+
+                }
+            }
+        }
+
+        private object _selectedView = 0;
+        public object SelectedView
+        {
+            get { return _selectedView; }
+            set { _selectedView = value; OnPropertyChanged(); }
         }
 
 
-        private object _selectedLikeView = 0;
+        //LIKE
+
+        private object _selectedLikeView;
         public object SelectedLikeView
         {
             get { return _selectedLikeView; }
             set { _selectedLikeView = value; OnPropertyChanged(); }
         }
 
-        private int _item = 0;
-        public int Item
+        private int _likeItem = 0;
+        public int LikeItem
         {
-            get { return _item; }
+            get { return _likeItem; }
             set
             {
-                _item = value;
+                _likeItem = value;
 
-                SelectedLikeView = GetView(Item);
+                SelectedLikeView = GetLikeView(_likeItem);
                 OnPropertyChanged();
             }
         }
 
-        public static object GetView(int index)
+        public static object GetLikeView(int index)
         {
             switch (index)
             {
                 case 0:
-                    return FeedLikePageViewModel.Instanse;
+                    return FeedLikePageViewModel.Instance;
                 case 1:
-                    return FeedStoriesPageViewModel.Instanse;
+                    return GeoLikePageViewModel.Instance;
+                case 2:
+                    return HashtagLikePageViewModel.Instance;
+                default:
+                    return FeedLikePageViewModel.Instance;    
             }
-            return null;
         }
 
 
@@ -97,41 +141,16 @@ namespace Instagram_Assistant.ViewModel
             switch (index)
             {
                 case 0:
-                    return FeedStoriesPageViewModel.Instanse;
-            }
-            return null;
-        }
-
-        private int _tabSelectedIndex = 0;
-        public int TabSelectedIndex
-        {
-            get { return _tabSelectedIndex; }
-            set
-            {
-                _tabSelectedIndex = value;
-                OnPropertyChanged();
-                switch (TabSelectedIndex)
-                {
-                    case 0:
-                        GetView(0);
-                        return;
-                    case 2:
-                        GetStoriesView(0);
-                        return;
-                    case 3:
-                        UnfollowView = UnfollowPageViewModel.Instanse;
-                        return;
-                    case 5:
-                        AudienceView = AudiencePageViewModel.Instanse;
-                        return;
-
-
-                }
+                    return FeedStoriesPageViewModel.Instance;
+                case 1:
+                    return GeoStoriesWatchViewModel.Instance; 
+                default:
+                    return FeedStoriesPageViewModel.Instance;
             }
         }
 
 
-
+        //UNFOLLOW
         private object _unfollowView;
         public object UnfollowView
         {
@@ -139,8 +158,8 @@ namespace Instagram_Assistant.ViewModel
             set { _unfollowView = value; OnPropertyChanged(); }
         }
 
-        //AUDIENCE
 
+        //AUDIENCE
         private int _audienceItem;
         public int AudienceItem
         {
@@ -152,10 +171,13 @@ namespace Instagram_Assistant.ViewModel
                 switch (AudienceItem)
                 {
                     case 0:
-                        AudienceView = AudiencePageViewModel.Instanse;
+                        AudienceView = AudiencePageViewModel.Instance;
                         return;
                     case 1:
-                        AudienceView = FilterAudiencePageViewModel.Instanse;
+                        AudienceView = FilterAudiencePageViewModel.Instance;
+                        return;
+                    case 2:
+                        AudienceView = SpyPageViewModel.Instance;
                         return;
                 }
             }

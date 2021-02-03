@@ -3,13 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Instagram_Assistant.SplashScreen"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-                xmlns:viewmodels="clr-namespace:Instagram_Assistant.SplashScreen"
+        xmlns:viewmodels="clr-namespace:Instagram_Assistant.SplashScreen"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="My Insty" Height="400" Width="700"  Background="{DynamicResource PageColor}"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize">
-    
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding WindowLoaded}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Window.DataContext>
         <viewmodels:SplashScreenViewModel/>
     </Window.DataContext>
@@ -30,27 +36,32 @@
         <Storyboard x:Key="blurAnim">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Radius" 
                                Storyboard.TargetName="blurEffect">
-                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:1.0"></LinearDoubleKeyFrame>
+                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:3.0"></LinearDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
     <Grid>
        
-        <StackPanel Margin="0,0,0,-110" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Margin="0,0,0,-110" Width="400" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="My Insty" 
                        HorizontalAlignment="Center"
                        Margin="0,30,0,30"  
                        Visibility="Hidden"
                        Style="{DynamicResource TextBlockMainStyle}" 
                        FontSize="50"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <fa:ImageAwesome Icon="Spinner" 
+            <StackPanel Margin="-120,100,0,0" Orientation="Horizontal"  >
+                <fa:ImageAwesome Icon="CircleOutlineNotch" 
                                  Foreground="Gray" 
                                  Spin="True" 
-                                 Width="30"/>
+                                 Width="20"/>
                 <Label Content="{Binding SplashScreenText,UpdateSourceTrigger=PropertyChanged}"
                        FontSize="15" 
+                       Height="30"
                        Foreground="White" />
+            </StackPanel>
+            <StackPanel  Margin="-340,0,0,0">
+                <Slider Width="300" Style="{DynamicResource SliderStyle}" IsEnabled="False"
+                        Value="{Binding LoadValue}" Maximum="100"></Slider>
             </StackPanel>
         </StackPanel>
         

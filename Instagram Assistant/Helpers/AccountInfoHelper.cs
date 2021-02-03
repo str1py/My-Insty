@@ -33,18 +33,7 @@ namespace Instagram_Assistant.Helpers
                 {
                     stringCollection = new StringCollection();
                     userinfo = await users.UserProcessor.GetUserInfoByUsernameAsync(users.GetLoggedUser().UserName);
-                    info.Add(new AccountInfo
-                    {
-                        userName = users.GetLoggedUser().LoggedInUser.UserName,
-                        postCount = userinfo.Value.MediaCount.ToString() + " " + "posts",
-                        followersCount = userinfo.Value.FollowerCount.ToString() + " " + "followers",
-                        followingCount = userinfo.Value.FollowingCount.ToString() + " " + "following",
-                        accountRole = 1,
-                        accountStatus = await GetAccountStatus(users),
-                        image = img.GetImage(users.GetLoggedUser().LoggedInUser.ProfilePicUrl),
-                        ChallengeReqVisibility = convert.CoverterBoolToVisibility(false),
-                        LoginReqVisibility = convert.CoverterBoolToVisibility(false)
-                    });
+                    await SetAccountInfo(users, userinfo,1);
                     stringCollection.Add(users.GetLoggedUser().UserName + ";1");
                     Properties.Settings.Default.AccountsRoles = stringCollection;
                     Properties.Settings.Default.Save();
@@ -59,18 +48,7 @@ namespace Instagram_Assistant.Helpers
                     if (_string == null)
                     {
                         userinfo = await users.UserProcessor.GetUserInfoByUsernameAsync(users.GetLoggedUser().UserName);
-                        info.Add(new AccountInfo
-                        {
-                            userName = users.GetLoggedUser().LoggedInUser.UserName,
-                            postCount = userinfo.Value.MediaCount.ToString() + " " + "posts",
-                            followersCount = userinfo.Value.FollowerCount.ToString() + " " + "followers",
-                            followingCount = userinfo.Value.FollowingCount.ToString() + " " + "following",
-                            accountRole = 1,
-                            accountStatus = await GetAccountStatus(users),
-                            image = img.GetImage(users.GetLoggedUser().LoggedInUser.ProfilePicUrl),
-                            ChallengeReqVisibility = convert.CoverterBoolToVisibility(false),
-                            LoginReqVisibility = convert.CoverterBoolToVisibility(false)
-                        });
+                        await SetAccountInfo(users, userinfo, 1);
                         stringCollection.Add(users.GetLoggedUser().UserName + ";1");
                         Properties.Settings.Default.AccountsRoles = stringCollection;
                         Properties.Settings.Default.Save();
@@ -78,60 +56,44 @@ namespace Instagram_Assistant.Helpers
                     else
                     {
                         var sep = _string.Split(';');
-
                         userinfo = await users.UserProcessor.GetUserInfoByUsernameAsync(users.GetLoggedUser().UserName);
-                        if (userinfo.Succeeded)
-                            {
-                            info.Add(new AccountInfo
-                            {
-                                userName = users.GetLoggedUser().UserName,
-                                postCount = userinfo.Value.MediaCount.ToString() + " " + "posts",
-                                followersCount = userinfo.Value.FollowerCount.ToString() + " " + "followers",
-                                followingCount = userinfo.Value.FollowingCount.ToString() + " " + "following",
-                                accountRole = Convert.ToInt32(sep[1]),
-                                accountStatus = await GetAccountStatus(users),
-                                image = img.GetImage(users.GetLoggedUser().LoggedInUser.ProfilePicUrl),
-                                ChallengeReqVisibility = convert.CoverterBoolToVisibility(false),
-                                LoginReqVisibility = convert.CoverterBoolToVisibility(false)
-                            });
-                        }
-                        else
-                        {
-                            var response = userinfo.Info.ResponseType;
-
-                            info.Add(new AccountInfo
-                            {
-                                userName = users.GetLoggedUser().UserName,
-                                postCount = "n/a" + " " + "posts",
-                                followersCount = "n/a" + " " + "followers",
-                                followingCount = "n/a" + " " + "following",
-                                accountRole = Convert.ToInt32(sep[1]),
-                                accountStatus = convert.ResponseToAccountType(userinfo.Info.ResponseType.ToString()),
-                                image = img.GetImage(users.GetLoggedUser().LoggedInUser.ProfilePicUrl),
-                                ChallengeReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.ChallengeRequired) ? true : false),
-                                LoginReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.LoginRequired) ? true : false),
-                            });
-                        }
+                        await SetAccountInfo(users, userinfo, Convert.ToInt32(sep[1]));
                     }
                 }
             }
         }
 
-        public void UpdateInfo(AccountInfo account)
+        private async Task SetAccountInfo(IInstaApi users, IResult<InstaUserInfo> userinfo, int _accountRole)
         {
-            var acc = info.Where(x => x.userName == account.userName).FirstOrDefault();
+            var response = userinfo.Info.ResponseType;
+            info.Add(new AccountInfo
+            {
+                userName = users.GetLoggedUser().LoggedInUser.UserName,
+                postCount = (userinfo.Value?.MediaCount.ToString() + " " + "posts") ?? ("n/a" + " " + "posts"),
+                followersCount = userinfo.Value?.FollowerCount.ToString() + " " + "followers" ?? ("n/a" + " " + "followers"),
+                followingCount = userinfo.Value?.FollowingCount.ToString() + " " + "following" ?? ("n/a" + " " + "following"),
+                accountRole = _accountRole,
+                accountStatus = await GetAccountStatus(users),
+                image = img.GetImage(users.GetLoggedUser().LoggedInUser.ProfilePicUrl),
+                ChallengeReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.LoginRequired)),
+                LoginReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.LoginRequired))
+            });
+        }
 
+        public void UpdateInfo(string userName)
+        {
+            //SOMETIMES EXEPTIONS
+            var acc = info.Where(x => x.userName == userName).FirstOrDefault();
             var stringCollection = Properties.Settings.Default.AccountsRoles;
             var list = stringCollection.Cast<string>().ToList();
-            var _string = list.Where(x => x.Contains(account.userName)).FirstOrDefault();
+            var _string = list.Where(x => x.Contains(userName)).FirstOrDefault();
             int index = list.IndexOf(_string.ToString());
-            list[index] = account.userName + ";" + account.accountRole;
+            list[index] = userName + ";" + acc.accountRole;
             StringCollection collection = new StringCollection();
             collection.AddRange(list.ToArray());
             Properties.Settings.Default.AccountsRoles.Clear();
             Properties.Settings.Default.AccountsRoles = collection;
             Properties.Settings.Default.Save();
-            //DOESNT SAVE
         }
         public async Task UpdateInfo(IInstaApi user)
         {
@@ -140,32 +102,18 @@ namespace Instagram_Assistant.Helpers
                 var userinfo = await user.UserProcessor.GetUserInfoByUsernameAsync(user.GetLoggedUser().UserName);
                 var response = userinfo.Info.ResponseType;
                 var acc = info.Where(x => x.userName == user.GetLoggedUser().UserName).FirstOrDefault();
-                if (acc == null)
-                {
-
-                    info.Add(new AccountInfo
-                    {
-                        userName = user.GetLoggedUser().LoggedInUser.UserName,
-                        postCount = userinfo.Value.MediaCount.ToString() + " " + "posts",
-                        followersCount = userinfo.Value.FollowerCount.ToString() + " " + "followers",
-                        followingCount = userinfo.Value.FollowingCount.ToString() + " " + "following",
-                        accountRole = 1,
-                        accountStatus = await GetAccountStatus(user),
-                        image = img.GetImage(user.GetLoggedUser().LoggedInUser.ProfilePicUrl),
-                        ChallengeReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.ChallengeRequired) ? true : false),
-                        LoginReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.LoginRequired) ? true : false)
-                    });
-                }
+                if (acc == null)           
+                    await SetAccountInfo(user, userinfo, 1);            
                 else
                 {
-                    acc.postCount = userinfo.Value.MediaCount.ToString() + " " + "posts";
-                    acc.followersCount = userinfo.Value.FollowerCount.ToString() + " " + "followers";
-                    acc.followingCount = userinfo.Value.FollowingCount.ToString() + " " + "following";
+                    acc.postCount = userinfo.Value?.MediaCount.ToString() + " " + "posts";
+                    acc.followersCount = userinfo.Value?.FollowerCount.ToString() + " " + "followers";
+                    acc.followingCount = userinfo.Value?.FollowingCount.ToString() + " " + "following";
                     acc.ChallengeReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.ChallengeRequired) ? true : false);
                     acc.LoginReqVisibility = convert.CoverterBoolToVisibility((response == ResponseType.LoginRequired) ? true : false);
                     acc.accountStatus = await GetAccountStatus(user);
                 }
-                AccountPageViewModel.Instanse.GetInfo();
+                AccountPageViewModel.Instance.GetInfo();
             }
         }
 
@@ -200,20 +148,6 @@ namespace Instagram_Assistant.Helpers
             return AccountStatus.Type.BAN;
         }
 
-        public IInstaApi ChangeTechAccount()
-        {
-            var acc = info.Where(x => x.accountRole == 1).Where(x => x.accountStatus == AccountStatus.Type.REST).FirstOrDefault();
-            if (acc != null)
-            {
-                foreach (var user in LogInHelper.LoggedInUsers)
-                    if (user.GetLoggedUser().UserName == acc.userName)
-                        return user;
-                    
-            }
-            else return null;
-
-            return null;
-        }
 
         public async Task<IInstaApi> ChangeTechAccount(IInstaApi account,string competitor = null)
         {
@@ -247,34 +181,98 @@ namespace Instagram_Assistant.Helpers
             }
 
             var accounts = info.Where(x => x.accountRole == 1);
-            var acc = accounts.Where(x => x.accountStatus == AccountStatus.Type.REST).Where(x => x.userName != account.GetLoggedUser().UserName).ToList();
+            var acc = accounts?.Where(x => x.accountStatus == AccountStatus.Type.REST).Where(x => x.userName != account.GetLoggedUser().UserName).ToList() ?? null;
 
-            Random rnd = new Random();
-            int select = rnd.Next(0, acc.Count);
+            if(acc.Count == 0)
+                return account;
+            else
+            {
+                Random rnd = new Random();
+                int select = rnd.Next(0, acc.Count);
 
-            foreach (var user in LogInHelper.LoggedInUsers)
-                if (user.GetLoggedUser().UserName == acc[select].userName)
+                foreach (var user in LogInHelper.LoggedInUsers)
                 {
-                    acc[select].accountStatus = AccountStatus.Type.WORKING;
-                    return user;
+                    if (user.GetLoggedUser().UserName == acc[select].userName)
+                    {
+                        acc[select].accountStatus = AccountStatus.Type.WORKING;
+                        return user;
+                    }
                 }
-
+            }
             return null;
         }
 
-        public IInstaApi GetMainAccount()
+        public IInstaApi ChangeSpyAccount(IInstaApi account)
         {
-            var accounts = info.Where(x => x.accountRole == 0);
-            var acc = accounts.Where(x => x.accountStatus != AccountStatus.Type.BAN).FirstOrDefault();
-            if (acc != null)
-            {
-                foreach (var user in LogInHelper.LoggedInUsers)
-                    if (user.GetLoggedUser().UserName == acc.userName)
-                        return user;
-            }
-            else return null;
+            var accounts = info.Where(x => x.accountRole == 2);
+            var acc = accounts?.Where(x => x.accountStatus == AccountStatus.Type.REST).Where(x => x.userName != account.GetLoggedUser().UserName).ToList() ?? null;
 
-            return null;
+            if (acc.Count == 0)
+                return account;
+            else
+            {
+                Random rnd = new Random();
+
+                var spyAccount = acc[rnd.Next(0, acc.Count)];
+                spyAccount.accountStatus = AccountStatus.Type.WORKING;
+
+                return GetInstaApiByUserName(spyAccount.userName);
+            }
+        }
+
+        private IInstaApi GetInstaApiByUserName(string username)
+        {
+            return LogInHelper.LoggedInUsers.Where(x => x.GetLoggedUser().UserName == username).FirstOrDefault();
+        }
+
+        public async Task<IInstaApi> GetMainAccountAsync()
+        {
+            return await Task.Run(() =>
+            {
+                var accounts = info.Where(x => x.accountRole == 0);
+                var acc = accounts.Where(x => x.accountStatus != AccountStatus.Type.BAN).FirstOrDefault();
+                if (acc != null)
+                {
+                    foreach (var user in LogInHelper.LoggedInUsers)
+                        if (user.GetLoggedUser().UserName == acc.userName)
+                            return user;
+                }
+                else return null;
+
+                return null;
+            });
+        }
+        public async Task<IInstaApi> GetSpyAccountAsync()
+        {
+            return await Task.Run(() =>
+            {
+                var accounts = info.Where(x => x.accountRole == 2);
+                var acc = accounts.Where(x => x.accountStatus != AccountStatus.Type.BAN).FirstOrDefault();
+                if (acc != null)
+                {
+                    foreach (var user in LogInHelper.LoggedInUsers)
+                        if (user.GetLoggedUser().UserName == acc.userName)
+                            return user;
+                }
+                else return null;
+
+                return null;
+            });
+        }
+        public async Task<IInstaApi> GetTechAccountAsync()
+        {
+            return await Task.Run(() =>
+            {
+                var acc = info.Where(x => x.accountRole == 1).Where(x => x.accountStatus == AccountStatus.Type.REST).FirstOrDefault();
+                if (acc != null)
+                {
+                    foreach (var user in LogInHelper.LoggedInUsers)
+                        if (user.GetLoggedUser().UserName == acc.userName)
+                            return user;
+                }
+                else return null;
+                return null;
+            });
         }
 
         public void UpdateAccountStatus(IInstaApi api, AccountStatus.Type type)

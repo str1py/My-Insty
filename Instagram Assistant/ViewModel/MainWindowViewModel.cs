@@ -1,24 +1,20 @@
-﻿using Instagram_Assistant.Helpers;
-using Instagram_Assistant.Model;
+﻿using Instagram_Assistant.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Instagram_Assistant.ViewModel
 {
-    class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         public static MainWindowViewModel instance;
         public  MainWindowViewModel()
         {
             instance = this;
             SelectedViewModel = LoginPageViewModel.Instanse;
+            OnNewAlert += MainWindowViewModel_OnNewAlert;
         }
-
 
         private WindowState _curWindowState;
         public WindowState CurWindowState
@@ -83,24 +79,65 @@ namespace Instagram_Assistant.ViewModel
             App.Current.Shutdown(0);
         }
 
-
         public static object GetView(int index)
         {
             switch (index)
             {
                 case 0:
-                    return AccountPageViewModel.Instanse;
+                    return AccountPageViewModel.Instance;
                 case 1:
-                    return DashboardPageViewModel.Instanse;
+                    return DashboardPageViewModel.Instance;
                 case 2:
                     return new SettingsPageViewModel();
                 case 3:
-                    return LogsPageViewModel.Instanse;
+                    return LogsPageViewModel.Instance;
                 case 4:
                     return new AboutPageViewModel();
             }
             return null;
         }
+
+
+        #region ALERTS
+        private event EventHandler OnNewAlert;
+
+        private string _isAlertOn;
+        public string IsAlertOn
+        {
+            get { return _isAlertOn; }
+            set { _isAlertOn = value; OnPropertyChanged(); }
+        }
+
+        private AlertModel _newAlert;
+        public AlertModel NewAlert
+        {
+            get { return _newAlert; }
+            set 
+            { 
+                _newAlert = value;
+                OnPropertyChanged();
+                OnNewAlert(this,new EventArgs());
+            }
+        }
+
+        public void Alert(string image, string from, string message)
+        {
+            NewAlert = (new AlertModel
+            {
+                AlertImage = image,
+                AlertFrom = from,
+                AlertMessage = message,
+                Time = DateTime.Now.ToString("HH:mm:ss")
+            });
+        }
+
+        private async void MainWindowViewModel_OnNewAlert(object sender, EventArgs e)
+        {          
+            IsAlertOn = "ON";
+            await Task.Delay(4000);
+            IsAlertOn = "OFF";
+        }
+        #endregion
 
     }
 }

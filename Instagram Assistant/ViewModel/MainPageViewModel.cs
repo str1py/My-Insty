@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Instagram_Assistant.ViewModel
+﻿namespace Instagram_Assistant.ViewModel
 {
-    class MainPageViewModel
+    public class MainPageViewModel
     {
         public MainPageViewModel()
         {

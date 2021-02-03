@@ -16,6 +16,7 @@ namespace Instagram_Assistant.Enums
             NEEDSCHALLENGE,
             SPAM,
             NEEDSLOGIN,
+            OFF
         }
     }
 }

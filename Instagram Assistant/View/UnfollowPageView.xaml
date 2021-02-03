@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Instagram_Assistant.View"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="900">
 
@@ -13,7 +13,7 @@
         <DataTemplate x:Key="UnfollowAction" >
             <Border Background="{StaticResource BorderColor}" CornerRadius="5">
                 <StackPanel Width="480" Height="50"  Orientation="Horizontal">
-                    <Ellipse  Width="25" Height="25" StrokeThickness="2" Stroke="Wheat">
+                    <Ellipse Margin="10,0,0,0" Width="25" Height="25" StrokeThickness="2" Stroke="Wheat">
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="{Binding AccountImage}"  Stretch="Uniform" />
                         </Ellipse.Fill>
@@ -25,9 +25,10 @@
                                VerticalAlignment="Center" 
                                FontWeight="ExtraLight"></TextBlock>
                     
-                    <TextBlock Margin="40,0,0,0" Text="{Binding Status}" 
+                    <TextBlock  Text="{Binding Status}" 
                                Foreground="LightGray" 
                                FontSize="12" 
+                                Width="100"
                                VerticalAlignment="Center" 
                                FontWeight="ExtraLight"></TextBlock>
 
@@ -59,11 +60,31 @@
             </Border>
         </DataTemplate>
 
-        <CollectionViewSource x:Key="unfollowCollection" Source="{Binding Path=UnfollowActions}">
+        <CollectionViewSource x:Key="unfollowCollection" Source="{Binding Path=Actions}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Time" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+
+        <Storyboard x:Key="FlashAnim">
+            <DoubleAnimation Storyboard.TargetName="Status"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0.3"
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             RepeatBehavior="Forever">
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ColorAnim">
+            <ColorAnimation  Storyboard.TargetName="Status"  
+                             Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" 
+                             RepeatBehavior="Forever" 
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             To="{DynamicResource SecondColor}">
+            </ColorAnimation>
+        </Storyboard>
     </UserControl.Resources>
     
     <Grid>
@@ -132,22 +153,22 @@
 
 
         <!--OVERVIEW 1 BORDER-->
-        <Border Grid.Column="21" Grid.ColumnSpan="13" Grid.Row="6" Grid.RowSpan="3" CornerRadius="3" 
-                Background="{StaticResource BorderColor}">
+        <Border Grid.Column="21" Grid.ColumnSpan="13" Grid.Row="6" Grid.RowSpan="3" 
+                Background="white"
+                CornerRadius="3"
+                Opacity="0.05">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" 
-                                  ShadowDepth="0.9" 
-                                  Color="{StaticResource FirstColor}"/>
+                <BlurEffect Radius="10" KernelType="Gaussian"/>
             </Border.Effect>
         </Border>
 
         <!--OVERVIEW 2 BORDER-->
-        <Border Grid.Column="21" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" 
-                Background="{StaticResource BorderColor}">
+        <Border Grid.Column="21" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" 
+                Background="White"
+                CornerRadius="3"
+                Opacity="0.05">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" 
-                                  ShadowDepth="0.9" 
-                                  Color="{StaticResource FirstColor}"/>
+                <BlurEffect Radius="10" KernelType="Gaussian"/>
             </Border.Effect>
         </Border>
 
@@ -156,17 +177,23 @@
         <StackPanel Grid.Row="2" Grid.Column="24" Grid.ColumnSpan="5" Grid.RowSpan="3"  VerticalAlignment="Center" Orientation="Vertical" >
             <Button Style="{DynamicResource MainButtonStyle}" 
                     Height="40"   
-                    Command="{Binding StartUnfollowCommand}" 
+                    Command="{Binding StartCommand}" 
                     Content="{Binding ButtonContent}"/>
-            <TextBlock Style="{DynamicResource TextBlockMainStyle}"  
-                       HorizontalAlignment="Center" 
-                       FontWeight="ExtraLight" Text="Status"/>
-            <TextBlock HorizontalAlignment="Center" 
+            <TextBlock x:Name="Status" HorizontalAlignment="Center" 
                        Foreground="White" 
-                       FontSize="20" 
-                       Margin="0,0,0,5" 
-                       FontWeight="ExtraLight"  
-                       Text="{Binding UnfollowStats.Status}"/>
+                       Margin="0,20,0,5" 
+                       FontSize="{DynamicResource Bigger}"
+                       Style="{DynamicResource TextBlockThinStyle}"
+                       Text="{Binding Stats.Status}">
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Value="WORKING" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Play"/>
+                    </i:DataTrigger>
+                    <i:DataTrigger Value="OFF" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Stop"/>
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+            </TextBlock>
         </StackPanel>
 
         <!--OVERVIEW-->
@@ -176,7 +203,7 @@
             <StackPanel VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" 
-                                Margin="0,0,30,0">
+                                Margin="0,0,40,0">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="0,0,5,0" 
                                             Icon="UserTimes" 
@@ -186,17 +213,16 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="25" 
-                                       FontWeight="ExtraLight" 
-                                       Text="{Binding UnfollowStats.SessionCount}"/>
+                                       FontSize="{DynamicResource Bigger}"
+                                       Style="{DynamicResource TextBlockThinStyle}"
+                                       Text="{Binding Stats.SessionCount}"/>
                         </StackPanel>
                         <TextBlock  HorizontalAlignment="Center" 
-                                    FontWeight="ExtraLight" 
-                                    Style="{DynamicResource TextBlockMainStyle}">session</TextBlock>
+                                    Style="{DynamicResource TextBlockThinStyle}">Session</TextBlock>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" 
-                                Margin="0,0,30,0">
+                                Margin="0,0,40,0">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="0,0,5,0" 
                                             Icon="UserTimes" 
@@ -206,24 +232,21 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="25" 
-                                       FontWeight="ExtraLight" 
-                                       Style="{DynamicResource TextBlockMainStyle}"
-                                       Text="{Binding UnfollowStats.Count}"/>
+                                       FontSize="{DynamicResource Bigger}"
+                                       Style="{DynamicResource TextBlockThinStyle}"
+                                       Text="{Binding Stats.Count}"/>
                         </StackPanel>
                         <TextBlock HorizontalAlignment="Center"
-                                   FontWeight="ExtraLight"
-                                   Style="{DynamicResource TextBlockMainStyle}">total</TextBlock>
+                                   Style="{DynamicResource TextBlockThinStyle}">Total</TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center">
                         <TextBlock HorizontalAlignment="Center"
                                    Foreground="White"
-                                   FontSize="25"
-                                   FontWeight="ExtraLight"
-                                   Text="{Binding UnfollowStats.NextIn}"/>
+                                   FontSize="{DynamicResource Bigger}"
+                                   Style="{DynamicResource TextBlockThinStyle}"
+                                   Text="{Binding Stats.NextIn}"/>
                         <TextBlock HorizontalAlignment="Center"
-                                   FontWeight="ExtraLight" 
-                                   Style="{DynamicResource TextBlockMainStyle}">Next in</TextBlock>
+                                   Style="{DynamicResource TextBlockThinStyle}">Next in</TextBlock>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -237,25 +260,24 @@
                         Margin="0,0,30,0" >
                 <TextBlock HorizontalAlignment="Center"
                            Foreground="White" 
-                           FontSize="20"
                            Margin="0,0,0,5" 
-                           FontWeight="ExtraLight"
-                           Text="{Binding UnfollowStats.TimeInWork}"/>
+                           FontSize="{DynamicResource Bigger}"
+                           Style="{DynamicResource TextBlockThinStyle}"
+                           Text="{Binding Stats.TimeInWork}"/>
                 <TextBlock HorizontalAlignment="Center" 
-                           FontWeight="ExtraLight"
-                           Style="{DynamicResource TextBlockMainStyle}">Time in work</TextBlock>
+                           Style="{DynamicResource TextBlockThinStyle}">Time in work</TextBlock>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Center" >
                 <TextBlock HorizontalAlignment="Center"
                            Foreground="White"
-                           FontSize="20" 
+
                            Margin="0,0,0,5"
-                           FontWeight="ExtraLight" 
-                           Text="{Binding UnfollowStats.NextSessionIn}"/>
+                           FontSize="{DynamicResource Bigger}"
+                           Style="{DynamicResource TextBlockThinStyle}" 
+                           Text="{Binding Stats.NextSessionIn}"/>
                 <TextBlock HorizontalAlignment="Center"
-                           FontWeight="ExtraLight"
-                           Style="{DynamicResource TextBlockMainStyle}">Rest</TextBlock>
+                           Style="{DynamicResource TextBlockThinStyle}">Rest</TextBlock>
             </StackPanel>
         </StackPanel>
 

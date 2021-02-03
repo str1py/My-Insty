@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Instagram_Assistant.View"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+                          xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -191,6 +191,26 @@
                 <scm:SortDescription PropertyName="Time" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+
+        <Storyboard x:Key="FlashAnim">
+            <DoubleAnimation Storyboard.TargetName="Status"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0.3"
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             RepeatBehavior="Forever">
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ColorAnim">
+            <ColorAnimation  Storyboard.TargetName="Status"  
+                             Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" 
+                             RepeatBehavior="Forever" 
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             To="{DynamicResource SecondColor}">
+            </ColorAnimation>
+        </Storyboard>
     </UserControl.Resources>
     
     <Grid>
@@ -245,7 +265,11 @@
             <ColumnDefinition/>
 
         </Grid.ColumnDefinitions>
-
+        
+        <TextBlock Grid.Column="22" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="0" 
+                   Style="{DynamicResource TextBlockMainStyle}" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="{DynamicResource H1}" >Overview</TextBlock>
 
         <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="20" Grid.RowSpan="2"
                    Text="{Binding LastActionTextHelper}" Opacity="0.6" 
@@ -253,19 +277,28 @@
                    FontSize="{DynamicResource H1}" 
                    VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
 
-        <StackPanel Grid.Row="0" Grid.Column="22" Grid.ColumnSpan="4" Grid.RowSpan="5"  VerticalAlignment="Center" Orientation="Vertical" >
+        <StackPanel Grid.Row="2" Grid.Column="22" Grid.ColumnSpan="4" Grid.RowSpan="5"  VerticalAlignment="Center" Orientation="Vertical" >
             <Button Style="{DynamicResource MainButtonStyle}" 
                     Height="40"   
                     Command="{Binding StartFilterAudienceCommand}" 
                     Content="{Binding ButtonContent}"/>
-            <TextBlock Style="{DynamicResource TextBlockMainStyle}"  
-                       HorizontalAlignment="Center" 
-                       FontWeight="ExtraLight">Status</TextBlock>
             <TextBlock HorizontalAlignment="Center" 
+                       x:Name="Status"
                        Foreground="White" 
-                       FontSize="20" 
-                       Margin="0,0,0,20" 
-                       FontWeight="ExtraLight" Text="ON"/>
+                       Margin="0,20,0,5" 
+                       FontSize="{DynamicResource Bigger}"
+                       Style="{DynamicResource TextBlockThinStyle}"
+                       Text="{Binding Stats.Status}">
+                
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Value="WORKING" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Play"/>
+                    </i:DataTrigger>
+                    <i:DataTrigger Value="OFF" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Stop"/>
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+            </TextBlock>
         </StackPanel>
 
         <!--Last Actions-->

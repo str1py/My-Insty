@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Instagram_Assistant"
         xmlns:viewmodels="clr-namespace:Instagram_Assistant.ViewModel"
         xmlns:views="clr-namespace:Instagram_Assistant.View"
         mc:Ignorable="d"
@@ -49,8 +48,34 @@
         <DataTemplate x:Name="audienceView" DataType="{x:Type viewmodels:AudiencePageViewModel}">
             <views:UnfollowPageView/>
         </DataTemplate>
+        <DataTemplate x:Name="geoLikeView" DataType="{x:Type viewmodels:GeoLikePageViewModel}">
+            <views:GeoLikePageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="hastagLikeView" DataType="{x:Type viewmodels:HashtagLikePageViewModel}">
+            <views:HashtagLikePageView/>
+        </DataTemplate>
 
+        <Storyboard x:Key="sbAlertShow">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                From="0,-90,0,0" To="0,8,0,0" 
+                                Storyboard.TargetName="AlertGrid" 
+                                AccelerationRatio=".9" Duration="0:0:1.5" >
+                <ThicknessAnimation.EasingFunction>
+                    <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="6" />
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+        </Storyboard>
+        <Storyboard x:Key="sbAlertHide">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                From="0,8,0,0" To="0,-90,0,0" 
+                                Storyboard.TargetName="AlertGrid"
+                                Duration="0:0:1" >
+                <ThicknessAnimation.EasingFunction>
+                    <ElasticEase EasingMode="EaseIn" Oscillations="1" Springiness="3" />
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
 
+        </Storyboard>
     </Window.Resources>
 
     <Grid>
@@ -215,12 +240,8 @@
                     Grid.Column="26" fa:Awesome.Content="WindowMinimize"
                     Command="{Binding CollapseCommand}"></Button>
 
-            <TextBlock Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" 
-                       Text="Instagram"
-                       HorizontalAlignment="Center" 
-                       Grid.ColumnSpan="4" FontSize="20" 
-                       Foreground="White" 
-                       Style="{DynamicResource TextBlockMainStyle}"/>
+            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Grid.ColumnSpan="4" 
+                    Source="pack://application:,,,/Resources/Images/insta-splash.png" Height="70"/>
 
             <ContentPresenter Grid.Column="0" Grid.Row="1"  Grid.RowSpan="17" Grid.ColumnSpan="28" 
                               x:Name="ContControl" 
@@ -229,6 +250,75 @@
             <ContentPresenter Grid.Column="4" Grid.Row="1" Grid.RowSpan="17" Grid.ColumnSpan="24"
                               x:Name="MainControl" 
                               Content="{Binding MainSelectedViewModel}"/>
+        </Grid>
+        <Grid x:Name="AlertGrid" Margin="0,-70,0,0" VerticalAlignment="Top" Width="450" Height="90">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
+            <Border Background="{DynamicResource FirstColorBrush}" Opacity="0.9" Grid.ColumnSpan="25" Grid.RowSpan="8" 
+                    BorderBrush="White" CornerRadius="10"></Border>
+            <Border Background="{DynamicResource SecondColorBrush}" Opacity="0.4" Grid.ColumnSpan="25"  Grid.RowSpan="3" 
+                    BorderBrush="White" CornerRadius="10,10,0,0"></Border>
+
+            <Label  HorizontalAlignment="Center"
+                   Content="{Binding NewAlert.Time}" Foreground="LightGray" 
+                   Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="20"></Label>
+            <StackPanel Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="12" Orientation="Horizontal" VerticalAlignment="Center">
+                <fa:ImageAwesome Width="20" Icon="{Binding NewAlert.AlertImage}" Foreground="White"></fa:ImageAwesome>
+                <Label Padding="15,0,0,0" 
+                   HorizontalAlignment="Left"  VerticalAlignment="Center" VerticalContentAlignment="Center"
+                        FontSize="{DynamicResource Big}"  Foreground="LightGray" 
+                   Content="{Binding NewAlert.AlertFrom}"></Label>
+            </StackPanel>
+
+            <TextBlock Grid.Column="1" Grid.ColumnSpan="20"  Grid.Row="4" 
+                       TextWrapping="Wrap" VerticalAlignment="Center" 
+                       FontSize="{DynamicResource Small}" Foreground="LightGray" 
+                       LineStackingStrategy="BlockLineHeight" LineHeight="15"
+                       Text="{Binding NewAlert.AlertMessage}"></TextBlock>
+
+
+            <i:Interaction.Triggers>
+                <i:DataTrigger Binding="{Binding IsAlertOn}" Value="ON">
+                    <i:ControlStoryboardAction Storyboard="{StaticResource sbAlertShow}"  ControlStoryboardOption="Play"/>
+                </i:DataTrigger>
+                <i:DataTrigger Binding="{Binding IsAlertOn}" Value="OFF">
+                    <i:ControlStoryboardAction Storyboard="{StaticResource sbAlertHide}"   ControlStoryboardOption="Play"/>
+                </i:DataTrigger>
+            </i:Interaction.Triggers>
+
         </Grid>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using Instagram_Assistant.Helpers;
+﻿using Instagram_Assistant.Enums;
+using Instagram_Assistant.Helpers;
 using Instagram_Assistant.Model;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ using System.Windows.Input;
 
 namespace Instagram_Assistant.ViewModel
 {
-    class AudiencePageViewModel : ViewModelBase, INotifyCollectionChanged
+    class AudiencePageViewModel : ViewModelBase
     {
         private static AudiencePageViewModel audienceInstance;
-        public static AudiencePageViewModel Instanse
+        public static AudiencePageViewModel Instance
         {
             get
             {
@@ -28,11 +29,17 @@ namespace Instagram_Assistant.ViewModel
         private AudienceHelper auhelper = new AudienceHelper();
         private MainVars mainVars = new MainVars();
 
+        private AudienceStatsModel _stats;
+        public AudienceStatsModel Stats
+        {
+            get { return _stats; }
+            set { _stats = value; OnPropertyChanged(); }
+        }
 
         private ICommand _startAudienceCommand;
         public ICommand StartAudienceCommand
         {
-            get { return _startAudienceCommand ?? (_startAudienceCommand = new RelayCommand(p => StartAudience())); }
+            get { return _startAudienceCommand ?? (_startAudienceCommand = new RelayCommand(async p => await StartAudience())); }
         }
 
 
@@ -53,9 +60,16 @@ namespace Instagram_Assistant.ViewModel
             ButtonContent = "Start";
             AudienceProcess = new AudienceProcessModel("No actions yet", 0);
             LastActionTextHelper = "No actions yet";
-            AccountInUse = "n/a";
-            CompetitorInUse = "n/a";
-            AudienceCount = 0;
+
+            Stats = (new AudienceStatsModel
+            {
+                TechAccount = "n/a",
+                Competitor = "n/a",
+                Count = "",
+                Status = AccountStatus.Type.OFF.ToString(),
+                TimeInWork = "00:00:00"
+            });
+
         }
 
         private string _buttonContent;
@@ -72,26 +86,6 @@ namespace Instagram_Assistant.ViewModel
             set { _lastActionTextHelper = value; OnPropertyChanged(); }
         }
 
-        private string _accountInUse;
-        public string AccountInUse
-        {
-            get { return _accountInUse; }
-            set { _accountInUse = value; OnPropertyChanged(); }
-        }
-
-        private string _competitorInUse;
-        public string CompetitorInUse
-        {
-            get { return _competitorInUse; }
-            set { _competitorInUse = value; OnPropertyChanged(); }
-        }
-
-        private int _audienceCount;
-        public int AudienceCount
-        {
-            get { return _audienceCount; }
-            set { _audienceCount = value; OnPropertyChanged(); }
-        }
 
         private string _competitorList;
         public string CompetitorList
@@ -145,12 +139,5 @@ namespace Instagram_Assistant.ViewModel
             }
         }
 
-
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
-        public void OnCollectionChanged(NotifyCollectionChangedAction action)
-        {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action));
-        }
     }
 }

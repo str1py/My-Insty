@@ -2,18 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <!--<Style x:Key="BaseFont">
-        <Setter Property="TextElement.FontFamily" Value="/Resources/Fonts/#ReemKufi"/>
-    </Style>-->
-    <!--<FontFamily x:Key="BaseFontRegular" >/Instagram Assistant;component/Fonts/#Varela Round</FontFamily>-->
-    <FontFamily x:Key="BaseFontRegular">Roboto</FontFamily>
 
-    <FontFamily x:Key="MessageFont" >Yu Gothic UI</FontFamily>
+    
+    <!--<FontFamily x:Key="MainFont" >/Instagram Assistant;component/Fonts/#Montserrat</FontFamily>-->
+    <FontFamily x:Key="MainFont" >/Instagram Assistant;component/Fonts/#HelveticaNeueCyr</FontFamily>
     <system:Double x:Key="Small">14</system:Double>
     <system:Double x:Key="Smaller">12</system:Double>
     <system:Double x:Key="TheSmallest">10</system:Double>
     <system:Double x:Key="Regular">15</system:Double>
     <system:Double x:Key="Big">17</system:Double>
+    <system:Double x:Key="Bigger">21</system:Double>
+    <system:Double x:Key="TheBiggest">22</system:Double>
     <system:Double x:Key="H1">26</system:Double>
     
 </ResourceDictionary>

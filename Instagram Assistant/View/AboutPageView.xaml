@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Instagram_Assistant.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -60,96 +60,326 @@
         </Grid.ColumnDefinitions>
         
         <!--DISCRIPTION-->
-        <TextBlock Text="HELP AND SUPPORT" Grid.Row="0" Grid.RowSpan="1"  Grid.Column="1" Grid.ColumnSpan="10" 
+        <TextBlock Text="HELP AND SUPPORT" Grid.Row="0" Grid.RowSpan="1"  Grid.Column="1" Grid.ColumnSpan="12" 
                    VerticalAlignment="Center"
-                   FontSize="30"
                    Foreground="White" 
-                   Style="{DynamicResource TextBlockMainStyle}"/>
+                   Style="{DynamicResource TextBlockH1Style}"/>
         
-        <StackPanel Grid.Row="2" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="26" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="26" 
+                    Orientation="Horizontal">
             <Image Height="100" 
                    Source="pack://application:,,,/Resources/Images/insta-splash.png"
                    Margin="0,0,20,0"/>
-            <TextBlock Width="710" 
+            <TextBlock Width="650" 
                        TextWrapping="Wrap"
-                       Foreground="White" 
-                       FontWeight="Regular" >
-                This app is designed to promote and automate your work in Instagram. More description will be soon.
-            </TextBlock>
+                       Style="{DynamicResource TextBlockH3Style}"
+                       Text="This app is designed to promote and automate your work in Instagram. More description will be soon."/>
         </StackPanel>
 
         <Border Grid.Row="4" Grid.RowSpan="3" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="26" BorderThickness="0,0,0,1" BorderBrush="Gray"  />
 
         <!-- Information about program and license-->
-        <TextBlock Grid.Row="6" Grid.RowSpan="3"  Grid.Column="1" Grid.ColumnSpan="26"
-                   Style="{DynamicResource TextBlockMainStyle}"
-                   Foreground="White" 
-                   FontSize="{DynamicResource Big}">          
-            Information about program and license
-        </TextBlock>
+            <TextBlock Grid.Row="6" Grid.RowSpan="3"  Grid.Column="1" Grid.ColumnSpan="26"
+                       Style="{DynamicResource TextBlockH2Style}" 
+                       Text="Information about programm and license"/>
 
-        <StackPanel Orientation="Vertical" Grid.Row="7" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">Programm state: </TextBlock>
-                <TextBlock Margin="5,0,0,0" 
+            <StackPanel Orientation="Vertical"
+                        Grid.Row="7" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockH3Style}"
+                               Text="Programm state:"/>
+                    <TextBlock Margin="5,0,0,0" 
                            Foreground="Gray"
-                           Style="{DynamicResource TextBlockMainStyle}" 
+                           Style="{DynamicResource TextBlockH3Style}" 
                            FontWeight="Bold"
                            Text="{Binding ProgramState}"/>
-            </StackPanel>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">Product version:</TextBlock>
-                <TextBlock Margin="5,0,0,0" 
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockH3Style}"
+                               Text="Product version:"/>
+                    <TextBlock Margin="5,0,0,0" 
                            Foreground="Gray" 
-                           Style="{DynamicResource TextBlockMainStyle}" 
-                           Text="{Binding Version}"
+                           Style="{DynamicResource TextBlockH3Style}" 
+                           Text="{Binding Version}" 
                            FontWeight="Bold"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">The validity of the license:</TextBlock>
-                <TextBlock Margin="5,0,0,0" 
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockH3Style}"
+                               Text="The validity of the license:"/>
+                    <TextBlock Margin="5,0,0,0" 
                            Foreground="Gray" 
-                           Style="{DynamicResource TextBlockMainStyle}"  
+                           Style="{DynamicResource TextBlockH3Style}"  
                            FontWeight="Bold"
                            Text="{Binding License}"/>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
 
-        <StackPanel Orientation="Vertical"  Grid.Row="7" Grid.RowSpan="3" Grid.Column="20" Grid.ColumnSpan="3">
-            <Button Style="{DynamicResource MainButtonStyle}" Height="25" Margin="0,0,0,10" IsEnabled="False">Update license</Button>
-            <Button Style="{DynamicResource MainButtonStyle}" Height="25" IsEnabled="False">Check updates</Button>
-        </StackPanel>
-        
-        <Border Grid.Row="8" Grid.RowSpan="3" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="26" BorderThickness="0,0,0,1" BorderBrush="Gray"  />
+            <StackPanel Orientation="Vertical"  Grid.Row="7" Grid.RowSpan="3" Grid.Column="20" Grid.ColumnSpan="3">
+                <Button Style="{DynamicResource MainButtonStyle}" 
+                        Height="25"
+                        Margin="0,0,0,10" 
+                        IsEnabled="False" 
+                        Content="Update license"/>
+                <Button Style="{DynamicResource MainButtonStyle}" 
+                        Height="25" 
+                        Command="{Binding CheckUpdateCommand}"
+                        IsEnabled="True"
+                        Content="Check updates"/>
+            </StackPanel>
 
-        <!--Technical support-->
-        <TextBlock Grid.Row="10" Grid.RowSpan="3"  Grid.Column="1" Grid.ColumnSpan="26"
-                   Style="{DynamicResource TextBlockMainStyle}"
-                   Foreground="White" 
-                   FontSize="{DynamicResource Big}">          
-                   Technical support
-        </TextBlock>
-        
-        <StackPanel Orientation="Vertical" Grid.Row="11" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="10">
-            <TextBlock Style="{DynamicResource TextBlockMainStyle}" FontSize="20">Contacts</TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">Telegram:</TextBlock>
-                <TextBlock Margin="5,0,0,0" Foreground="Gray" Style="{DynamicResource TextBlockMainStyle}"  FontWeight="Bold"> @Anulyev</TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">VK:</TextBlock>
-                <TextBlock Margin="5,0,0,0" Foreground="Gray" Style="{DynamicResource TextBlockMainStyle}"  FontWeight="Bold">vk.com/pavelanulyev</TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">Instagram:</TextBlock>
-                <TextBlock Margin="5,0,0,0" Foreground="Gray" Style="{DynamicResource TextBlockMainStyle}"  FontWeight="Bold">instagram.com/pavelanulyev</TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockMainStyle}">E-mail:</TextBlock>
-                <TextBlock Margin="5,0,0,0" Foreground="Gray" Style="{DynamicResource TextBlockMainStyle}"  FontWeight="Bold">dev.anujevpavel@gmail.com</TextBlock>
-            </StackPanel>
-        </StackPanel>
+            <Border Grid.Row="8" Grid.RowSpan="3" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="26" 
+                    BorderThickness="0,0,0,1" 
+                    BorderBrush="Gray"  />
 
+            <!--Technical support-->
+            <TextBlock Grid.Row="10" Grid.RowSpan="3"  Grid.Column="1" Grid.ColumnSpan="26"
+                       Style="{DynamicResource TextBlockH2Style}"
+                       Text="Technical support"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="11" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="10">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockH3Style}">Telegram:</TextBlock>
+                    <TextBlock Margin="5,0,0,0"
+                               Foreground="Gray" 
+                               Style="{DynamicResource TextBlockH3Style}"  
+                               FontWeight="Bold"
+                               Text="@Anulyev"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockH3Style}">VK:</TextBlock>
+                    <TextBlock Margin="5,0,0,0"
+                               Foreground="Gray" 
+                               Style="{DynamicResource TextBlockH3Style}"
+                               FontWeight="Bold" 
+                               Text="vk.com/pavelanulyev"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockH3Style}">Instagram:</TextBlock>
+                    <TextBlock Margin="5,0,0,0"
+                               Foreground="Gray"
+                               Style="{DynamicResource TextBlockH3Style}"
+                               FontWeight="Bold" 
+                               Text="instagram.com/pavelanulyev"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockH3Style}"
+                               Text="E-mail:"/>
+                    <TextBlock Margin="5,0,0,0" 
+                               Foreground="Gray"
+                               Style="{DynamicResource TextBlockH3Style}"  
+                               FontWeight="Bold"
+                               Text="dev.anujevpavel@gmail.com"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Border Grid.Row="12" Grid.RowSpan="3" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="26" 
+                    BorderThickness="0,0,0,1" 
+                    BorderBrush="Gray"  />
+            
+            <!--Support project-->
+            <TextBlock Grid.Row="14" Grid.RowSpan="3"  Grid.Column="1" Grid.ColumnSpan="26"
+                       Style="{DynamicResource TextBlockH2Style}"
+                       Text="Support project"/>
+        </Grid>
+        <Grid Visibility="{Binding CheckVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            
+            <Border Grid.RowSpan="20"
+                    Grid.ColumnSpan="28"
+                    Background="Black"
+                    Opacity="0.6"/>
+            <Border Grid.Row="4"
+                    Grid.Column="7"
+                    Grid.RowSpan="10" 
+                    Grid.ColumnSpan="14"
+                    Background="Black" 
+                    BorderBrush="Gray"
+                    BorderThickness="1"
+                    Opacity="1"/>
+
+            <StackPanel Grid.Row="9" Grid.Column="10"  Grid.RowSpan="10" Grid.ColumnSpan="8"  Visibility="{Binding CheckProgressVisibility}">
+                <TextBlock  Style="{DynamicResource TextBlockMainStyle}" 
+                            HorizontalAlignment="Center" 
+                            Text="Check for updates..."
+                            Margin="0,0,0,10"/>
+                <ProgressBar Style="{DynamicResource ProgressBar}"
+                             IsIndeterminate="True"
+                             Foreground="{DynamicResource SecondColorBrush}"/>
+            </StackPanel>
+
+
+            <StackPanel Margin="20,15,20,0" x:Name="NewVersion" Grid.Row="4" Grid.Column="7"  Grid.RowSpan="10"  Grid.ColumnSpan="14" Visibility="{Binding NewVersionVisibility}">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Style="{DynamicResource TextBlockMainStyle}" 
+                       Text="New version is avalible"
+                       Margin="0,0,0,20"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse x:Name="AppIcon" Height="35" Width="35" >
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="UniformToFill"  
+                            ImageSource="pack://application:,,,/Resources/Images/insta-splash.png" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0,0,0" Orientation="Vertical">
+                        <StackPanel>
+                            <TextBlock Style="{DynamicResource TextBlockMainStyle}" 
+                               VerticalAlignment="Center" 
+                               Text="My Insy Alpha"
+                               FontWeight="Bold"
+                                Margin="0,0,0,5"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}"
+                                   Text="Version: "/>
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}" 
+                                   Text="{Binding UpdateVersion}"/>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}"
+                                   Text="Release: "/>
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}" 
+                                   Text="{Binding DownloadRelease}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="150,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button Content="Update"
+                                Style="{DynamicResource SettingsButtonStyle}"
+                                FontSize="{DynamicResource Regular}"
+                                Command="{Binding UpdateNowCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel>
+                    <ScrollViewer MaxHeight="150">
+                        <TextBlock Style="{DynamicResource TextBlockMainStyle}" 
+                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                   FontSize="{DynamicResource Smaller}"
+                                   IsEnabled="False"
+                                  TextWrapping="Wrap"
+                                  FontFamily="Helvetica Regular" 
+                                   Text="{Binding ChangeLog}"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel Margin="20,15,20,0" x:Name="UptodateVersion" Grid.Row="4" Grid.Column="7"  Grid.RowSpan="10"  Grid.ColumnSpan="14" Visibility="{Binding UptodateVersionVisibility}">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Style="{DynamicResource TextBlockMainStyle}" 
+                       Text="My Insty has latest update yet"
+                       Margin="0,0,0,20"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Height="35" Width="35" >
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="UniformToFill"  
+                            ImageSource="pack://application:,,,/Resources/Images/insta-splash.png" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0,0,0" Orientation="Vertical">
+                        <StackPanel>
+                            <TextBlock Style="{DynamicResource TextBlockMainStyle}" 
+                               VerticalAlignment="Center" 
+                               Text="My Insy Alpha"
+                               FontWeight="Bold"
+                                Margin="0,0,0,5"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}"
+                                   Text="Version: "/>
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}" 
+                                   Text="{Binding UpdateVersion}"/>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}"
+                                   Text="Download: "/>
+                            <TextBlock FontSize="{DynamicResource Smaller}" 
+                                   Style="{DynamicResource TextBlockMainStyle}" 
+                                   Text="{Binding DownloadRelease}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Column="13">
+                <Button Content="Close" Style="{DynamicResource SettingsButtonStyle}" Command="{Binding CancleUpdateCommand}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -3,12 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Instagram_Assistant.View"
              xmlns:viewmodels="clr-namespace:Instagram_Assistant.ViewModel"
              xmlns:views="clr-namespace:Instagram_Assistant.View"
-             xmlns:helpers="clr-namespace:Instagram_Assistant.Helpers"
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -29,6 +25,18 @@
         </DataTemplate>
         <DataTemplate x:Name="audienceFilterView" DataType="{x:Type viewmodels:FilterAudiencePageViewModel}">
             <views:FilterAudiencePageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="geoLikeView" DataType="{x:Type viewmodels:GeoLikePageViewModel}">
+            <views:GeoLikePageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="hastagLikeView" DataType="{x:Type viewmodels:HashtagLikePageViewModel}">
+            <views:HashtagLikePageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="geoStoriesView" DataType="{x:Type viewmodels:GeoStoriesWatchViewModel}">
+            <views:GeoStoriesWatchPageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="spyView" DataType="{x:Type viewmodels:SpyPageViewModel}">
+            <views:SpyPageView/>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -212,7 +220,7 @@
 
                         <ListView  Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="35"  
                                    IsSynchronizedWithCurrentItem="True"
-                                   SelectedIndex="{Binding Item,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   SelectedIndex="{Binding LikeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                    Foreground="White" 
                                    Background="Transparent"
                                    HorizontalAlignment="Center"
@@ -224,16 +232,15 @@
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                             <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Feed</ListViewItem>
-                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" IsEnabled="False" >Geo</ListViewItem>
-                            <ListViewItem Style="{DynamicResource ListViewItemStyle}"  IsEnabled="False">Hashtag</ListViewItem>
-                            <ListViewItem Style="{DynamicResource ListViewItemStyle}"  IsEnabled="False">From user</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" IsEnabled="True" >Geo</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}"  IsEnabled="True">Hashtag</ListViewItem>
                         </ListView>
 
                         <ContentPresenter x:Name="ContControl" 
                                           Grid.Column="0" Grid.Row="2" Grid.RowSpan="25" Grid.ColumnSpan="28"
                                           Width="800"
-                                          Content="{Binding SelectedLikeView}"/>
-                    </Grid>
+                                          Content="{Binding SelectedLikeView}" />
+                    </Grid> 
                 </TabItem>
                 <TabItem Header="Stories" 
                          Style="{DynamicResource TabItemStyle}"
@@ -305,7 +312,6 @@
                             </ListView.ItemsPanel>
                             <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Feed</ListViewItem>
                             <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Geo</ListViewItem>
-                            <ListViewItem Style="{DynamicResource ListViewItemStyle}"  IsEnabled="False">Hashtag</ListViewItem>
                         </ListView>
 
                         <ContentPresenter x:Name="StoriesControl" 
@@ -381,8 +387,8 @@
                     </Grid>
 
                 </TabItem>
-                <TabItem Header="Follow" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
-                <TabItem Header="Combo" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False"></TabItem>
+                <TabItem Header="Follow" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False" Visibility="Collapsed"></TabItem>
+                <TabItem Header="Combo" Style="{DynamicResource TabItemStyle}" FontWeight="Bold"  IsEnabled="False" Visibility="Collapsed"></TabItem>
                 <TabItem Header="Audience" 
                          Style="{DynamicResource TabItemStyle}" 
                          FontWeight="Bold" >
@@ -454,7 +460,7 @@
                             </ListView.ItemsPanel>
                             <ListViewItem Style="{DynamicResource ListViewItemStyle}" >New</ListViewItem>
                             <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Filter</ListViewItem>
-                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" IsEnabled="False" >Spy</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Spy</ListViewItem>
                         </ListView>
                         <ContentPresenter x:Name="AudienceControl" 
                                           Grid.Column="0" Grid.Row="2" Grid.RowSpan="25" Grid.ColumnSpan="28"

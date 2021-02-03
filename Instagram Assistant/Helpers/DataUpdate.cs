@@ -1,116 +1,131 @@
-﻿using Instagram_Assistant.Model;
+﻿using Instagram_Assistant.Enums;
+using Instagram_Assistant.Model;
 using Instagram_Assistant.ViewModel;
+using Instagram_Assistant.ViewModel.BaseModels;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Instagram_Assistant.Helpers
 {
     class DataUpdate
     {
         //STATUS: OK
-        private LogsPageViewModel logs = LogsPageViewModel.Instanse;
+        private LogsPageViewModel logs = LogsPageViewModel.Instance;
+        private ConvertHelper convert = new ConvertHelper();
 
-        public void UpdateActions(ObservableCollection<ActionModel> actions,string _class,int _maxfeedcount, BitmapImage _accountImage, string _accountName, BitmapImage _postPreview, string _action)
+        public void UpdateActions(ObservableCollection<ActionModel> actions, CommonViewModel _class, BitmapImage _accountImage, string _accountName, string _action, string _status = null, BitmapImage _postPreview = null)
         {
-            actions.Add(new ActionModel
+            try
             {
-                AccountImage = _accountImage,
-                AccountName = _accountName,
-                PostImage = _postPreview,
-                Action = _action,
-                Time = DateTime.Now
-            });
-            if (actions.Count > _maxfeedcount)
-                actions.RemoveAt(0);
+                var act = new ActionModel()
+                {
+                    AccountImage = _accountImage,
+                    AccountName = _accountName,
+                    PostImage = _postPreview,
+                    Action = _action,
+                    Status = _status,
+                    Time = DateTime.Now
+                };
 
-            if(_class == "FeedLikeHelper")
-                FeedLikePageViewModel.Instanse.FeedLikeActions = actions;
-            else if(_class == "StoriesFeedHelper")
-                FeedStoriesPageViewModel.Instanse.StoryFeedActions = actions;
-            else if (_class == "UnfollowHelper")
-                UnfollowPageViewModel.Instanse.UnfollowActions = actions;
+                int maxfeedcount;
+                if (_class is UnfollowPageViewModel || _class is SpyPageViewModel)
+                    maxfeedcount = 50;
+                else maxfeedcount = 5;
 
+                if (actions.Count > maxfeedcount)
+                    actions.RemoveAt(0);
+
+                if (_class.Actions is null)
+                {
+                    _class.Actions = new ObservableCollection<ActionModel>();
+                    _class.Actions.Add(act);
+                }
+                else
+                    _class.Actions?.Add(act);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
-        public void UpdateActions(ObservableCollection<ActionModel> actions, string _class, int _maxfeedcount, BitmapImage _accountImage, string _accountName, string _status, string _action)
+
+        public StatsModelBase StatsReset()
         {
-            actions.Add(new ActionModel
+            var stats = new StatsModelBase
             {
-                AccountImage = _accountImage,
-                AccountName = _accountName,
-                Action = _action,
-                Status = _status,
-                Time = DateTime.Now
-            });
-            if (actions.Count > _maxfeedcount)
-                actions.RemoveAt(0);
+                NextIn = 0,
+                NextSessionIn = "00:00:00",
+                Status = "OFF",
+                TimeInWork = "00:00:00",
+                SessionCount = "0",
+                Count = Properties.Settings.Default.FeedLikesTotalCount.ToString()
+            };
+            return stats;
+        }
 
-            if (_class == "FeedLikeHelper")
-                FeedLikePageViewModel.Instanse.FeedLikeActions = actions;
-            else if (_class == "StoriesFeedHelper")
-                FeedStoriesPageViewModel.Instanse.StoryFeedActions = actions;
-            else if (_class == "UnfollowHelper")
-                UnfollowPageViewModel.Instanse.UnfollowActions = actions;
+        public StatsModelBase StatsUpdate(StatsModelBase _stats, CommonViewModel _class, string _status, int? _count, int? _sessioncount, int? _nextint, string _timeinwork, string _nextsessionin)
+        {
+            var stats = new StatsModelBase()
+            {
+                Status = _status ?? _stats.Status,
+                SessionCount = convert.BigNumbersCutting(_sessioncount) ?? convert.BigNumbersCutting(_stats.SessionCount),
+                NextSessionIn = _nextsessionin ?? _stats.NextSessionIn,
+                NextIn = _nextint ?? _stats.NextIn,
+                Count = convert.BigNumbersCutting(_count) ?? convert.BigNumbersCutting(_stats.Count),
+                TimeInWork = _timeinwork ?? _stats.TimeInWork
+            };
 
+            _class.Stats = stats;
+
+            return stats;
+        }
+       
+        public void ClearActions(CommonViewModel _class)
+        {
+            _class.Actions?.Clear();
         }
 
         //AUDIENCE
-        public void UpdateProcess(string message, double? folowerscount, double? followerspassed, MessageType.Type type)
+        public void UpdateProcess(string message, double? folowerscount, double? followerspassed, MessageType.Type type, string _class)
         {
             if (folowerscount == null || followerspassed == null)
             {
-                AudiencePageViewModel.Instanse.AudienceProcess = new AudienceProcessModel(message, 0);
+                AudiencePageViewModel.Instance.AudienceProcess = new AudienceProcessModel(message, 0);
             }
             else
             {
                 double? pr = (followerspassed / folowerscount) * 100;
-                AudiencePageViewModel.Instanse.AudienceProcess = new AudienceProcessModel($"{message} ({followerspassed}/{folowerscount})", pr);
+                AudiencePageViewModel.Instance.AudienceProcess = new AudienceProcessModel($"{message} ({followerspassed}/{folowerscount})", pr);
             }
-            if (type != MessageType.Type.HIDDEN)
-                logs.Add($"{message}", type, this.GetType().Name);
+            if(type != MessageType.Type.HIDDEN)
+                logs.Add($"{message}", type, _class);
         }
 
+        public AudienceStatsModel AudienceStatsUpdate(AudienceStatsModel _stats, string _status, int? _count,  string _timeinwork, string _mainacc, string _competitor)
+        {
+            var stats = new AudienceStatsModel()
+            {
+                Status = _status ?? _stats.Status,
+                Count = convert.BigNumbersCutting(_count) ?? convert.BigNumbersCutting(_stats.Count),
+                TimeInWork = _timeinwork ?? _stats.TimeInWork,
+                Competitor = _competitor ?? _stats.Competitor,
+                TechAccount = _mainacc ?? _stats.TechAccount
+            };
+            AudiencePageViewModel.Instance.Stats = stats;
+            return stats;
+        }
 
         //FILTER AUDIENCE
         public void UpdateFilterAudienceActions(string accountName, string fullname, long accid, string phone, string email, int type, string category, string city, bool iscity, int mediacount,
-int followerscount, string bio, bool hl, string image, bool stopword, bool goWords, string act)
+                    int followerscount, string bio, bool hl, string image, bool stopword, bool goWords, string act)
         {
             AudienceActionModel action = new AudienceActionModel(accountName, fullname, accid, phone, email, type, category, city, iscity, mediacount, followerscount, bio, hl, image, stopword, goWords, act);
-            FilterAudiencePageViewModel.Instanse.AudienceActions.Add(action);
+            FilterAudiencePageViewModel.Instance.AudienceActions.Add(action);
         }
 
-        public void ClearActions(string _class)
-        {
-            if (_class == "FeedLikeHelper" )
-                FeedLikePageViewModel.Instanse.FeedLikeActions?.Clear();
-            else if (_class == "StoriesFeedHelper")
-                FeedStoriesPageViewModel.Instanse.StoryFeedActions?.Clear();
-            else if (_class == "UnfollowHelper")
-                UnfollowPageViewModel.Instanse.UnfollowActions?.Clear();
-        }
 
-        public StatsModelBase StatsUpdate(StatsModelBase _stats, string _class, string _status, int? _count, int? _sessioncount, int? _nextint, string _timeinwork, string _nextsessionin)
-        {
-            var helper = new CommonHelper();
-
-            var stats = new StatsModelBase()
-            {
-                Status = _status ?? _stats.Status,
-                SessionCount = helper.BigNumbersCutting(_sessioncount) ?? helper.BigNumbersCutting(_stats.SessionCount),
-                NextSessionIn = _nextsessionin ?? _stats.NextSessionIn,
-                NextIn = _nextint ?? _stats.NextIn,
-                Count = helper.BigNumbersCutting(_count) ?? helper.BigNumbersCutting(_stats.Count),
-                TimeInWork = _timeinwork ?? _stats.TimeInWork
-            };
-
-            if (_class == "FeedLikeHelper")
-                FeedLikePageViewModel.Instanse.FeedStats = stats;
-            else if (_class == "StoriesFeedHelper")
-                FeedStoriesPageViewModel.Instanse.StoryFeedStats = stats;
-            else if (_class == "UnfollowHelper")
-                UnfollowPageViewModel.Instanse.UnfollowStats = stats;
-
-            return stats;
-        }
     }
 }

@@ -19,6 +19,7 @@
     <Style x:Key="MyWaterMarkStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -72,7 +73,7 @@
         <Setter Property="Background" Value="{DynamicResource TextBoxBG}"/>
         <Setter Property="BorderBrush" Value="#24263b"/>
         <Setter Property="FontSize" Value="{DynamicResource Regular}"></Setter>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
         <Setter Property="Foreground" Value="{DynamicResource TextBoxColor}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="5"></Setter>
@@ -113,52 +114,51 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="TextBlockMainStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="{DynamicResource TextColor}" />
-        <Setter Property="FontSize" Value="{DynamicResource Small}" />
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
-        <Setter Property="FontStyle" Value="Normal" />
-    </Style>
 
     <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
-        <!--<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>-->
-        <Setter Property="Background" Value="{DynamicResource MainButtonGradient}"/>
+        <!--<Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>-->
+        <Setter Property="Background" Value="{DynamicResource SecondColorBrush}"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="1"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="10" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="{DynamicResource ShadowBrush}" RenderingBias="Quality"/>
-                        </Border.Effect>
+                    <Border x:Name="border" BorderBrush="Transparent" Opacity="0.7" CornerRadius="10" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                        <ContentPresenter x:Name="contentPresenter" Opacity="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
+           
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsDefaulted" Value="true">
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="1"/>
                             <Setter Property="Foreground" Value="#dcdcdc"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Gray"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
+                
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="CategoriesButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
         <Setter Property="Background" Value="{DynamicResource CategoriesButtonGradient}"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontWeight" Value="Normal"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
@@ -197,8 +197,8 @@
         <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="30,0,30,5"></Setter>
-        <Setter Property="FontSize" Value="{StaticResource Big}"></Setter>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
+        <Setter Property="FontSize" Value="{DynamicResource Big}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -258,7 +258,9 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
+        <Setter Property="FontSize" Value="{DynamicResource H1}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
@@ -294,8 +296,8 @@
         <Setter Property="Height" Value="30"></Setter>
         <Setter Property="Foreground" Value="{DynamicResource MenuItemsColor}"/>
         <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
-        <Setter Property="FontSize" Value="{StaticResource Regular}"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Regular}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -333,7 +335,7 @@
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            <Setter Property="TextElement.FontSize" Value="{StaticResource Regular}" TargetName="Bd"/>
+                            <Setter Property="TextElement.FontSize" Value="{DynamicResource Regular}" TargetName="Bd"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -348,8 +350,8 @@
     <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
     <Style x:Key="LogListStyle" TargetType="{x:Type ListView}">
-        <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource ListBox.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ListBox.Static.Border}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -357,8 +359,8 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
-        <Setter  Property="FontSize" Value="{StaticResource Small}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
+        <Setter  Property="FontSize" Value="{DynamicResource Small}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListView}">
@@ -373,34 +375,7 @@
     </Style>
     <!--#endregion-->
 
-    <!--#region CHAT LIST TEMPLATE-->
-    <Style x:Key="ChatListViewStyle1" TargetType="{x:Type ListView}">
-        <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListView}">
-                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-                        <ScrollViewer  Focusable="false" Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+
 
     <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#a826A0Da"/>
     <SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA"/>
@@ -413,7 +388,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -491,14 +466,10 @@
         </Setter>
     </Style>
     <Style TargetType="{x:Type ScrollBar}">
-        <Setter Property="Stylus.IsFlicksEnabled"
-            Value="false" />
-        <Setter Property="Foreground"
-            Value="#ADABAB" />
-        <Setter Property="Background"
-            Value="Transparent" />
-        <Setter Property="Width"
-            Value="7" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+        <Setter Property="Foreground" Value="#ADABAB" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="7" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
@@ -589,13 +560,13 @@
     <!--#endregion-->
 
     <!--#region DATAGRIND STYLE (MUSIC LIST)-->
-    <Style x:Key="MusicDataGridStyle" TargetType="{x:Type DataGrid}">
+    <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGrid}">
@@ -653,7 +624,7 @@
         <Setter Property="Width" Value="0"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Cursor" Value="SizeWE"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -663,14 +634,14 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MusicDataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+    <Style x:Key="DataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="{StaticResource Small}"/>
-        <Setter Property="FontFamily" Value="{StaticResource MessageFont}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Small}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="Foreground" Value="Gray"/>
         <Setter Property="Padding" Value="0,0,0,6"/>
         <Setter Property="BorderThickness"  Value="0"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource BaseFont}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -695,12 +666,12 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MusicDataGridRowStyle" TargetType="{x:Type DataGridRow}">
+    <Style x:Key="DataGridRowStyle" TargetType="{x:Type DataGridRow}">
         <Setter Property="Foreground" Value="{DynamicResource WheatBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource MessageFont}"/>
-        <Setter Property="FontSize" Value="{StaticResource Small}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MessageFont}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Small}"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource BaseFont}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRow}">
@@ -737,11 +708,11 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MusicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
+    <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
         <Setter Property="BorderThickness" Value="0,0,0,0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ThirdColorBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource BaseFont}"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background"  Value="{DynamicResource FirstColorBrush}" />
@@ -771,12 +742,12 @@
                 <Setter Property="Stroke" TargetName="grip" Value="Black"/>
             </Trigger>
             <Trigger Property="IsDragging" Value="true">
-                <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
-                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
+                <Setter Property="Fill" TargetName="grip" Value="{DynamicResource SliderThumb.Pressed.Background}"/>
+                <Setter Property="Stroke" TargetName="grip" Value="{DynamicResource SliderThumb.Pressed.Border}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
-                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                <Setter Property="Fill" TargetName="grip" Value="{DynamicResource SliderThumb.Disabled.Background}"/>
+                <Setter Property="Stroke" TargetName="grip" Value="{DynamicResource SliderThumb.Disabled.Border}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -827,8 +798,8 @@
                 <Setter Property="StrokeThickness" TargetName="grip" Value="2"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
-                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                <Setter Property="Fill" TargetName="grip" Value="{DynamicResource SliderThumb.Disabled.Background}"/>
+                <Setter Property="Stroke" TargetName="grip" Value="{DynamicResource SliderThumb.Disabled.Border}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -889,7 +860,7 @@
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource SliderThumb.Static.Foreground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SliderThumb.Static.Foreground}"/>
         <Setter Property="Template" Value="{DynamicResource SliderHorizontal}"/>
     </Style>
 
@@ -897,57 +868,7 @@
      
     
     <!--#region CheckBoxes-->
-    <Style x:Key="OrangeSwitchStyle" TargetType="{x:Type CheckBox}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <ControlTemplate.Resources>
-                        <Storyboard x:Key="OnChecking">
-                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                <!-- value = BORDER width-->
-                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                        <Storyboard x:Key="OnUnchecking">
-                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </ControlTemplate.Resources>
-                    <DockPanel x:Name="dockPanel">
-                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" HorizontalAlignment="Stretch"  />
-                        <Grid >
-                            <Border x:Name="BackgroundBorder" HorizontalAlignment="Left" Background="White" BorderThickness="0" CornerRadius="5" Height="10" MinWidth="40" ></Border>
-                            <Ellipse x:Uid="BORDER" Fill="{DynamicResource ThirdColorBrush}"  HorizontalAlignment="Left" x:Name="slider" Width="15" Height="15" RenderTransformOrigin="0.5,0.5" >
-                                <Ellipse.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <SkewTransform AngleX="0" AngleY="0" />
-                                        <RotateTransform Angle="0" />
-                                        <TranslateTransform X="0" Y="0" />
-                                    </TransformGroup>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                        </Grid>
-                    </DockPanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Trigger.ExitActions>
-                                <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard" />
-                            </Trigger.ExitActions>
-                            <Trigger.EnterActions>
-                                <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard" />
-                            </Trigger.EnterActions>
-                            <!-- Change Orange or Blue color here -->
-                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SecondColorBrush}"></Setter>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+
     <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
     <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
     <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="White"></SolidColorBrush>
@@ -956,10 +877,10 @@
     <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
     <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
     <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
+        <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource OptionMark.Static.Border}"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -972,27 +893,27 @@
                         <Border x:Name="checkBoxBorder" BorderBrush="{DynamicResource ThirdColorBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="4" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid x:Name="markGrid">
                                 <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="White" Margin="1" Opacity="0" Stretch="None"/>
-                                <Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
+                                <Rectangle x:Name="indeterminateMark" Fill="{DynamicResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
                             </Grid>
                         </Border>
                         <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true">
-                            <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                            <Setter Property="FocusVisualStyle" Value="{DynamicResource OptionMarkFocusVisual}"/>
                             <Setter Property="Padding" Value="4,-1,0,0"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
+                            <Setter Property="Background" TargetName="checkBoxBorder" Value="{DynamicResource OptionMark.MouseOver.Background}"/>
                             <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="White"/>
-                            <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
-                            <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                            <Setter Property="Fill" TargetName="optionMark" Value="{DynamicResource OptionMark.MouseOver.Glyph}"/>
+                            <Setter Property="Fill" TargetName="indeterminateMark" Value="{DynamicResource OptionMark.MouseOver.Glyph}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
+                            <Setter Property="Background" TargetName="checkBoxBorder" Value="{DynamicResource OptionMark.Pressed.Background}"/>
                             <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{DynamicResource FirstColorBrush}"/>
-                            <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
-                            <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                            <Setter Property="Fill" TargetName="optionMark" Value="{DynamicResource OptionMark.Pressed.Glyph}"/>
+                            <Setter Property="Fill" TargetName="indeterminateMark" Value="{DynamicResource OptionMark.Pressed.Glyph}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
@@ -1043,7 +964,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="templateRoot" BorderBrush="White"  BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" SnapsToDevicePixels="true">
                         <Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="1" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
-                            <Path x:Name="arrow" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource ComboBox.Static.Glyph}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
+                            <Path x:Name="arrow" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{DynamicResource ComboBox.Static.Glyph}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
                         </Border>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -1082,8 +1003,8 @@
                                 <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
                                 <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Background}"/>
-                            <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Border}"/>
+                            <Setter Property="Background" TargetName="templateRoot" Value="{DynamicResource ComboBox.Pressed.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="templateRoot" Value="{DynamicResource ComboBox.Pressed.Border}"/>
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1111,7 +1032,7 @@
                     </Border>
                 </Themes:SystemDropShadowChrome>
             </Popup>
-            <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+            <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{DynamicResource ComboBoxToggleButton}"/>
             <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="false" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </Grid>
         <ControlTemplate.Triggers>
@@ -1134,8 +1055,8 @@
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="MinWidth" Value="0"/>
         <Setter Property="MinHeight" Value="0"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
-        <Setter Property="FontSize" Value="{StaticResource Small}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource BaseFontRegular}"></Setter>
+        <Setter Property="FontSize" Value="{DynamicResource Small}"></Setter>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
@@ -1168,9 +1089,9 @@
                     </Border>
                 </Themes:SystemDropShadowChrome>
             </Popup>
-            <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
-            <Border x:Name="border" Background="{StaticResource TextBox.Static.Background}" Margin="{TemplateBinding BorderThickness}">
-                <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{DynamicResource ComboBoxToggleButton}"/>
+            <Border x:Name="border" Background="{DynamicResource TextBox.Static.Background}" Margin="{TemplateBinding BorderThickness}">
+                <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" Style="{DynamicResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
@@ -1201,12 +1122,12 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
+        <Setter Property="Background" Value="{DynamicResource ComboBox.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Border}"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFontRegular}"></Setter>
-        <Setter Property="FontSize" Value="{StaticResource Small}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
+        <Setter Property="FontSize" Value="{DynamicResource Small}"></Setter>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -1214,25 +1135,25 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
+        <Setter Property="Template" Value="{DynamicResource ComboBoxTemplate}"/>
         <Style.Triggers>
             <Trigger Property="IsEditable" Value="true">
                 <Setter Property="IsTabStop" Value="false"/>
                 <Setter Property="Padding" Value="2"/>
-                <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
+                <Setter Property="Template" Value="{DynamicResource ComboBoxEditableTemplate}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
     <!--#endregions-->
 
     <Style x:Key="SettingsButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource SecondColorBrush}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="Padding" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -1258,12 +1179,12 @@
     </Style>
             
     <Style x:Key="SettingRadioButtonStyle" TargetType="{x:Type RadioButton}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource RadioButtonGradient}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="FontSize" Value="{StaticResource Small}"></Setter>
+        <Setter Property="FontSize" Value="{DynamicResource Small}"></Setter>
         <Setter Property="Margin" Value="0,0,0,5"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -1282,7 +1203,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true">
-                            <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                            <Setter Property="FocusVisualStyle" Value="{DynamicResource OptionMarkFocusVisual}"/>
                             <Setter Property="Padding" Value="4,-1,0,0"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
@@ -1299,17 +1220,17 @@
     </Style>
 
     <Style x:Key="LoginButton" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
         <Setter Property="Background" Value="{DynamicResource SecondColorBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource SecondColorBrush}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="FontSize" Value="{StaticResource Regular}"></Setter>
+        <Setter Property="FontSize" Value="{DynamicResource Regular}"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="1"/>
         <Setter Property="Margin" Value="10"></Setter>
-        <Setter Property="FontFamily" Value="{StaticResource BaseFont}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource BaseFont}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -1334,16 +1255,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="SocialBorder" TargetType="{x:Type Border}">
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="true">
-                <Setter Property="BorderBrush" Value="{DynamicResource SecondColorBrush}"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="BorderBrush" Value="Gray"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
         
     <SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3DDADADA"/>
     <SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#3D26A0DA"/>
@@ -1351,12 +1262,13 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Padding" Value="15,5,15,5"/>
         <Setter Property="Margin" Value="5,0,5,0"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -1404,7 +1316,6 @@
     </Style>
 
 
-
     <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
         <Setter Property="Foreground" Value="{DynamicResource SecondColorBrush}"/>
         <Setter Property="Background" Value="{DynamicResource ButtonForeground}"/>
@@ -1450,6 +1361,73 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+        
+     <!--Text Blocks-->   
+
+    <Style x:Key="TextBlockMainStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}" />
+        <Setter Property="FontSize" Value="{DynamicResource Small}" />
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
+        <Setter Property="FontStyle" Value="Normal" />
+    </Style>
+
+    <Style x:Key="TextBlockH1Style" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="FontSize" Value="{DynamicResource H1}"></Setter>
+    </Style>
+
+    <Style x:Key="TextBlockH2Style" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"></Setter>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="{DynamicResource Bigger}"></Setter>
+    </Style>
+
+    <Style x:Key="TextBlockH3Style" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Regular}"></Setter>
+    </Style>
+
+    <Style x:Key="TextBlockDiscriptionStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="FontStyle" Value="Italic"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+        <Setter Property="Foreground" Value="Gray"/>
+        <Setter Property="FontSize" Value="{DynamicResource Small}"></Setter>
+    </Style>
+
+    <Style x:Key="TextBlockThinStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Small}"></Setter>
+    </Style>
+
+    <Style x:Key="TextBlockExtraThinStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontWeight" Value="ExtraLight"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MainFont}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Regular}"></Setter>
+    </Style>
+    <SolidColorBrush x:Key="ListBox.Static.Background2" Color="#FFFFFFFF"/>
+
 
 
 </ResourceDictionary>

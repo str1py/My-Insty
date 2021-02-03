@@ -16,7 +16,7 @@ namespace Instagram_Assistant.Helpers
         private string[] wordsInNameListWords { get; set; }
         private List<AudienceModel> filteredFollowers = new List<AudienceModel>();
 
-        private LogsPageViewModel logs = LogsPageViewModel.Instanse;
+        private LogsPageViewModel logs = LogsPageViewModel.Instance;
         private TextFileHelper txthelp = new TextFileHelper();
         private MainVars mainVars = new MainVars();
         private CheckRequirementsHelper check = new CheckRequirementsHelper();
@@ -39,7 +39,7 @@ namespace Instagram_Assistant.Helpers
                 logs.Add($"Starting filter followers", MessageType.Type.AUDIENCE, this.GetType().Name);
         
                 List<AudienceActionModel> list = await txthelp.GetAudienceFromTxtFile(Properties.Settings.Default.SaveAudiencePath);
-                FilterAudiencePageViewModel.Instanse.LastActionTextHelper = "";
+                FilterAudiencePageViewModel.Instance.LastActionTextHelper = "";
 
                 foreach (var follower in list)
                 {
@@ -49,17 +49,15 @@ namespace Instagram_Assistant.Helpers
                         if (check.CheckRequirements(stopListWords,goListWords,wordsInNameListWords,follower) && await check.IsFilterUserExist(follower.AccountID) == false)
                             filteredFollowers.Add(new AudienceModel { userName = follower.AccountName, userId = follower.AccountID, phone = follower.Phone, email = follower.Email });
 
-                        passed++;
-
-                        Save(passed);
+                        Save(passed++);
                     }
                     else
-                        logs.Add($"Audience wasn`t collect! Audience actions was stopped", MessageType.Type.AUDIENCE, this.GetType().Name);
+                        logs.Add($"Audience hasn`t been collect! Audience actions has been stopped", MessageType.Type.AUDIENCE, this.GetType().Name);
                 }
 
                 txthelp.SaveFilterAudienceToTxtFile(Properties.Settings.Default.SaveFilteredAudiencePath, filteredFollowers);
                 filteredFollowers.Clear();
-                logs.Add($"Audience was filtered! Audience actions was stopped", MessageType.Type.AUDIENCE, this.GetType().Name);
+                logs.Add($"Audience has been filtered! Audience actions has been stopped", MessageType.Type.AUDIENCE, this.GetType().Name);
                 StopFilterAudience();
             }
             else

@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Instagram_Assistant.View"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"       
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -82,11 +82,31 @@
             </Border>
         </DataTemplate>
 
-        <CollectionViewSource x:Key="feedCollection" Source="{Binding Path=StoryFeedActions}">
+        <CollectionViewSource x:Key="feedCollection" Source="{Binding Path=Actions}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Time" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+
+        <Storyboard x:Key="FlashAnim">
+            <DoubleAnimation Storyboard.TargetName="Status"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0.3"
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             RepeatBehavior="Forever">
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ColorAnim">
+            <ColorAnimation  Storyboard.TargetName="Status"  
+                             Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" 
+                             RepeatBehavior="Forever" 
+                             AutoReverse="True"
+                             Duration="0:0:1"
+                             To="{DynamicResource SecondColor}">
+            </ColorAnimation>
+        </Storyboard>
     </UserControl.Resources>
 
     <Grid >
@@ -154,20 +174,21 @@
 
 
         <!--OVERVIEW 1 BORDER-->
-        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource BorderColor}">
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="11" Grid.RowSpan="3" 
+                CornerRadius="3" 
+                Background="White" 
+                Opacity="0.05">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" 
-                                  ShadowDepth="0.9" 
-                                  Color="{StaticResource FirstColor}"/>
+                <BlurEffect Radius="10" KernelType="Gaussian"/>
             </Border.Effect>
         </Border>
 
         <!--OVERVIEW 2 BORDER-->
-        <Border Grid.Column="21" Grid.ColumnSpan="15" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3" Background="{StaticResource BorderColor}">
+        <Border Grid.Column="21" Grid.ColumnSpan="15" Grid.Row="11" Grid.RowSpan="3" CornerRadius="3"   
+                Background="White" 
+                Opacity="0.05">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" 
-                                  ShadowDepth="0.9" 
-                                  Color="{StaticResource FirstColor}"/>
+                <BlurEffect Radius="10" KernelType="Gaussian"/>
             </Border.Effect>
         </Border>
 
@@ -176,17 +197,26 @@
         <StackPanel Grid.Row="11" Grid.Column="14" Grid.ColumnSpan="4" Grid.RowSpan="3"  VerticalAlignment="Center" Orientation="Vertical" >
             <Button Style="{DynamicResource MainButtonStyle}" 
                     Height="40"   
-                    Command="{Binding StartStoriesWatchCommand}" 
+                    Command="{Binding StartCommand}" 
                     Content="{Binding ButtonContent}"/>
-            <TextBlock Style="{DynamicResource TextBlockMainStyle}"  
-                       HorizontalAlignment="Center" 
-                       FontWeight="ExtraLight">Status</TextBlock>
+
             <TextBlock HorizontalAlignment="Center" 
+                       x:Name="Status"
                        Foreground="White" 
-                       FontSize="20" 
-                       Margin="0,0,0,5" 
-                       FontWeight="ExtraLight"  
-                       Text="{Binding StoryFeedStats.Status}"/>
+                       Margin="0,20,0,5" 
+                       FontSize="{DynamicResource Bigger}"
+                       Style="{DynamicResource TextBlockThinStyle}"
+                       Text="{Binding Stats.Status}">
+      
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Value="WORKING" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Play"/>
+                    </i:DataTrigger>
+                    <i:DataTrigger Value="OFF" Binding="{Binding Stats.Status}">
+                        <i:ControlStoryboardAction Storyboard="{StaticResource ColorAnim}"  ControlStoryboardOption="Stop"/>
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+            </TextBlock>
         </StackPanel>
 
         <!--OVERVIEW-->
@@ -203,13 +233,11 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="20" 
-                                       FontWeight="ExtraLight" 
-                                       Text="{Binding StoryFeedStats.SessionCount}"/>
+                                       FontSize="{DynamicResource Bigger}"
+                                       Style="{DynamicResource TextBlockExtraThinStyle}"
+                                       Text="{Binding Stats.SessionCount}"/>
                         </StackPanel>
-                        <TextBlock  HorizontalAlignment="Center" 
-                                    FontWeight="ExtraLight" 
-                                    Style="{DynamicResource TextBlockMainStyle}">session</TextBlock>
+                        <TextBlock Style="{DynamicResource TextBlockThinStyle}">Session</TextBlock>
                     </StackPanel>
 
                     <StackPanel  Orientation="Vertical" Margin="0,0,40,0">
@@ -222,24 +250,21 @@
                                             HorizontalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" 
                                        Foreground="White" 
-                                       FontSize="20" 
-                                       FontWeight="ExtraLight" 
-                                       Style="{DynamicResource TextBlockMainStyle}"
-                                       Text="{Binding StoryFeedStats.Count}"/>
+                                       FontSize="{DynamicResource Bigger}"
+                                       Style="{DynamicResource TextBlockExtraThinStyle}"
+                                       Text="{Binding Stats.Count}"/>
                         </StackPanel>
                         <TextBlock HorizontalAlignment="Center"
-                                   FontWeight="ExtraLight"
-                                   Style="{DynamicResource TextBlockMainStyle}">total</TextBlock>
+                                   Style="{DynamicResource TextBlockThinStyle}">Total</TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center">
                         <TextBlock HorizontalAlignment="Center"
-                           Foreground="White"
-                           FontSize="20"
-                           FontWeight="ExtraLight"
-                           Text="{Binding StoryFeedStats.NextIn}"/>
+                                          Foreground="White" 
+                                   FontSize="{DynamicResource Bigger}"
+                                   Style="{DynamicResource TextBlockExtraThinStyle}"
+                                   Text="{Binding Stats.NextIn}"/>
                         <TextBlock HorizontalAlignment="Center"
-                           FontWeight="ExtraLight" 
-                           Style="{DynamicResource TextBlockMainStyle}">Next in</TextBlock>
+                           Style="{DynamicResource TextBlockThinStyle}">Next in</TextBlock>
                     </StackPanel>
 
                 </StackPanel>
@@ -251,24 +276,24 @@
             <StackPanel HorizontalAlignment="Center" Margin="0,0,40,0" >
                 <TextBlock HorizontalAlignment="Center"
                            Foreground="White" 
-                           FontSize="20" Margin="0,0,0,5
-                           " FontWeight="ExtraLight"
-                           Text="{Binding StoryFeedStats.TimeInWork}"/>
+                           Margin="0,0,0,5"
+                           FontSize="{DynamicResource Bigger}"
+                           Style="{DynamicResource TextBlockExtraThinStyle}"
+                           Text="{Binding Stats.TimeInWork}"/>
                 <TextBlock HorizontalAlignment="Center" 
-                           FontWeight="ExtraLight"
-                           Style="{DynamicResource TextBlockMainStyle}">Time in work</TextBlock>
+                           Style="{DynamicResource TextBlockThinStyle}">Time in work</TextBlock>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Center">
                 <TextBlock HorizontalAlignment="Center"
                            Foreground="White"
-                           FontSize="20" 
+
                            Margin="0,0,0,5"
-                           FontWeight="ExtraLight" 
-                           Text="{Binding StoryFeedStats.NextSessionIn}"/>
+                           FontSize="{DynamicResource Bigger}"
+                           Style="{DynamicResource TextBlockExtraThinStyle}"
+                           Text="{Binding Stats.NextSessionIn}"/>
                 <TextBlock HorizontalAlignment="Center"
-                           FontWeight="ExtraLight"
-                           Style="{DynamicResource TextBlockMainStyle}">Next session in</TextBlock>
+                           Style="{DynamicResource TextBlockThinStyle}">Next session in</TextBlock>
             </StackPanel>
         </StackPanel>
 

@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using Instagram_Assistant.Model.Base;
 
 namespace Instagram_Assistant.Model
 {
-    class FeedModel
+    class FeedModel : BaseModel
     {
-        public string user { get; set; }
-        public BitmapImage userPict { get; set; }
-        public BitmapImage postPreview { get; set; }
         public string InstaIdentifier { get; set; }
         public string MediaType { get; set; }
-        public long userid { get; set; }
+
     }
 }

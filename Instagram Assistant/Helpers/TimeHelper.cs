@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 
-
 namespace Instagram_Assistant.Helpers
 {
     class TimeHelper
@@ -59,5 +58,29 @@ namespace Instagram_Assistant.Helpers
             long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             return unixTime;
         }
+
+        public string GetExecuteTime(int count)
+        {
+            int sec = count % 60;
+            int min = count / 60;    
+            return $"{min} min {sec} sec";
+        }
+        public int GetExecuteTimeSeconds(int count)
+        {
+            var rnd = new Random();
+            int sec = 0;
+            for (int i = 0; i < count; i++)
+                sec += rnd.Next(5, 11);
+            return sec;
+        }
+        public int GetExecuteTimeForCheck(int count)
+        {
+            var rnd = new Random();
+            int sec = 0;
+            for (int i = 0; i < count; i++)
+                sec += rnd.Next(2, 3);
+            return sec;
+        }
+
     }
 }

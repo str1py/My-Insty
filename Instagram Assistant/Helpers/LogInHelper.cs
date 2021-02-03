@@ -17,27 +17,33 @@ namespace Instagram_Assistant.Helpers
     class LogInHelper
     {
         //STATUS: NOT OK - SEPARATE LOGIN AND LOGOUT 
-        public static List<IInstaApi> LoggedInUsers = new List<IInstaApi>();
+        public readonly static List<IInstaApi> LoggedInUsers = new List<IInstaApi>();
         private static List<string> sessions = new List<string>();
 
-        public IInstaApi _instaApi { get; private set; }
-        public static bool isSessionsLoaded { get; private set; } = false;
+        public  IInstaApi _instaApi { get;  private set; }
+        public  bool isSessionsLoaded { get;  private set; } = false;
 
-        public static string phone;
-        public static string email;
+        public string phone { get; private set; }
+        public string email { get; private set; }
 
         private IRequestDelay delay;
         private AndroidDevice device;
         private UserSessionData usersession;
         private string Timezone = "Europe/Moscow";
-
-        public string path = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-        private LogsPageViewModel logs = LogsPageViewModel.Instanse;
+        private TimeSpan TimezoneOffSet { get; set; }
+        private string path = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
+        private LogsPageViewModel logs = LogsPageViewModel.Instance;
         private AccountInfoHelper accountInfo = new AccountInfoHelper();
 
 
         public LogInHelper()
         {
+            Timezone = TimeZone.CurrentTimeZone.StandardName;
+            TimezoneOffSet = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
+            path = path + "\\Sessions";
+            if(!Directory.Exists(path))           
+                Directory.CreateDirectory(path);
+            
             delay = RequestDelay.FromSeconds(2, 2);
             device = new AndroidDevice
             {
@@ -84,12 +90,8 @@ namespace Instagram_Assistant.Helpers
             };
         }
 
-        public async Task<bool> LogedInCheck()
+        public bool LogedInCheck()
         {
-            SplashScreen.SplashScreenViewModel splash = SplashScreen.SplashScreenViewModel.Instanse;
-
-            splash.SplashScreenText = $"Checking account to login...";
-
             sessions.Clear();
             LoggedInUsers.Clear();
             bool session = PrevSessionExist();
@@ -111,13 +113,14 @@ namespace Instagram_Assistant.Helpers
                     isSessionsLoaded = true;
                 }
                 SaveSessions();
+
                 return true;
             }
             else return false;
 
         }
 
-        public IInstaApi PrevNamedSessionExist(string username)
+        private IInstaApi PrevNamedSessionExist(string username)
         {
             var files = Directory.GetFiles(path, "*.bin");
 
@@ -140,8 +143,7 @@ namespace Instagram_Assistant.Helpers
 
             return null;
         }
-
-        public bool PrevSessionExist()
+        private bool PrevSessionExist()
         {
             var files = Directory.GetFiles(path, "*.bin");
             if (files.Count() > 0)
@@ -155,11 +157,8 @@ namespace Instagram_Assistant.Helpers
             }
             else return false;
         }
-
-
-        public void SaveSessions()
+        private void SaveSessions()
         {
-            var files = Directory.GetFiles(path, "*.bin");
             foreach (var instaApi in LoggedInUsers)
             {
                 var state = instaApi.GetStateDataAsStream();
@@ -174,8 +173,11 @@ namespace Instagram_Assistant.Helpers
         }
         private void SaveSession()
         {
+            if (File.Exists(path + "\\" + _instaApi.GetLoggedUser().UserName.ToLower() + "-session.bin"))
+                File.Delete(path + "\\" + _instaApi.GetLoggedUser().UserName.ToLower() + "-session.bin");
+
             var state = _instaApi.GetStateDataAsStream();
-            using (var fileStream = File.Create(_instaApi.GetLoggedUser().UserName.ToLower() + "-session.bin"))
+            using (var fileStream = File.Create(path + "\\" +_instaApi.GetLoggedUser().UserName.ToLower() + "-session.bin"))
             {
                 state.Seek(0, SeekOrigin.Begin);
                 state.CopyTo(fileStream);
@@ -198,30 +200,30 @@ namespace Instagram_Assistant.Helpers
                              .Build();
             instapi.SetDevice(device);
             instapi.SetTimezone(Timezone);
+            instapi.SetTimezoneOffset((int)TimezoneOffSet.TotalSeconds);
             return instapi;
         }
 
         public async Task<string> Login(string username, string password)
         {
             _instaApi = null;
+
+            _instaApi = PrevNamedSessionExist(username);
+
             usersession = new UserSessionData
             {
                 UserName = username,
                 Password = password
             };
 
-            _instaApi = PrevNamedSessionExist(username);
+            _instaApi = InstaApiBuilder.CreateBuilder()
+                .SetUser(usersession)
+                .UseLogger(new DebugLogger(LogLevel.All))
+                .SetRequestDelay(delay)
+                .Build();
+            _instaApi.SetDevice(device);
+            _instaApi.SetTimezone(Timezone);
 
-            if (_instaApi == null)
-            {
-                _instaApi = InstaApiBuilder.CreateBuilder()
-                    .SetUser(usersession)
-                    .UseLogger(new DebugLogger(LogLevel.All))
-                    .SetRequestDelay(delay)
-                    .Build();
-                _instaApi.SetDevice(device);
-                _instaApi.SetTimezone(Timezone);
-            }
 
             if (!_instaApi.IsUserAuthenticated)
             {
@@ -249,10 +251,13 @@ namespace Instagram_Assistant.Helpers
                     return logInResult.Value.ToString();
                 }
             }
-            else if(_instaApi.IsUserAuthenticated ==true)
-                return "Success";
             else
-                return "Error!";
+            {
+                var logInResult = await _instaApi.LoginAsync();
+                SaveSession();
+                await accountInfo.UpdateInfo(_instaApi);
+                return "Success";
+            }
         }
 
         public void Login(string username)
@@ -268,7 +273,20 @@ namespace Instagram_Assistant.Helpers
             loginPage.CodeCheckGridIsEnabel = true;
             LoginPageViewModel.Instanse.Login = username;
             loginPage.CancleLoginVisibility = Visibility.Visible;
+        }
 
+        public void Challenge()
+        {
+            LoginPageViewModel loginPage = LoginPageViewModel.Instanse;
+            MainWindowViewModel.instance.SelectedViewModel = loginPage;
+            MainWindowViewModel.instance.MainSelectedViewModel = null;
+            loginPage.LoginVisibility = Visibility.Hidden;
+            loginPage.ChallengesVisibility = Visibility.Visible;
+            loginPage.CodeCheckVisibility = Visibility.Hidden;
+            loginPage.LoginGridIsEnable = true;
+            loginPage.ChallengesGridIsEnabel = true;
+            loginPage.CodeCheckGridIsEnabel = true;
+            loginPage.CancleLoginVisibility = Visibility.Visible;
         }
 
         public bool LogOut(string username)
@@ -285,7 +303,6 @@ namespace Instagram_Assistant.Helpers
                     File.Delete(file);
                     return true;
                 }
-                else return false;
             }
             return false;
         }

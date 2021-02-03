@@ -1,11 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 
-
 namespace Instagram_Assistant.Helpers
 {
     class TrimHelper
     {
-
         public string PersonalPhoneToStars(string data)
         {
             string securedata = (Regex.Replace(data, @"\d(?!\d{0,3}$)", "*"));

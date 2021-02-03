@@ -11,7 +11,7 @@ namespace Instagram_Assistant.ViewModel
     class FilterAudiencePageViewModel:ViewModelBase, INotifyCollectionChanged
     {
         private static FilterAudiencePageViewModel audienceFilterInstance;
-        public static FilterAudiencePageViewModel Instanse
+        public static FilterAudiencePageViewModel Instance
         {
             get
             {
@@ -37,7 +37,7 @@ namespace Instagram_Assistant.ViewModel
         private ICommand _startFilterAudienceCommand;
         public ICommand StartFilterAudienceCommand
         {
-            get { return _startFilterAudienceCommand ?? (_startFilterAudienceCommand = new RelayCommand(p => StartFilterAudience())); }
+            get { return _startFilterAudienceCommand ?? (_startFilterAudienceCommand = new RelayCommand(async p => await StartFilterAudience())); } 
         }
 
         private ObservableCollection<AudienceActionModel> audienceActions;

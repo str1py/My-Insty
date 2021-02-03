@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\App.xaml
-18650888696
-3-1841634658
-63-553931570
-231238890384
-SplashScreen\SplashScreenView.xaml;Themes\Colors\BlackViolet.xaml;Themes\Fonts.xaml;Themes\Styles\BlackVioletColors.xaml;Themes\Theme.xaml;View\AboutPageView.xaml;View\AccountPageView.xaml;View\AudiencePageView.xaml;View\DashboardPageView.xaml;View\FeedLikePageView.xaml;View\FeedStoriesWatchPageView.xaml;View\FilterAudiencePageView.xaml;View\LoginPageView.xaml;View\LogsPageView.xaml;View\MainPageView.xaml;View\MainWindowView.xaml;View\SettingsPageView.xaml;View\UnfollowPageView.xaml;
+221888930996
+3-293942872
+88-1085865221
+142-687778143
+SplashScreen\SplashScreenView.xaml;Themes\Colors\BlackViolet.xaml;Themes\Fonts.xaml;Themes\Styles\BlackVioletColors.xaml;Themes\Theme.xaml;View\AboutPageView.xaml;View\AccountPageView.xaml;View\AudiencePageView.xaml;View\DashboardPageView.xaml;View\FeedLikePageView.xaml;View\FeedStoriesWatchPageView.xaml;View\FilterAudiencePageView.xaml;View\GeoLikePageView.xaml;View\GeoStoriesWatchPageView.xaml;View\HashtagLikePageView.xaml;View\LoginPageView.xaml;View\LogsPageView.xaml;View\MainPageView.xaml;View\MainWindowView.xaml;View\SettingsPageView.xaml;View\SpyPageView.xaml;View\UnfollowPageView.xaml;
 
 False
 

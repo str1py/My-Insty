@@ -7,62 +7,73 @@ using InstagramApiSharp.Classes;
 using InstagramApiSharp.Classes.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Instagram_Assistant.Helpers
 {
-    class AudienceHelper:ViewModelBase
+    sealed class AudienceHelper: VarsCommon
     {
-        //STATUS : OK
-
-        #region VARS INIT
-        private IInstaApi _account;
-        public IInstaApi Account
+        //STATUS : NOT OK
+        public AudienceHelper()
         {
-            get { return _account; }
-            set
-            { 
-                _account = value;
-                OnPropertyChanged();
-                AudiencePageViewModel.Instanse.AccountInUse = value?.GetLoggedUser().UserName ?? "loading...";
-            }
+            stats = (new AudienceStatsModel{
+                TechAccount = "n/a",
+                Status = "OFF",
+                Competitor = "n/a",
+                Count = "0",
+                TimeInWork = "00:00:00"
+            });
         }
 
-        private int countpassed = 0;
+        private AudienceStatsModel stats;
 
-        private int RequestLimit { get; set; } = 10;
-        private int Requests { get; set; } = 0;
-        
-        List<AudienceActionModel> audienceList = new List<AudienceActionModel>();
-        List<AudienceModel> existAudience = new List<AudienceModel>();
-        private List<InstaUserShort> followingList = new List<InstaUserShort>();
-        #endregion
+        private List<AudienceActionModel> audienceList = new List<AudienceActionModel>();
+        private List<AudienceModel> existAudience = new List<AudienceModel>();
+        private List<InstaUserShort> followersList = new List<InstaUserShort>();
 
-        #region HELPERS INIT
-        private LogsPageViewModel logs = LogsPageViewModel.Instanse;
-        private MainVars mainVars = new MainVars();
-        private AccountInfoHelper accountInfoHelper = new AccountInfoHelper();
         private TextFileHelper txthelp = new TextFileHelper();
-        private DataUpdate du = new DataUpdate();
-        private Limits limits = new Limits();
-        #endregion
+        private DataUpdate da = new DataUpdate();
 
+        private int requests;
+        public int Requests
+        {
+            get { return requests; }
+            set { requests = value;}
+        }
 
+        private int CompetitorFollowersPassed;
+           
         public async Task BeginCollectingAudience()
         {
-            mainVars.IsAudienceInProgress = true;
-            await GetCompetitorFollowers();
+            timer = new DispatcherTimer();
+            timerStart();
+            Account = await accountInfoHelper.GetTechAccountAsync();
+            if (Account != null)
+            {
+                mainVars.IsAudienceInProgress = true;
+                stats = da.AudienceStatsUpdate(stats, AccountStatus.Type.WORKING.ToString(), existAudience.Count, null, Account.GetLoggedUser().UserName, null); ;
+                accountInfoHelper.UpdateAccountStatus(Account, AccountStatus.Type.WORKING);
+                await GetCompetitorFollowers();
+            }else
+            {
+                StopCollectingAudience();
+                logs.Add("Cant get tech account!", MessageType.Type.ERROR, this.GetType().Name);
+            }
         }
         public void StopCollectingAudience()
         {
+            timerStop();
             mainVars.IsAudienceInProgress = false;
-            du.UpdateProcess($"Collecting audience was stopped ", null, null, MessageType.Type.AUDIENCE);
-            AudiencePageViewModel.Instanse.ButtonContent = "Start";
+            du.UpdateProcess($"Collecting audience has been stopped", null, null, MessageType.Type.AUDIENCE,this.GetType().Name);
+            AudiencePageViewModel.Instance.ButtonContent = "Start";
             audienceList.Clear();
             existAudience.Clear();
-            followingList.Clear();
+            followersList.Clear();
             accountInfoHelper.UpdateAccountStatus(Account, AccountStatus.Type.REST);
+            du.AudienceStatsUpdate(stats, AccountStatus.Type.OFF.ToString(), 0, "00:00:00", "", "");
         }
 
         private bool IsUserExist(string name, List<AudienceModel> existAudience)
@@ -78,40 +89,38 @@ namespace Instagram_Assistant.Helpers
                     }
                 }
                 return false;
-            }catch(Exception e)
+            }
+            catch(Exception e)
             {
-                du.UpdateProcess($"{e.Message}", followingList.Count, countpassed, MessageType.Type.ERROR);
+                du.UpdateProcess($"{e.Message}", followersList.Count, Double.Parse(stats.Count), MessageType.Type.ERROR, this.GetType().Name);
                 return false;
             }
         }
 
         private async Task GetCompetitorFollowers()
-        {
-            Account = null;
-            Account = accountInfoHelper.ChangeTechAccount();
-            accountInfoHelper.UpdateAccountStatus(Account, AccountStatus.Type.WORKING);
-
+        {        
             if (Properties.Settings.Default.SaveAudiencePath != "" && Account != null)
             {
                 //GET AUDIENCE FROM FILE  
                 existAudience = await txthelp.GetAudienceFromTxtFileShort(Properties.Settings.Default.SaveAudiencePath);
-                AudiencePageViewModel.Instanse.AudienceCount = existAudience.Count;
+                stats = da.AudienceStatsUpdate(stats,null,existAudience.Count,null,null,null);
 
-                du.UpdateProcess($"Begin getting competitor followers", null, null, MessageType.Type.AUDIENCE);
+                du.UpdateProcess($"Begin getting competitor followers", null, null, MessageType.Type.AUDIENCE, this.GetType().Name);
 
-                foreach (var competitor in AudiencePageViewModel.Instanse.CompList)
+                foreach (var competitor in AudiencePageViewModel.Instance.CompList)
                 {
                     if (mainVars.IsAudienceInProgress == true)
                     {
-                        AudiencePageViewModel.Instanse.CompetitorInUse = competitor;
-                        du.UpdateProcess($"Begin getting {competitor} followers", null, null, MessageType.Type.AUDIENCE);
+                        stats = da.AudienceStatsUpdate(stats, null, null, null, null, competitor);
+                        du.UpdateProcess($"Begin getting {competitor} followers", null, null, MessageType.Type.AUDIENCE, this.GetType().Name);
 
                         //GET COMPETITOR INFO 
                         var compet = await Account.UserProcessor.GetUserAsync(competitor);
+                        CompetitorFollowersPassed = 0;
 
                         if (!compet.Succeeded)
                         {
-                            du.UpdateProcess($"{compet.Info.Message}", null, null, MessageType.Type.ERROR);
+                            du.UpdateProcess($"{compet.Info.Message}", null, null, MessageType.Type.ERROR, this.GetType().Name);
                             await Task.Delay(10000);
                         }
                         else
@@ -119,32 +128,30 @@ namespace Instagram_Assistant.Helpers
                             //GET COMPETITOR ID 
                             long UserId = compet.Value.Pk;
                             //GET COMPETITOR FOLLOWING LIST
-                            followingList = await GetFollowingList(UserId);
+                            followersList = await GetFollowersListByUserId(UserId);
 
                             if (mainVars.IsAudienceInProgress == true)
                             {
-                                foreach (var user in followingList)
-                                {
+                                foreach (var user in followersList)
                                     await AddCompetitorFollowerAccount(user, competitor);
-                                    Requests++;
-                                    await ChangeAccountByRequestLimit(Requests);
-                                }
-                                du.UpdateProcess($"Getting audience from {competitor} was finished.", null, null, MessageType.Type.AUDIENCE);
+                                
+                                du.UpdateProcess($"Getting audience from {competitor} was finished.", null, null, MessageType.Type.AUDIENCE, this.GetType().Name);
                             }
                         }
                     }
                     else
-                        du.UpdateProcess($"Audience wasn`t collect!  Audience actions was stopped", null, null, MessageType.Type.AUDIENCE);
+                        du.UpdateProcess($"Audience wasn`t collect!  Audience actions was stopped", null, null, MessageType.Type.AUDIENCE, this.GetType().Name);
 
-                    countpassed = 0;
+                    Requests = 0;
                     audienceList.Clear();
                 }
-                du.UpdateProcess($"Getting audience from all competitor was finished.", null, null, MessageType.Type.AUDIENCE);
+                await ChangeAccountByRequestLimit();
+                du.UpdateProcess($"Getting audience from all competitor was finished.", null, null, MessageType.Type.AUDIENCE, this.GetType().Name);
                 StopCollectingAudience();
             }
             else
             {
-                AudiencePageViewModel.Instanse.AccountInUse = Account?.GetLoggedUser().UserName ?? "Failed...";
+                stats = da.AudienceStatsUpdate(stats, null, null, null, null, null);
                 MessageBox.Show($"Path to save {Properties.Settings.Default.SaveAudiencePath ?? "Not selected"}.\n Technical account: {Account?.GetLoggedUser().UserName ?? "No tech account"}","Error!",MessageBoxButton.OK,MessageBoxImage.Error);
                 StopCollectingAudience();
             }
@@ -162,20 +169,21 @@ namespace Instagram_Assistant.Helpers
                     {
                         //CHANGE ACCOUNT
                         await CheckAccount(userinfo.Succeeded, competitor);
-
                         userinfo = await Account.UserProcessor.GetFullUserInfoAsync(_user.Pk);
 
                         if (!userinfo.Succeeded)
-                            du.UpdateProcess($"{Account.GetLoggedUser().UserName} {userinfo.Info.ResponseType} {userinfo.Info.Message}", followingList.Count, countpassed, MessageType.Type.ERROR);
+                            du.UpdateProcess($"{Account.GetLoggedUser().UserName} {userinfo.Info.ResponseType} {userinfo.Info.Message}", followersList.Count, Requests, MessageType.Type.ERROR, this.GetType().Name);
                         else
                         {
                             var u = userinfo.Value.UserDetail;
+
                             AudienceActionModel audience = new AudienceActionModel(u.Username, u.FullName, u.Pk, u.PublicPhoneNumber, u.PublicEmail, u.AccountType, u.Category, u.CityName, false,
-                                Convert.ToInt32(u.MediaCount), Convert.ToInt32(userinfo.Value.UserDetail.FollowerCount),
-                                u.Biography, u.HasHighlightReels, u.ProfilePicUrl, false, false, "");
+                            Convert.ToInt32(u.MediaCount), Convert.ToInt32(userinfo.Value.UserDetail.FollowerCount),u.Biography, u.HasHighlightReels, u.ProfilePicUrl, false, false, "");
+
                             audienceList.Add(audience);
-                            countpassed++; AudiencePageViewModel.Instanse.AudienceCount++;
-                            du.UpdateProcess($"Getting followers from {competitor}", followingList.Count, countpassed, MessageType.Type.HIDDEN);
+
+                            stats = da.AudienceStatsUpdate(stats, null, Int32.Parse(stats.Count) + 1, null, null, null);
+                            du.UpdateProcess($"Getting followers from {competitor}", followersList.Count, CompetitorFollowersPassed++ , MessageType.Type.HIDDEN, this.GetType().Name);
                         }
                     }
                     else //IF SECCEEDED
@@ -183,65 +191,67 @@ namespace Instagram_Assistant.Helpers
                         var u = userinfo.Value.UserDetail;
                         //ADD TO VIEW
                         AudienceActionModel audience = new AudienceActionModel(u.Username, u.FullName, u.Pk, u.PublicPhoneNumber, u.PublicEmail, u.AccountType, u.Category, u.CityName, false,
-                            Convert.ToInt32(u.MediaCount), Convert.ToInt32(userinfo.Value.UserDetail.FollowerCount),
-                            u.Biography, u.HasHighlightReels, u.ProfilePicUrl, false, false, "");
-
-                        //ADD TO LIST TI SAVE
+                            Convert.ToInt32(u.MediaCount), Convert.ToInt32(userinfo.Value.UserDetail.FollowerCount),u.Biography, u.HasHighlightReels, u.ProfilePicUrl, false, false, "");
+                        //ADD TO LIST TO SAVE
                         audienceList.Add(audience);
 
-                        countpassed++; AudiencePageViewModel.Instanse.AudienceCount++;
-                        du.UpdateProcess($"Getting followers from {competitor}", followingList.Count, countpassed, MessageType.Type.HIDDEN);
+                        stats = da.AudienceStatsUpdate(stats, null, Int32.Parse(stats.Count) + 1, null, null, null);
+                        du.UpdateProcess($"Getting followers from {competitor}", followersList.Count, CompetitorFollowersPassed++, MessageType.Type.HIDDEN, this.GetType().Name);
                     }
+                    Requests++;
+                    await ChangeAccountByRequestLimit();
+
                 }
-                catch (Exception e) { du.UpdateProcess($"{e.Message}", followingList.Count, countpassed, MessageType.Type.ERROR); }
+                catch (Exception e) { du.UpdateProcess($"{e.Message}", followersList.Count, CompetitorFollowersPassed++, MessageType.Type.ERROR, this.GetType().Name); }
             }
             else
             {
-                du.UpdateProcess($"Getting followers from {competitor}", followingList.Count, countpassed, MessageType.Type.HIDDEN);
-                countpassed++; 
+                du.UpdateProcess($"Getting followers from {competitor}", followersList.Count, CompetitorFollowersPassed++, MessageType.Type.HIDDEN, this.GetType().Name);
             }
         }
-        private async Task<List<InstaUserShort>> GetFollowingList(long _id)
+     
+        private async Task<List<InstaUserShort>> GetFollowersListByUserId(long _id)
         {
             string LatestMaxId = "0";
-            followingList.Clear();
+            followersList.Clear();
             var user = await Account.UserProcessor.GetUserInfoByIdAsync(_id);
             if (!user.Value.IsPrivate)
             {
                 do
                 {
-                    PaginationParameters paginationParameters = PaginationParameters.MaxPagesToLoad(1);
+                    PaginationParameters paginationParameters = PaginationParameters.MaxPagesToLoad(2);
                     var _result = await Account.UserProcessor.GetUserFollowersByIdAsync(_id, paginationParameters.StartFromMaxId(LatestMaxId));
 
+                    #region Checkers
                     if (_result.Info.ResponseType == ResponseType.UnExpectedResponse)
                     {
-
-                        du.UpdateProcess($"{_result.Info.Message}.{_result.Info.ResponseType})", followingList.Count, countpassed, MessageType.Type.ERROR);
+                        du.UpdateProcess($"{_result.Info.Message}.{_result.Info.ResponseType})", followersList.Count, Double.Parse(stats.Count), MessageType.Type.ERROR, this.GetType().Name);
                         StopCollectingAudience();
+                        MessageBox.Show("UnExpectedResponse Error. May be there are too many followers on this account. Sorry.","ERROR",MessageBoxButton.OK,MessageBoxImage.Error);
+                        break;
                     }
-
                     if (!_result.Succeeded)
                     {
-                        await CheckAccount(_result.Succeeded, AudiencePageViewModel.Instanse.CompetitorInUse);
+                        await CheckAccount(_result.Succeeded, stats.Competitor);
                         _result = await Account.UserProcessor.GetUserFollowersByIdAsync(_id, paginationParameters.StartFromMaxId(LatestMaxId));
                     }
+                    #endregion
 
                     LatestMaxId = _result.Value.NextMaxId;
-                    followingList.AddRange(_result.Value);
+                    followersList.AddRange(_result.Value);
 
-                    du.UpdateProcess($"Getting followers from {AudiencePageViewModel.Instanse.CompetitorInUse}", followingList.Count, countpassed, MessageType.Type.HIDDEN);
-
+                    du.UpdateProcess($"Getting followers from {stats.Competitor}", followersList.Count, Double.Parse(stats.Count), MessageType.Type.HIDDEN, this.GetType().Name);
                     Requests++;
-                    await ChangeAccountByRequestLimit(Requests);
+                    await ChangeAccountByRequestLimit();
 
                 } while (LatestMaxId != null && mainVars.IsAudienceInProgress == true);
             }
             else
             {
-                du.UpdateProcess($"{AudiencePageViewModel.Instanse.CompetitorInUse} has private account. Can`t collect audience", null, null, MessageType.Type.AUDIENCE);
+                du.UpdateProcess($"{stats.Competitor} has private account. Can`t collect audience", null, null, MessageType.Type.AUDIENCE, this.GetType().Name);
                 await Task.Delay(3000);
             }
-            return followingList;
+            return followersList;
         }
 
         private async Task CheckAccount(bool result,string competitor)
@@ -254,10 +264,10 @@ namespace Instagram_Assistant.Helpers
                     logs.Add($"All tech accounts banned", MessageType.Type.DEBUGINFO, this.GetType().Name);
                     do
                     {
-                        du.UpdateProcess($"Waiting for any account unban...", null, null,MessageType.Type.AUDIENCE);
+                        du.UpdateProcess($"Waiting for any account unban...", null, null,MessageType.Type.AUDIENCE, this.GetType().Name);
 
                         await accountInfoHelper.GetAccountsStatus();
-                        Account = accountInfoHelper.ChangeTechAccount();
+                        Account = await accountInfoHelper.GetTechAccountAsync();
 
                         await Task.Delay(limits.RestAfterChange);
                     } while (Account == null);
@@ -266,20 +276,35 @@ namespace Instagram_Assistant.Helpers
                 }
             }
         }
-        private async Task ChangeAccountByRequestLimit(int count)
+        private async Task ChangeAccountByRequestLimit()
         {
-            if (count > RequestLimit)
+            if (Requests > Properties.Settings.Default.ActionsPerTechAccountLimit == true)
             {
+                Account = await accountInfoHelper.NeededChangeTechAccount(Account);
+                du.UpdateProcess($"Saving audience and changing technical account to {Account.GetLoggedUser().UserName}. Rest 40 sec", followersList.Count, CompetitorFollowersPassed++, MessageType.Type.DEBUGINFO, this.GetType().Name);
+                await Task.Delay(40000);
                 txthelp.SaveAudienceToTxtFile(Properties.Settings.Default.SaveAudiencePath, audienceList);
                 audienceList.Clear();
-                Account = await accountInfoHelper.NeededChangeTechAccount(Account);
-                du.UpdateProcess($"Saving audience and changing technical account to {Account.GetLoggedUser().UserName}. Rest 40 sec", followingList.Count, countpassed,MessageType.Type.DEBUGINFO);
-                logs.Add($"Changing technical account to {Account.GetLoggedUser().UserName} and rest 40 seconds", MessageType.Type.DEBUGINFO, this.GetType().Name);
-                await Task.Delay(limits.RestAfterChange);
+                Requests = 0;
             }
         }
 
 
-        
+        private void timerStart()
+        {
+            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+            timer.Start();
+        }
+        private void timerStop()
+        {
+            Delay = 0;
+            timer?.Stop();
+        }
+        private void timerTick(object sender, EventArgs e)
+        {
+            timepass++;
+            stats = du.AudienceStatsUpdate(stats, null, null, th.GetNormalTime(timepass), null, null);
+        }
     }
 }
