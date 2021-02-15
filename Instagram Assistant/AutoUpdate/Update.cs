@@ -17,9 +17,6 @@ namespace Instagram_Assistant.AutoUpdate
 
     public class Update
     {
-        private readonly string Login = "";
-        private readonly string Password = "";
-        private readonly string HostUrl = "";
         private readonly static string path = Directory.GetCurrentDirectory() + "\\";
         private readonly string fileWithHashes = "FilesVersions.xml";
         private readonly string fileWithVersion = "version.xml";
@@ -30,6 +27,7 @@ namespace Instagram_Assistant.AutoUpdate
         private Md5HashHelper md5helper = new Md5HashHelper();
         private LogsPageViewModel logs = new LogsPageViewModel();
         private SplashScreenViewModel splashScreen = SplashScreenViewModel.Instanse;
+        private ServerHelper server = new ServerHelper();
 
         //WORKING
         public void GetFilesHashesLocal()
@@ -60,7 +58,6 @@ namespace Instagram_Assistant.AutoUpdate
 
             xDoc.Save(path + fileWithHashes);
         }
-
         public async Task<bool> IsFilesExists()
         {
             if (File.Exists(path + fileWithHashes))
@@ -79,7 +76,7 @@ namespace Instagram_Assistant.AutoUpdate
                         }));
 
                         await Task.Delay(2000);
-                        await DownloadFileAsync(pair.Key, pair.Key);
+                        await server.DownloadFileAsync(pair.Key, pair.Key);
                         return false;
                     }
                 }
@@ -87,14 +84,13 @@ namespace Instagram_Assistant.AutoUpdate
             }
             else
             {
-                await DownloadFileAsync(fileWithHashes, fileWithHashes);
+                await server.DownloadFileAsync(fileWithHashes, fileWithHashes);
                 return false;
             }
         }
-
         public async Task<bool> CheckForNewFiles()
         {
-            XmlDocument serverv = await GetXmlFromServer(fileWithHashes);
+            XmlDocument serverv = await server.GetXmlFromServer(fileWithHashes);
             try
             {
                 var root = serverv.DocumentElement;
@@ -104,7 +100,7 @@ namespace Instagram_Assistant.AutoUpdate
                     {
                         if (!attr.Name.ToString().Contains(".exe"))
                         { 
-                            if (await DownloadFileAsync(attr.Name,attr.Name))
+                            if (await server.DownloadFileAsync(attr.Name,attr.Name))
                             {
                                 XDocument xDoc = XDocument.Load(path + fileWithHashes);
                                 XmlWriter writer = xDoc.Root.CreateWriter();
@@ -131,7 +127,7 @@ namespace Instagram_Assistant.AutoUpdate
             XmlDocument localv = new XmlDocument();
             localv.Load(path + fileWithHashes);
 
-            XmlDocument serverv = await GetXmlFromServer(fileWithHashes);
+            XmlDocument serverv = await server.GetXmlFromServer(fileWithHashes);
 
             try
             {
@@ -150,7 +146,6 @@ namespace Instagram_Assistant.AutoUpdate
                 return true;
             }
         }
-
         public async Task<bool> CompareProgrammVersions()
         {
             Version myVersion;
@@ -166,7 +161,7 @@ namespace Instagram_Assistant.AutoUpdate
             }
 
 
-            XmlDocument doc = await GetXmlFromServer(fileWithVersion);
+            XmlDocument doc = await server.GetXmlFromServer(fileWithVersion);
             var versionFromServer = new Version(doc.GetElementsByTagName("version")[0].InnerText);
 
             Properties.Settings.Default.Save();
@@ -179,13 +174,12 @@ namespace Instagram_Assistant.AutoUpdate
                 return false;
 
         }
-
         public async Task<bool> RepairFiles()
         {
             XmlDocument localv = new XmlDocument();
             localv.Load(path + fileWithHashes);
 
-            XmlDocument serverv = await GetXmlFromServer(fileWithHashes);
+            XmlDocument serverv = await server.GetXmlFromServer(fileWithHashes);
 
             try
             {
@@ -194,7 +188,7 @@ namespace Instagram_Assistant.AutoUpdate
                     var hashFromServer = serverv.GetElementsByTagName(pair.Key)[0].InnerText;
                     var hashFromLocal = localv.GetElementsByTagName(pair.Key)[0].InnerText;
                     if (hashFromLocal != hashFromServer)
-                       await DownloadFileAsync(pair.Key, pair.Key);
+                       await server.DownloadFileAsync(pair.Key, pair.Key);
                 }
                 return true;
             }
@@ -204,7 +198,6 @@ namespace Instagram_Assistant.AutoUpdate
                 return false;
             }
         }
-
         void FilesToGetInfo()
         {
             filesinfo?.Clear();
@@ -212,8 +205,7 @@ namespace Instagram_Assistant.AutoUpdate
             FileInfo[] Files = d.GetFiles("*.dll"); //Getting Text files
 
             foreach (FileInfo file in Files)
-                filesinfo.Add(file.Name, new Uri(HostUrl + file.Name));
-
+                filesinfo.Add(file.Name, new Uri(server.HostUrl + file.Name));
         }
 
 
@@ -222,12 +214,11 @@ namespace Instagram_Assistant.AutoUpdate
         {
             string path1 = path + "Update.exe";
 
-            System.Diagnostics.Process.Start(path1);
+            Process.Start(path1);
 
             await Task.Delay(3000);
             App.Current.Shutdown();
         }
-
         public async Task UpdateUpdater()
         {
             string updaterpath = path + "Update.exe";
@@ -236,36 +227,34 @@ namespace Instagram_Assistant.AutoUpdate
                 var myVersion = FileVersionInfo.GetVersionInfo(updaterpath);
                 Version Version = new Version(myVersion.FileVersion);
 
-                XmlDocument doc = await GetXmlFromServer(fileWithVersion);
+                XmlDocument doc = await server.GetXmlFromServer(fileWithVersion);
                 var versionFromServer = new Version(doc.GetElementsByTagName("updaterversion")[0].InnerText);
 
                 if (Version < versionFromServer)
                 {
-                    await DownloadFileAsync("Update.exe", "Update.update");
+                    await server.DownloadFileAsync("Update.exe", "Update.update");
                     //TODO: ПРОВЕРКА
                     await ReplaceFiles("Update.exe", "Update.update");
                     //TODO: ПРОВЕРКА
                 }
             }
             else
-                await DownloadFileAsync("Update.exe", "Update.exe");
+                await server.DownloadFileAsync("Update.exe", "Update.exe");
         }
-
         public async Task UpdateAssistant()
         {
             var myVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
 
-            XmlDocument doc = await GetXmlFromServer(fileWithVersion);
+            XmlDocument doc = await server.GetXmlFromServer(fileWithVersion);
             var versionFromServer = new Version(doc.GetElementsByTagName("version")[0].InnerText);
 
             if (myVersion < versionFromServer)
             {
-                await DownloadFileAsync("Instagram Assistant.exe", "Instagram Assistant.update");
+                await server.DownloadFileAsync("Instagram Assistant.exe", "Instagram Assistant.update");
                 await ReplaceFiles("Instagram Assistant.exe", "Instagram Assistant.update");
              //TODO: ПРОВЕРКА
             }
         }
-
         private async Task<bool> ReplaceFiles(string oldfilename, string newfilename)
         {
             bool oldfile = false;
@@ -341,68 +330,6 @@ namespace Instagram_Assistant.AutoUpdate
             }
 
         }
-
-
-        //SERVER SIDE
-        protected FtpWebRequest ConnectionForDownloadFile(string url, string file)
-        {
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(url + file);
-            request.Credentials = new NetworkCredential(Login.Normalize(), Password.Normalize());
-            request.UseBinary = true;
-            request.Method = WebRequestMethods.Ftp.DownloadFile;
-            request.KeepAlive = true;
-            return request;
-        }
-
-        public async Task<bool> DownloadFileAsync(string filename, string downloadfilename)
-        {
-            try
-            {
-                FtpWebRequest request = ConnectionForDownloadFile(HostUrl, filename);
-
-                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-                await Task.Run(() =>
-                {
-                    using (WebClient client = new WebClient())
-                    {
-                        client.Credentials = new NetworkCredential(Login, Password);
-                        client.DownloadFile(new Uri(HostUrl + filename), downloadfilename);
-                    }
-                });
-
-                return true;
-            }
-            catch
-            {
-                //return ex.ToString();
-                return false;
-            }
-        }
-
-        private async Task<XmlDocument> GetXmlFromServer(string filename)
-        {
-            FtpWebRequest request = ConnectionForDownloadFile(HostUrl, filename);
-            XmlDocument serverv = new XmlDocument();
-            WebResponse response = await request.GetResponseAsync();
-            Stream responseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(responseStream);
-            string xml = reader.ReadToEnd();
-            serverv.LoadXml(xml);
-            return serverv;
-        }
-
-        public string GetChangelog()
-        {
-            string notes;
-            using (WebClient client = new WebClient())
-            {
-                client.Credentials = new NetworkCredential(Login, Password);
-                notes = client.DownloadString(HostUrl + "releasenotes_ru.html");
-            }
-            return notes;
-        }
-
-
-     
+    
     }
 }

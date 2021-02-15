@@ -1,4 +1,6 @@
-﻿using Instagram_Assistant.ViewModel;
+﻿using Instagram_Assistant.Enums;
+using Instagram_Assistant.ViewModel;
+using Instagram_Assistant.ViewModel.BaseModels;
 using InstagramApiSharp.API;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,19 @@ namespace Instagram_Assistant.Helpers
     class VarsCommon
     {
         #region Vars
-        protected IInstaApi Account;
+        //protected IInstaApi Account;
+        private IInstaApi account;
+        public IInstaApi Account
+        {
+            get { return account; }
+            set 
+            {
+                accountInfoHelper.UpdateAccountStatus(account, AccountStatus.Type.REST);
+                account = value;
+                accountInfoHelper.UpdateAccountStatus(account, AccountStatus.Type.WORKING);
+            }
+        }
+
         protected DateTime StartTime { get; set; }
         protected DateTime EndTime { get; set; }
         //Delay per like for stats overview
@@ -26,7 +40,6 @@ namespace Instagram_Assistant.Helpers
         protected TimeHelper th = new TimeHelper();
         protected LogsPageViewModel logs = LogsPageViewModel.Instance;
         protected MainVars mainVars = new MainVars();
-        protected Limits limits = new Limits();
         protected DataUpdate du = new DataUpdate();
         protected AccountInfoHelper accountInfoHelper = new AccountInfoHelper();
         protected ImageHelpers imageHelper = new ImageHelpers();

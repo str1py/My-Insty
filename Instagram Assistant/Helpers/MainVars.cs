@@ -16,6 +16,8 @@ namespace Instagram_Assistant.Helpers
         private static bool isUnfollowInProgress = false;
         private static bool isAudienceInProgress = false;
         private static bool isAudienceFilterInProgress = false;
+        private static bool isHashtagAudienceInProgress = false;
+        private static bool isGeoAudienceInProgress = false;
 
         private static bool isSPyInProgress = false;
 
@@ -164,6 +166,18 @@ namespace Instagram_Assistant.Helpers
                 OnPropertyChanged();
             }
         }
+        public bool IsHashtagAudienceInProgress
+        {
+            get { return isHashtagAudienceInProgress; }
+            set { isHashtagAudienceInProgress = value; }
+        }
+        public bool IsGeoAudienceInProgress
+        {
+            get { return isGeoAudienceInProgress; }
+            set { isGeoAudienceInProgress = value; }
+        }
+
+
 
         public bool IsSpyInProgress
         {

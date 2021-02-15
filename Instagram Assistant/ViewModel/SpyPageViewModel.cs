@@ -3,7 +3,9 @@ using Instagram_Assistant.Helpers;
 using Instagram_Assistant.Model;
 using Instagram_Assistant.Model.Spy;
 using Instagram_Assistant.ViewModel.BaseModels;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Instagram_Assistant.ViewModel
 {
@@ -37,6 +39,8 @@ namespace Instagram_Assistant.ViewModel
             ComboBoxSelectedIndex = 0;
         }
 
+        public string SpyUsersList { get; private set; } = "";
+
         private int comboBoxSelectedIndex;
         public int ComboBoxSelectedIndex
         {
@@ -45,6 +49,17 @@ namespace Instagram_Assistant.ViewModel
             {
                 comboBoxSelectedIndex = value;
                 OnPropertyChanged();
+                if(comboBoxSelectedIndex == 3)
+                {
+                    CommonOpenFileDialog fileDialog = new CommonOpenFileDialog();
+                    fileDialog.Title = "Select path to users list";
+                    if (fileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        if (fileDialog.FileName.Contains(".txt"))
+                            SpyUsersList = fileDialog.FileName;
+                        else MessageBox.Show("Please select text file (.txt)");
+                    }
+                }
             }
         }
 

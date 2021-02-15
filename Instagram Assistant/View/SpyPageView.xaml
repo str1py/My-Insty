@@ -210,6 +210,7 @@
             <TextBlock Text="Spy on" Style="{DynamicResource TextBlockMainStyle}"/>
             <ComboBox Style="{DynamicResource ComboBoxStyle}" SelectedIndex="{Binding ComboBoxSelectedIndex}">
                 <ComboBoxItem Content="All followings"/>
+                <ComboBoxItem Content="All followers"/>
                 <ComboBoxItem Content="Besty"/>
                 <ComboBoxItem Content="From user list"/>
             </ComboBox>

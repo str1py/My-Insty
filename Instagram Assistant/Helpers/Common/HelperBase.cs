@@ -1,14 +1,8 @@
 ﻿using Instagram_Assistant.Enums;
 using Instagram_Assistant.Model;
-using Instagram_Assistant.Model.Base;
-using Instagram_Assistant.ViewModel;
 using Instagram_Assistant.ViewModel.BaseModels;
-using InstagramApiSharp.API;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -16,9 +10,14 @@ namespace Instagram_Assistant.Helpers
 {
     class HelperBase : VarsCommon
     {
-        protected CommonViewModel mainInstanse;
         protected ObservableCollection<ActionModel> actions; //What app doing 
         protected StatsModelBase stats; //for overview - likes and time stats
+        protected CommonViewModel mainInstanse;
+        public HelperBase()
+        {
+            Properties.Settings.Default.IsWorkTimeLimit = true;
+            Properties.Settings.Default.Save();
+        }
 
         private int requests;
         protected int Requests
@@ -81,6 +80,46 @@ namespace Instagram_Assistant.Helpers
                 stats = du.StatsUpdate(stats, mainInstanse, AccountStatus.Type.WORKING.ToString(), mainVars.GetTotalCountFromProperties(mainInstanse), 0, null, null, th.GetNormalTime(EndTime));
             }
         }
+        protected TimeSpan WorkTimeLimitCheck()
+        {
+            var prop = Properties.Settings.Default;
+            prop.RestDateFrom = DateTime.Now.Date.Add(new TimeSpan(prop.RestHoursFrom, 00, 0));
+            prop.RestDateTo = DateTime.Now.Date.Add(new TimeSpan(prop.RestHoursTo, 00, 0));
+            prop.Save();
+
+
+            if (Properties.Settings.Default.RestDateFrom.Hour == 0 && Properties.Settings.Default.RestDateTo.Hour == 0)
+                return TimeSpan.Zero;
+            else
+            {
+                if (Properties.Settings.Default.IsWorkTimeLimit == true)
+                {
+                    DateTime restdateto;
+                    if (prop.RestDateFrom.Hour > prop.RestDateTo.Hour)
+                    {
+                        restdateto = new DateTime(prop.RestDateTo.Year, prop.RestDateTo.Month, prop.RestDateTo.Day + 1);
+                        restdateto = restdateto.Date.Add(new TimeSpan(prop.RestHoursTo, 00, 0));
+                        prop.RestDateTo = restdateto;
+                        prop.Save();
+                    }
+
+                    if (DateTime.Now.Hour >= Properties.Settings.Default.RestDateFrom.Hour || DateTime.Now.Hour < Properties.Settings.Default.RestDateTo.Hour)
+                    {
+                        if (DateTime.Now.Day == Properties.Settings.Default.RestDateFrom.Day && DateTime.Now.Day + 1 == Properties.Settings.Default.RestDateTo.Day)
+                        {
+                            return Properties.Settings.Default.RestDateTo - DateTime.Now;
+                        }
+                        else
+                            return TimeSpan.Zero;
+                    }
+                    else
+                        return TimeSpan.Zero;
+                }
+                else
+                    return TimeSpan.Zero;
+            }
+
+        }
 
         protected void TimeInit()
         {
@@ -94,7 +133,7 @@ namespace Instagram_Assistant.Helpers
             Account = await accountInfoHelper.GetMainAccountAsync();
             if (Account != null)
             {
-                accountInfoHelper.UpdateAccountStatus(Account, AccountStatus.Type.WORKING);
+                //accountInfoHelper.UpdateAccountStatus(Account, AccountStatus.Type.WORKING);
                 mainVars.ChangeProgressToTrue(model);
 
                 stats = model.Stats ?? new StatsModelBase();

@@ -89,22 +89,22 @@ namespace Instagram_Assistant.Helpers
         }
 
         //AUDIENCE
-        public void UpdateProcess(string message, double? folowerscount, double? followerspassed, MessageType.Type type, string _class)
+        public void UpdateProcess(string message, AudienceViewModelBase model,double? folowerscount, double? followerspassed, MessageType.Type type, string _class)
         {
             if (folowerscount == null || followerspassed == null)
             {
-                AudiencePageViewModel.Instance.AudienceProcess = new AudienceProcessModel(message, 0);
+                model.AudienceProcess = new AudienceProcessModel(message, 0);
             }
             else
             {
                 double? pr = (followerspassed / folowerscount) * 100;
-                AudiencePageViewModel.Instance.AudienceProcess = new AudienceProcessModel($"{message} ({followerspassed}/{folowerscount})", pr);
+                model.AudienceProcess = new AudienceProcessModel($"{message} ({followerspassed}/{folowerscount})", pr);
             }
-            if(type != MessageType.Type.HIDDEN)
+            if(type != MessageType.Type.HIDDEN & type !=MessageType.Type.DEBUGINFO)
                 logs.Add($"{message}", type, _class);
         }
 
-        public AudienceStatsModel AudienceStatsUpdate(AudienceStatsModel _stats, string _status, int? _count,  string _timeinwork, string _mainacc, string _competitor)
+        public AudienceStatsModel AudienceStatsUpdate(AudienceStatsModel _stats, AudienceViewModelBase model, string _status, int? _count,  string _timeinwork, string _mainacc, string _competitor)
         {
             var stats = new AudienceStatsModel()
             {
@@ -114,7 +114,7 @@ namespace Instagram_Assistant.Helpers
                 Competitor = _competitor ?? _stats.Competitor,
                 TechAccount = _mainacc ?? _stats.TechAccount
             };
-            AudiencePageViewModel.Instance.Stats = stats;
+            model.Stats = stats;
             return stats;
         }
 

@@ -26,10 +26,8 @@ namespace Instagram_Assistant.Helpers
                 return sb.ToString();
             }
         }
-
         public bool VerifyMd5Hash(string localfile, string serverfile)
         {
-
             string localhash = GetMd5Hash(localfile);
             string serverhash = GetMd5Hash(serverfile);
 
@@ -38,9 +36,7 @@ namespace Instagram_Assistant.Helpers
             if (0 == comparer.Compare(localhash, serverhash))    
                 return true;      
             else          
-                return false;
-            
-
+                return false;           
         }
     }
 }

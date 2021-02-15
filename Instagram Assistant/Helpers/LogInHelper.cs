@@ -274,21 +274,6 @@ namespace Instagram_Assistant.Helpers
             LoginPageViewModel.Instanse.Login = username;
             loginPage.CancleLoginVisibility = Visibility.Visible;
         }
-
-        public void Challenge()
-        {
-            LoginPageViewModel loginPage = LoginPageViewModel.Instanse;
-            MainWindowViewModel.instance.SelectedViewModel = loginPage;
-            MainWindowViewModel.instance.MainSelectedViewModel = null;
-            loginPage.LoginVisibility = Visibility.Hidden;
-            loginPage.ChallengesVisibility = Visibility.Visible;
-            loginPage.CodeCheckVisibility = Visibility.Hidden;
-            loginPage.LoginGridIsEnable = true;
-            loginPage.ChallengesGridIsEnabel = true;
-            loginPage.CodeCheckGridIsEnabel = true;
-            loginPage.CancleLoginVisibility = Visibility.Visible;
-        }
-
         public bool LogOut(string username)
         {
             var files = Directory.GetFiles(path, "*.bin");
@@ -307,6 +292,19 @@ namespace Instagram_Assistant.Helpers
             return false;
         }
 
+        public void Challenge()
+        {
+            LoginPageViewModel loginPage = LoginPageViewModel.Instanse;
+            MainWindowViewModel.instance.SelectedViewModel = loginPage;
+            MainWindowViewModel.instance.MainSelectedViewModel = null;
+            loginPage.LoginVisibility = Visibility.Hidden;
+            loginPage.ChallengesVisibility = Visibility.Visible;
+            loginPage.CodeCheckVisibility = Visibility.Hidden;
+            loginPage.LoginGridIsEnable = true;
+            loginPage.ChallengesGridIsEnabel = true;
+            loginPage.CodeCheckGridIsEnabel = true;
+            loginPage.CancleLoginVisibility = Visibility.Visible;
+        }
         public async Task<bool> CodeCheck(string code)
         {
             var verifyLogin = await _instaApi.VerifyCodeForChallengeRequireAsync(code);
@@ -321,7 +319,6 @@ namespace Instagram_Assistant.Helpers
                 return false;
             
         }
-
         public async Task<bool> SendCode(bool ischecked)
         {
             var challenge = await _instaApi.GetChallengeRequireVerifyMethodAsync();
@@ -341,7 +338,6 @@ namespace Instagram_Assistant.Helpers
             }
             else
                 return false;
-
             return false;
         }
 

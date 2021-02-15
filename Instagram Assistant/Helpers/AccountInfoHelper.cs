@@ -116,6 +116,19 @@ namespace Instagram_Assistant.Helpers
                 AccountPageViewModel.Instance.GetInfo();
             }
         }
+        public void UpdateAccountStatus(IInstaApi api, AccountStatus.Type type)
+        {
+            if (api != null)
+            {
+                var acc = info.Where(x => x.userName == api.GetLoggedUser().UserName).FirstOrDefault();
+                acc.accountStatus = type;
+            }
+        }
+        public void DeleteAccount(string username)
+        {
+            var acc = info.Where(x => x.userName == username).FirstOrDefault();
+            info.Remove(acc);
+        }
 
         private async Task<AccountStatus.Type> GetAccountStatus(IInstaApi user, string competitor = null)
         {
@@ -141,6 +154,8 @@ namespace Instagram_Assistant.Helpers
                 {
                     if (result.Info.NeedsChallenge == false && result1.Info.NeedsChallenge == false)
                         return AccountStatus.Type.REST;
+                    else if (result.Info.ResponseType == ResponseType.Spam)
+                        return AccountStatus.Type.SPAM;
                     else return AccountStatus.Type.BAN;
                 }
                 else return AccountStatus.Type.BAN;
@@ -275,20 +290,7 @@ namespace Instagram_Assistant.Helpers
             });
         }
 
-        public void UpdateAccountStatus(IInstaApi api, AccountStatus.Type type)
-        {
-            if (api != null)
-            {
-                var acc = info.Where(x => x.userName == api.GetLoggedUser().UserName).FirstOrDefault();
-                acc.accountStatus = type;
-            }
-        }
 
-        public void DeleteAccount(string username)
-        {
-            var acc = info.Where(x => x.userName == username).FirstOrDefault();
-            info.Remove(acc);
-        }
 
     }
 }

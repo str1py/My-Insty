@@ -145,7 +145,7 @@ namespace Instagram_Assistant.Helpers.Unfollow
                     logs.Add($"Find {following.Count} users you follow", MessageType.Type.UNFOLLOW, this.GetType().Name);
                     foreach (var user in following)
                     {
-                        await WorkTimeCheck(limits.WorkTimeLimitCheck());
+                        await WorkTimeCheck(WorkTimeLimitCheck());
                         await HourPassedCheck();
                         await MaxCountPassedCheck();
 

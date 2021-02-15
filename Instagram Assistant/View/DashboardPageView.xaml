@@ -38,6 +38,12 @@
         <DataTemplate x:Name="spyView" DataType="{x:Type viewmodels:SpyPageViewModel}">
             <views:SpyPageView/>
         </DataTemplate>
+        <DataTemplate x:Name="hashtagAudience" DataType="{x:Type viewmodels:HashtagAudiencePageViewModel}">
+            <views:HashtagAudiencePageView/>
+        </DataTemplate>
+        <DataTemplate x:Name="geoAudience" DataType="{x:Type viewmodels:GeoAudiencePageViewModel}">
+            <views:GeoAudiencePageView/>
+        </DataTemplate>
     </UserControl.Resources>
 
 
@@ -458,7 +464,9 @@
                                     <WrapPanel IsItemsHost="True" />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
-                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >New</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Competitor</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Hashtag</ListViewItem>
+                            <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Geo</ListViewItem>
                             <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Filter</ListViewItem>
                             <ListViewItem Style="{DynamicResource ListViewItemStyle}" >Spy</ListViewItem>
                         </ListView>

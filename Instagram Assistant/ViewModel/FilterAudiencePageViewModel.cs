@@ -43,15 +43,7 @@ namespace Instagram_Assistant.ViewModel
         private ObservableCollection<AudienceActionModel> audienceActions;
         public ObservableCollection<AudienceActionModel> AudienceActions
         {
-            get
-            {
-                if (audienceActions?.Count-1 > 100)
-                {
-                    for (int i = audienceActions.Count; i > 100; i--)
-                     audienceActions.RemoveAt(i);
-                }    
-                return audienceActions; 
-            }
+            get  { return audienceActions;  }
             set
             {
                 audienceActions = value;
@@ -97,8 +89,6 @@ namespace Instagram_Assistant.ViewModel
                 ButtonContent = "Start";
             }
         }
-
-
 
 
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };

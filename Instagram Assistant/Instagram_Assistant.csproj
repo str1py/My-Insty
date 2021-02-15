@@ -139,11 +139,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutoUpdate\Update.cs" />
+    <Compile Include="Behavious\PasswordBehavior.cs" />
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Helpers\AccountInfoHelper.cs" />
     <Compile Include="Helpers\Audience\AudienceFilterHelper.cs" />
     <Compile Include="Helpers\Audience\AudienceHelper.cs" />
     <Compile Include="Helpers\Audience\CheckRequirementsHelper.cs" />
+    <Compile Include="Helpers\Audience\GeoAudienceHelper.cs" />
+    <Compile Include="Helpers\Audience\HashtagAudienceHelper.cs" />
+    <Compile Include="Helpers\Common\AudienceCommon.cs" />
     <Compile Include="Helpers\Common\HelperBase.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />
     <Compile Include="Helpers\DataUpdate.cs" />
@@ -152,11 +156,11 @@
     <Compile Include="Helpers\Like\GeoLikeHelper.cs" />
     <Compile Include="Helpers\Like\HashtagLikeHelper.cs" />
     <Compile Include="Helpers\Like\LikeCommon.cs" />
-    <Compile Include="Helpers\Limits.cs" />
     <Compile Include="Helpers\LogInHelper.cs" />
     <Compile Include="Helpers\MainVars.cs" />
     <Compile Include="Enums\MessageType.cs" />
     <Compile Include="Helpers\Md5HashHelper.cs" />
+    <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="Helpers\Spy\SpyHelper.cs" />
     <Compile Include="Helpers\Story\GeoStoriesHelper.cs" />
     <Compile Include="Helpers\Story\StoriesCommon.cs" />
@@ -191,13 +195,16 @@
     <Compile Include="ViewModel\AboutPageViewModel.cs" />
     <Compile Include="ViewModel\AccountPageViewModel.cs" />
     <Compile Include="ViewModel\AudiencePageViewModel.cs" />
+    <Compile Include="ViewModel\BaseModels\AudienceViewModelBase.cs" />
     <Compile Include="ViewModel\BaseModels\CommonViewModel.cs" />
     <Compile Include="ViewModel\DashboardPageViewModel.cs" />
     <Compile Include="ViewModel\FeedLikePageViewModel.cs" />
     <Compile Include="ViewModel\FeedStoriesPageViewModel.cs" />
     <Compile Include="ViewModel\FilterAudiencePageViewModel.cs" />
+    <Compile Include="ViewModel\GeoAudiencePageViewModel.cs" />
     <Compile Include="ViewModel\GeoLikePageViewModel.cs" />
     <Compile Include="ViewModel\GeoStoriesWatchViewModel.cs" />
+    <Compile Include="ViewModel\HashtagAudiencePageViewModel.cs" />
     <Compile Include="ViewModel\HashtagLikePageViewModel.cs" />
     <Compile Include="ViewModel\LoginPageViewModel.cs" />
     <Compile Include="ViewModel\LogsPageViewModel.cs" />
@@ -222,11 +229,17 @@
     <Compile Include="View\FilterAudiencePageView.xaml.cs">
       <DependentUpon>FilterAudiencePageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GeoAudiencePageView.xaml.cs">
+      <DependentUpon>GeoAudiencePageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GeoLikePageView.xaml.cs">
       <DependentUpon>GeoLikePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GeoStoriesWatchPageView.xaml.cs">
       <DependentUpon>GeoStoriesWatchPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HashtagAudiencePageView.xaml.cs">
+      <DependentUpon>HashtagAudiencePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HashtagLikePageView.xaml.cs">
       <DependentUpon>HashtagLikePageView.xaml</DependentUpon>
@@ -291,11 +304,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\GeoAudiencePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GeoLikePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GeoStoriesWatchPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HashtagAudiencePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,8 +8,6 @@ namespace Instagram_Assistant.Helpers
 {
     class ImageHelpers
     {
-        //STATUS: OK
-        private LogsPageViewModel logs = LogsPageViewModel.Instance;
         public BitmapImage GetImage(string link)
         {
             if (link != null)
@@ -28,7 +26,7 @@ namespace Instagram_Assistant.Helpers
                 }
                 catch (Exception e)
                 {
-                    logs.Add(e.Message, MessageType.Type.ERROR, this.GetType().Name);
+                    LogsPageViewModel.Instance.Add(e.Message, MessageType.Type.ERROR, this.GetType().Name);
                     return null;
                 }
             } return null;

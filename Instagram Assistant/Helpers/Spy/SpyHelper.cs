@@ -20,13 +20,24 @@ namespace Instagram_Assistant.Helpers
     class SpyHelper : HelperBase
     {
         private ObservableCollection<SpyModel> spyCollection;
-        private IInstaApi SpyAccount;
+        private IInstaApi spyAccount;
+        public IInstaApi SpyAccount
+        {
+            get { return spyAccount; }
+            set
+            {
+                accountInfoHelper.UpdateAccountStatus(spyAccount, AccountStatus.Type.REST);
+                spyAccount = value;
+                accountInfoHelper.UpdateAccountStatus(spyAccount, AccountStatus.Type.WORKING);
+            }
+        }
         private new SpyStatsModel stats;
         private readonly int DelayActionsSeconds = 300;
         private readonly int MaxTries = 5;
 
         private ConvertHelper convert = new ConvertHelper();
         private AccountInfoHelper accountInfo = new AccountInfoHelper();
+        private TextFileHelper txtHelper = new TextFileHelper();
 
         public SpyHelper(CommonViewModel model)
         {
@@ -54,7 +65,7 @@ namespace Instagram_Assistant.Helpers
             else
             {
                 //Set common info
-                accountInfoHelper.UpdateAccountStatus(SpyAccount, AccountStatus.Type.WORKING);
+                //accountInfoHelper.UpdateAccountStatus(SpyAccount, AccountStatus.Type.WORKING);
                 logs.Add($"Begin spy...", MessageType.Type.DEBUGINFO, this.GetType().ToString());
                 du.UpdateActions(actions, mainInstanse, null, "", "Info", $"Getting your following list");
                 mainVars.ChangeProgressToTrue(mainInstanse);
@@ -118,8 +129,9 @@ namespace Instagram_Assistant.Helpers
         {
             switch (select)
             {
+                //FOLLOWING
                 case 0:
-                    var result = await Account.UserProcessor.GetUserFollowingAsync(Account.GetLoggedUser().UserName, PaginationParameters.MaxPagesToLoad(1));
+                    var result = await Account.UserProcessor.GetUserFollowingAsync(Account.GetLoggedUser().UserName, PaginationParameters.MaxPagesToLoad(2));
                     if (result.Succeeded)
                         return result.Value;
                     else
@@ -127,7 +139,18 @@ namespace Instagram_Assistant.Helpers
                         logs.Add(result.Info.Message, MessageType.Type.ERROR, this.GetType().Name);
                         return null;
                     }
+                //FOLLOWERS
                 case 1:
+                    var resultFollowers = await Account.UserProcessor.GetUserFollowersAsync(Account.GetLoggedUser().UserName, PaginationParameters.MaxPagesToLoad(2));
+                    if (resultFollowers.Succeeded)
+                        return resultFollowers.Value;
+                    else
+                    {
+                        logs.Add(resultFollowers.Info.Message, MessageType.Type.ERROR, this.GetType().Name);
+                        return null;
+                    }
+                //Best Friends
+                case 2:
                     var resultBesty = await Account.UserProcessor.GetBestFriendsAsync(PaginationParameters.MaxPagesToLoad(10));
                     if (resultBesty.Succeeded)
                         return resultBesty.Value;
@@ -136,8 +159,30 @@ namespace Instagram_Assistant.Helpers
                         logs.Add(resultBesty.Info.Message, MessageType.Type.ERROR, this.GetType().Name);
                         return null;
                     }
-                case 2:
-                    return null;
+                case 3:
+                    var usersArray = txtHelper.TxtToStrMassive(SpyPageViewModel.Instance.SpyUsersList);
+                    InstaUserShortList list = new InstaUserShortList();
+                    foreach (var user in usersArray)
+                    {
+                        var res = await Account.UserProcessor.GetUserAsync(user);
+                        if (res.Succeeded)
+                        {
+                            list.Add(new InstaUserShort
+                            {
+                                FullName = res.Value.FullName,
+                                IsPrivate = res.Value.IsPrivate,
+                                IsVerified = res.Value.IsVerified,
+                                Pk = res.Value.Pk,
+                                ProfilePicture = res.Value.ProfilePicture,
+                                ProfilePictureId = res.Value.ProfilePictureId,
+                                ProfilePicUrl = res.Value.ProfilePicUrl,
+                                UserName = res.Value.UserName
+                            });
+                        }
+                        else
+                            logs.Add(res.Info.Message, MessageType.Type.ERROR, this.GetType().ToString());
+                    }
+                    return list;
                 default:
                     return null;
             }
@@ -164,6 +209,7 @@ namespace Instagram_Assistant.Helpers
                 }
             });
         }
+
         private async Task<List<string>> GetLastStories(long id)
         {
             int triesCount = 0;

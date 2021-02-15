@@ -1,18 +1,12 @@
-﻿using Instagram_Assistant.Enums;
-using Instagram_Assistant.Model;
-using Instagram_Assistant.ViewModel;
+﻿using Instagram_Assistant.Model;
 using Instagram_Assistant.ViewModel.BaseModels;
 using InstagramApiSharp;
-using InstagramApiSharp.API;
 using InstagramApiSharp.Classes.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
+
 
 namespace Instagram_Assistant.Helpers.Like
 {

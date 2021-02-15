@@ -93,3 +93,7 @@ E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\Inst
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\Instagram_Assistant.csproj.CopyComplete
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\Instagram Assistant.exe
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\Instagram Assistant.pdb
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\View\GeoAudiencePageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\View\HashtagAudiencePageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\View\GeoAudiencePageView.baml
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Release\View\HashtagAudiencePageView.baml

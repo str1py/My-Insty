@@ -93,4 +93,8 @@ E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Numerics.Vectors.xml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram Assistant_Content.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\HashtagAudiencePageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\HashtagAudiencePageView.baml
 E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\Instagram_Assistant.csprojAssemblyReference.cache
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\GeoAudiencePageView.g.cs
+E:\CREATIVE\PROGRAMMING\Instagram Assistant\Instagram Assistant\obj\Debug\View\GeoAudiencePageView.baml

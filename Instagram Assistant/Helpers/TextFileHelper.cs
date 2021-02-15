@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Instagram_Assistant.Helpers
 {
@@ -114,7 +115,7 @@ namespace Instagram_Assistant.Helpers
             if (File.Exists(path))
             {
                 list = File.ReadAllLines(path, Encoding.UTF8);
-
+                int count = 0;
                 CancellationTokenSource cts = new CancellationTokenSource();
                 await Task.Factory.StartNew(() =>
                                      Parallel.ForEach(list, user =>
@@ -124,17 +125,16 @@ namespace Instagram_Assistant.Helpers
                                          try
                                          {
                                              string[] separate = user.Split(';');
-                                             FilterAudiencePageViewModel.Instance.LastActionTextHelper = $"Get {separate[0]} info...";
+                                             FilterAudiencePageViewModel.Instance.LastActionTextHelper = $"Get {separate[0]} info ({count++}/{list.Length})...";
                                              AudienceActionModel audience = new AudienceActionModel(separate[0], separate[1], long.Parse(separate[2]), separate[3], separate[4],
                                                        convert.AccTypeToInt(separate[5]), separate[6], separate[7], Convert.ToBoolean(separate[8]), Convert.ToInt32(separate[9]),
                                                        Convert.ToInt32(separate[10]), separate[11], convert.YesNoToBoolean(separate[12]),
                                                        separate[13], convert.YesNoToBoolean(separate[14]), convert.YesNoToBoolean(separate[15]), "Unknown");
 
-                                             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                                              App.Current.Dispatcher.Invoke(new Action(() =>
                                              {
-                                                 sepList.Add(audience);
-                                             });
-
+                                                     sepList.Add(audience);
+                                             }));
                                          }
                                          catch (Exception e)
                                          {

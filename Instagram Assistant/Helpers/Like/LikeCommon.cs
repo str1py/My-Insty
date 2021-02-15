@@ -38,7 +38,7 @@ namespace Instagram_Assistant.Helpers.Like
 
                 Requests++;
             }
-            await WorkTimeCheck(limits.WorkTimeLimitCheck());
+            await WorkTimeCheck(WorkTimeLimitCheck());
             await HourPassedCheck();
             await MaxCountPassedCheck();
         }

@@ -89,7 +89,7 @@
                    FontSize="{DynamicResource H1}" >Overview</TextBlock>
 
 
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="2" Grid.RowSpan="10" CornerRadius="3" Background="{StaticResource ThirdColorBrush}">
+        <Border Grid.Column="0" Grid.ColumnSpan="9" Grid.Row="2" Grid.RowSpan="13" CornerRadius="3" Background="{StaticResource ThirdColorBrush}">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" 
                                   ShadowDepth="0.9" 
@@ -100,7 +100,7 @@
         <StackPanel Grid.Row="1" Grid.ColumnSpan="9" Grid.RowSpan="9">
             <TextBlock Style="{DynamicResource TextBlockMainStyle}"
                        Margin="0,0,0,5">Competitor list</TextBlock>
-            <TextBox Margin="0,4,0,0" Height="300" Width="300"
+            <TextBox Margin="0,4,0,0" Height="330" Width="250"
                      AcceptsReturn="True" 
                      FontSize="16" 
                      FontFamily="{DynamicResource MainFont}"
@@ -109,11 +109,11 @@
                      BorderThickness="0"
                      Tag="instagram&#xA;ilonmask&#xA;shrek"
                      TextWrapping="Wrap"
-                     Text="{Binding CompetitorList,UpdateSourceTrigger=PropertyChanged}">
+                     Text="{Binding CollectFrom,UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
         </StackPanel>
         
-        <StackPanel Grid.Row="2" Grid.Column="22" Grid.ColumnSpan="4" Grid.RowSpan="14"  VerticalAlignment="Center" Orientation="Vertical" >
+        <StackPanel Grid.Row="2" Grid.Column="22" Grid.ColumnSpan="4" Grid.RowSpan="15"  VerticalAlignment="Center" Orientation="Vertical" >
             <Button Style="{DynamicResource MainButtonStyle}" 
                     Height="40"   
                     Command="{Binding StartAudienceCommand}" 
@@ -171,7 +171,15 @@
                        Margin="0,0,0,5" 
                        FontWeight="ExtraLight" Text="{Binding Stats.Count}"/>
 
-                <StackPanel HorizontalAlignment="Center" Margin="0,50,0,0" >
+            <TextBlock Text="Target" Style="{DynamicResource TextBlockMainStyle}"/>
+            <ComboBox Style="{DynamicResource ComboBoxStyle}" 
+                      SelectedIndex="{Binding ComboBoxSelectedIndex}"
+                      IsEnabled="{Binding ComboBoxEnable}">
+                <ComboBoxItem Content="Followers"/>
+                <ComboBoxItem Content="Following"/>
+            </ComboBox>
+
+            <StackPanel HorizontalAlignment="Center" Margin="0,50,0,0" >
                     <TextBlock HorizontalAlignment="Center"
                            Margin="0,0,0,5"
                            Foreground="White"
@@ -203,8 +211,5 @@
             </StackPanel>
 
         </StackPanel>
-
-
-
     </Grid>
 </UserControl>

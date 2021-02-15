@@ -34,7 +34,7 @@ namespace Instagram_Assistant.Helpers.Story
             }
             finally
             {
-                await WorkTimeCheck(limits.WorkTimeLimitCheck());
+                await WorkTimeCheck(WorkTimeLimitCheck());
                 await HourPassedCheck();
                 await MaxCountPassedCheck();
             }

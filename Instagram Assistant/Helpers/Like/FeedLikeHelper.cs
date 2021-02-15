@@ -58,7 +58,6 @@ namespace Instagram_Assistant.Helpers
         }
         public async Task BeginLike()
         {
-
             if (await InitCommonData(mainInstanse))
             {
                 timerStart();

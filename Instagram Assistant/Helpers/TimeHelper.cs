@@ -6,14 +6,14 @@ namespace Instagram_Assistant.Helpers
     class TimeHelper
     {
         //STATUS: OK
-        public string GetNormalTime(int time)
+        public string GetNormalTime(int seconds)
         {
-            TimeSpan result = TimeSpan.FromSeconds(time);
+            TimeSpan result = TimeSpan.FromSeconds(seconds);
             return result.ToString("hh':'mm':'ss");
         }
-        public string GetNormalTime(double time)
+        public string GetNormalTime(double seconds)
         {
-            TimeSpan result = TimeSpan.FromSeconds(time);
+            TimeSpan result = TimeSpan.FromSeconds(seconds);
             return result.ToString("hh':'mm':'ss");
         }
         public string GetNormalTime(TimeSpan time)

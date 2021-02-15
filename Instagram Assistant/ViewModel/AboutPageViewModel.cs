@@ -1,4 +1,5 @@
-﻿using Instagram_Assistant.Model;
+﻿using Instagram_Assistant.Helpers;
+using Instagram_Assistant.Model;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,13 +9,12 @@ namespace Instagram_Assistant.ViewModel
 {
     class AboutPageViewModel :ViewModelBase
     {
-  
+        private ServerHelper server = new ServerHelper();
         public AboutPageViewModel()
         {
             Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             License = "Developer";
         }
-
 
         private string programState = "Alpha";
         public string ProgramState
@@ -22,7 +22,6 @@ namespace Instagram_Assistant.ViewModel
             get { return programState; }
             set { programState = value; OnPropertyChanged(); }
         }
-
         
         private string version;
         public string Version
@@ -30,14 +29,12 @@ namespace Instagram_Assistant.ViewModel
             get { return version; }
             set { version = value; OnPropertyChanged(); }
         }
-
         private string license;
         public string License
         {
             get { return license; }
             set { license = value; OnPropertyChanged(); }
         }
-
         private string downLoadRelease;
         public string DownloadRelease
         {
@@ -58,15 +55,12 @@ namespace Instagram_Assistant.ViewModel
         }
 
 
-
-
         private Visibility checkVisibility = Visibility.Hidden;
         public Visibility CheckVisibility
         {
             get { return checkVisibility; }
             set { checkVisibility = value; OnPropertyChanged(); }
         }
-
 
         private Visibility newVersionVisibility = Visibility.Hidden;
         public Visibility NewVersionVisibility
@@ -107,7 +101,7 @@ namespace Instagram_Assistant.ViewModel
                 NewVersionVisibility = Visibility.Visible;
                 UpdateVersion = AutoUpdate.Update.NewVersion;
                 DownloadRelease = "20.20.20";
-                ChangeLog = update.GetChangelog();
+                ChangeLog = server.GetChangelogFromServer();
             }
             else
             {

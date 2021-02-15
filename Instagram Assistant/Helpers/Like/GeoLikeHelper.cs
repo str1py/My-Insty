@@ -1,5 +1,4 @@
 ﻿using Instagram_Assistant.Model;
-using Instagram_Assistant.ViewModel;
 using Instagram_Assistant.ViewModel.BaseModels;
 using InstagramApiSharp;
 using InstagramApiSharp.Classes.Models;
@@ -7,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+
 
 namespace Instagram_Assistant.Helpers.Like
 {
@@ -65,7 +64,6 @@ namespace Instagram_Assistant.Helpers.Like
                 return locations.Value;
             }
             else return null;
-
         }
         private async Task<List<FeedModel>> GetFeed(long location)
         {

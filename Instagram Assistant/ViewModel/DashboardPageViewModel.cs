@@ -49,13 +49,14 @@ namespace Instagram_Assistant.ViewModel
             {
                 _tabSelectedIndex = value;
                 OnPropertyChanged();
-                switch (TabSelectedIndex)
+
+                switch(_tabSelectedIndex)
                 {
                     case 0:
-                        GetView(0);
+                        SelectedLikeView = FeedLikePageViewModel.Instance;
                         return;
                     case 2:
-                        GetStoriesView(0);
+                        SelectedStoriesView = FeedStoriesPageViewModel.Instance;
                         return;
                     case 3:
                         UnfollowView = UnfollowPageViewModel.Instance;
@@ -63,8 +64,6 @@ namespace Instagram_Assistant.ViewModel
                     case 5:
                         AudienceView = AudiencePageViewModel.Instance;
                         return;
-
-
                 }
             }
         }
@@ -78,7 +77,6 @@ namespace Instagram_Assistant.ViewModel
 
 
         //LIKE
-
         private object _selectedLikeView;
         public object SelectedLikeView
         {
@@ -94,23 +92,22 @@ namespace Instagram_Assistant.ViewModel
             {
                 _likeItem = value;
 
-                SelectedLikeView = GetLikeView(_likeItem);
+                switch (_likeItem)
+                {
+                    case 0:
+                        SelectedLikeView = FeedLikePageViewModel.Instance;
+                        break;
+                    case 1:
+                        SelectedLikeView = GeoLikePageViewModel.Instance;
+                        break;
+                    case 2:
+                        SelectedLikeView = HashtagLikePageViewModel.Instance;
+                        break;
+                    default:
+                        SelectedLikeView = FeedLikePageViewModel.Instance;
+                        break;
+                }
                 OnPropertyChanged();
-            }
-        }
-
-        public static object GetLikeView(int index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return FeedLikePageViewModel.Instance;
-                case 1:
-                    return GeoLikePageViewModel.Instance;
-                case 2:
-                    return HashtagLikePageViewModel.Instance;
-                default:
-                    return FeedLikePageViewModel.Instance;    
             }
         }
 
@@ -130,25 +127,21 @@ namespace Instagram_Assistant.ViewModel
             set
             {
                 _storiesItem = value;
-
-                SelectedStoriesView = GetStoriesView(_storiesItem);
+                switch (_storiesItem)
+                {
+                    case 0:
+                        SelectedStoriesView = FeedStoriesPageViewModel.Instance;
+                        break;
+                    case 1:
+                        SelectedStoriesView = GeoStoriesWatchViewModel.Instance;
+                        break;
+                    default:
+                        SelectedStoriesView = FeedStoriesPageViewModel.Instance;
+                        break;
+                }
                 OnPropertyChanged();
             }
         }
-
-        public static object GetStoriesView(int index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return FeedStoriesPageViewModel.Instance;
-                case 1:
-                    return GeoStoriesWatchViewModel.Instance; 
-                default:
-                    return FeedStoriesPageViewModel.Instance;
-            }
-        }
-
 
         //UNFOLLOW
         private object _unfollowView;
@@ -160,6 +153,13 @@ namespace Instagram_Assistant.ViewModel
 
 
         //AUDIENCE
+        private object _audienceView;
+        public object AudienceView
+        {
+            get { return _audienceView; }
+            set { _audienceView = value; OnPropertyChanged(); }
+        }
+
         private int _audienceItem;
         public int AudienceItem
         {
@@ -172,23 +172,25 @@ namespace Instagram_Assistant.ViewModel
                 {
                     case 0:
                         AudienceView = AudiencePageViewModel.Instance;
-                        return;
+                        break;
                     case 1:
-                        AudienceView = FilterAudiencePageViewModel.Instance;
-                        return;
+                        //Hashtag
+                        AudienceView = HashtagAudiencePageViewModel.Instance;
+                        break;
                     case 2:
+                        //Geo
+                        AudienceView = GeoAudiencePageViewModel.Instance;
+                        break;
+                    case 3:
+                        AudienceView = FilterAudiencePageViewModel.Instance;
+                        break;
+                    case 4:
                         AudienceView = SpyPageViewModel.Instance;
-                        return;
+                        break;
                 }
             }
         }
 
-        private object _audienceView;
-        public object AudienceView
-        {
-            get { return _audienceView; }
-            set { _audienceView = value; OnPropertyChanged(); }
-        }
 
 
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
